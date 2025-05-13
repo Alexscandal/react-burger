@@ -13,3 +13,21 @@
 	text-align: center;
 	list-style-type: none;
 }
+
+.burger_ingredients > div {
+	max-height: 756px;
+}
+
+.burger_ingredients > div > ul {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	list-style-type: none;
+}
+
+.burger_ingredients > div > ul > li {
+	flex-basis: calc(50% - 16px);
+}

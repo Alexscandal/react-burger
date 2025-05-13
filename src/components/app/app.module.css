@@ -1,3 +1,14 @@
+html,
+body {
+	font:
+		16px 'Jet Brains Mono',
+		serif;
+}
+
+.positionRelative {
+	position: relative;
+}
+
 .app {
 	display: flex;
 	flex-direction: column;
@@ -19,4 +30,18 @@
 	height: 100%;
 	margin: 0 auto;
 	overflow: hidden;
+}
+
+.scroll {
+	overflow-y: auto;
+}
+
+.price {
+	font:
+		28px/24px 'Iceland',
+		serif;
+}
+
+.price + svg {
+	vertical-align: text-bottom;
 }

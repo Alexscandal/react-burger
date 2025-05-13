@@ -1,7 +1,12 @@
 import React from 'react';
+import appStyles from '../app/app.module.css';
 import styles from './burger-ingredients.module.css';
 import * as PropTypes from 'prop-types';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	Counter,
+	CurrencyIcon,
+	Tab,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropType } from '@utils/prop-types.js';
 
 export const BurgerIngredients = ({ ingredients }) => {
@@ -22,6 +27,21 @@ export const BurgerIngredients = ({ ingredients }) => {
 					</Tab>
 				</ul>
 			</nav>
+			<div className={appStyles.scroll}>
+				<ul>
+					{ingredients.map((item) => (
+						<li className={`${appStyles.positionRelative} pl-2 pr-2 mt-4 mb-4`}>
+							<Counter count={1} size='default' extraClass='m-1' />
+							<img src={item.image} alt={item.name} />
+							<div>
+								<span className={appStyles.price}>{item.price}</span>
+								<CurrencyIcon type='primary' className='ml-2' />
+							</div>
+							<p>{item.name}</p>
+						</li>
+					))}
+				</ul>
+			</div>
 		</section>
 	);
 };
