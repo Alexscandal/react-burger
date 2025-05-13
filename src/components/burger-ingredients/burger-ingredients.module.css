@@ -6,6 +6,12 @@
 	font-family: 'Jet Brains Mono', serif;
 }
 
+.burger_ingredients a {
+	display: block;
+	color: #ffffff;
+	text-decoration: none;
+}
+
 .menu {
 	display: flex;
 	margin: 0;
