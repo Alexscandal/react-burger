@@ -31,7 +31,9 @@ export const BurgerConstructor = ({ ingredients }) => {
 										<span className={appStyles.price}>{item.price}</span>
 										<CurrencyIcon type='primary' className='ml-2' />
 									</div>
-									<DeleteIcon type='primary' className='ml-5 mr-4' />
+									<a href='/'>
+										<DeleteIcon type='primary' className='ml-5 mr-4' />
+									</a>
 								</div>
 							</div>
 						</li>

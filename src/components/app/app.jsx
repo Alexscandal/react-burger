@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line postcss-modules/no-unused-class
 import styles from './app.module.css';
 import { ingredients } from '@utils/ingredients.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
