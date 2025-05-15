@@ -11,14 +11,14 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export const BurgerConstructor = ({ ingredients }) => {
-	console.log(ingredients);
+	console.log(ingredients.length);
 
 	return (
 		<section className={styles.burger_constructor}>
 			<div className={`${appStyles.scroll} mb-5`}>
 				<ul>
 					{ingredients.map((item) => (
-						<li className={'mt-4 mb-4'}>
+						<li className={'mt-4 mb-4'} key={item._id}>
 							<DragIcon type='primary' className='mr-2' />
 							<div
 								className={`${styles.burger_constructor_item} pt-4 pb-4 pr-4`}>
