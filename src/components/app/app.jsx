@@ -7,6 +7,31 @@ import { BurgerConstructor } from '@components/burger-contructor/burger-construc
 import { AppHeader } from '@components/app-header/app-header.jsx';
 
 export const App = () => {
+	const [state, setState] = React.useState({
+		isLoading: false,
+		hasError: false,
+		data: [],
+	});
+
+	let items = [];
+
+	const getData = () => {
+		setState({ ...state, hasError: false, isLoading: true });
+		fetch('https://norma.nomoreparties.space/api/ingredients')
+			.then((res) => res.json())
+			.then((data) => {
+				setState({ ...state, data, isLoading: false });
+				items = data;
+			})
+			.catch(() => {
+				setState({ ...state, hasError: true, isLoading: false });
+			});
+	};
+
+	React.useEffect(() => {
+		getData();
+	}, []);
+
 	return (
 		<div className={styles.app}>
 			<AppHeader />
@@ -15,8 +40,14 @@ export const App = () => {
 				Соберите бургер
 			</h1>
 			<main className={`${styles.main} pl-5 pr-5`}>
-				<BurgerIngredients ingredients={ingredients} />
-				<BurgerConstructor ingredients={ingredients} />
+				{state.isLoading && 'Загрузка...'}
+				{state.hasError && 'Произошла ошибка'}
+				{!state.isLoading && !state.hasError /* && state.data.length*/ && (
+					<>
+						<BurgerIngredients ingredients={ingredients} />
+						<BurgerConstructor ingredients={items} />
+					</>
+				)}
 			</main>
 		</div>
 	);
