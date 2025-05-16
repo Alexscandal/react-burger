@@ -1,17 +1,32 @@
 import React from 'react';
 // eslint-disable-next-line postcss-modules/no-unused-class
 import styles from './app.module.css';
+// import { getingredients } from '@utils/api.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
+//import { Modal } from '@components/modal/modal/modal.jsx';
 
 export const App = () => {
+	// eslint-disable-next-line import/no-named-as-default-member
 	const [state, setState] = React.useState({
 		isLoading: false,
 		hasError: false,
 		data: [],
+		modalOpened: false,
 	});
+	/*
+	const openModal = (e) => {
+		setState({ ...state, modalOpened: true });
+		e.preventDefault();
+	};
 
+	const closeModal = (e) => {
+		setState({ ...state, modalOpened: false });
+		e.preventDefault();
+	};
+	*/
+	// eslint-disable-next-line import/no-named-as-default-member
 	React.useEffect(() => {
 		setState({ ...state, hasError: false, isLoading: true });
 		fetch('https://norma.nomoreparties.space/api/ingredients')
@@ -22,7 +37,18 @@ export const App = () => {
 			.catch(() => {
 				setState({ ...state, hasError: true, isLoading: false });
 			});
+		// setState({ ...state, getingredients });
 	}, []);
+	/*
+	const modal = (
+		<Modal
+			header='Внимание!'
+			isOpen={state.modalOpened}
+			content='777'
+			onClose={closeModal}
+		/>
+	);
+	*/
 
 	return (
 		<div className={styles.app}>
@@ -41,6 +67,7 @@ export const App = () => {
 					</>
 				)}
 			</main>
+			{/*modal*/}
 		</div>
 	);
 };

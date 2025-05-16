@@ -1,0 +1,33 @@
+.order {
+	display: flex;
+	flex-direction: column;
+	padding: 80px 0;
+	text-align: center;
+}
+
+h3 {
+	font-weight: 700;
+	font-size: 24px;
+}
+
+.info {
+	margin: 0;
+	color: #8585ad;
+}
+
+.icon {
+	align-self: center;
+	width: 120px;
+	height: 120px;
+	font-size: 3.6em;
+	background: #25203b;
+	border-radius: 50%;
+}
+
+.icon svg {
+	transform: scale(3);
+}
+
+.icon + p {
+	margin-top: 0;
+}

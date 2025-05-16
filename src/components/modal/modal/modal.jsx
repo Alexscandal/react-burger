@@ -1,0 +1,22 @@
+import ReactDOM from 'react-dom';
+import { Overlay } from '@components/modal/overlay/overlay.jsx';
+import styles from './modal.module.css';
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+const modalRoot = document.getElementById('react-modals');
+
+export const Modal = ({ content, header, onClose, isOpen }) => {
+	// eslint-disable-next-line no-undef
+	const cont = (
+		<div className={styles.modal}>
+			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+			<a href='#' onClick={onClose}>
+				<CloseIcon type='primary' className={styles.close} />
+			</a>
+			<div className={styles.modal_header}>{header}</div>
+			<div>{content}</div>
+		</div>
+	);
+	// eslint-disable-next-line import/no-named-as-default-member
+	return ReactDOM.createPortal(isOpen && <Overlay content={cont} />, modalRoot);
+};

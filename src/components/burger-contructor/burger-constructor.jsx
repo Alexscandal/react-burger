@@ -9,9 +9,33 @@ import {
 	DeleteIcon,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Modal } from '@components/modal/modal/modal.jsx';
+import { OrderDetails } from '@components/order-details/order-details.jsx';
 
 export const BurgerConstructor = ({ ingredients }) => {
-	console.log(ingredients.length);
+	// eslint-disable-next-line import/no-named-as-default-member
+	const [state, setState] = React.useState({
+		modalOpened: false,
+	});
+
+	const closeModal = (e) => {
+		setState({ ...state, modalOpened: false });
+		e.preventDefault();
+	};
+
+	const modal = (
+		<Modal
+			header=''
+			isOpen={state.modalOpened}
+			content={<OrderDetails />}
+			onClose={closeModal}
+		/>
+	);
+
+	const getOrder = (e) => {
+		setState({ ...state, modalOpened: true, content: '88' });
+		e.preventDefault();
+	};
 
 	return (
 		<section className={styles.burger_constructor}>
@@ -43,10 +67,15 @@ export const BurgerConstructor = ({ ingredients }) => {
 			<div className={`${styles.order_action} pt-5`}>
 				<span className={appStyles.price}>610</span>
 				<CurrencyIcon type='primary' className='ml-2 mr-5' />
-				<Button htmlType='button' type='primary' size='large'>
+				<Button
+					htmlType='button'
+					type='primary'
+					size='large'
+					onClick={getOrder}>
 					Оформить заказ
 				</Button>
 			</div>
+			{modal}
 		</section>
 	);
 };
