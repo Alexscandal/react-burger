@@ -1,3 +1,8 @@
+a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
 .burger_constructor {
 	display: flex;
 	flex-direction: column;
@@ -18,7 +23,8 @@
 
 .burger_constructor ul li,
 .burger_constructor_item,
-.burger_constructor_item > div {
+.burger_constructor_item > div,
+.burger_constructor_item > a {
 	display: flex;
 	align-items: center;
 }

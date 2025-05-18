@@ -16,6 +16,7 @@ export const BurgerIngredients = ({ ingredients }) => {
 	// eslint-disable-next-line import/no-named-as-default-member
 	const [state, setState] = React.useState({
 		modalOpened: false,
+		modalContent: null,
 	});
 	const categories = [
 		{
@@ -34,43 +35,30 @@ export const BurgerIngredients = ({ ingredients }) => {
 			active: false,
 		},
 	];
-	//console.log(categories.length);
-	// const openModal = (e) => {
-	// 	setState({ ...state, modalOpened: true });
-	// 	e.preventDefault();
-	// };
 
 	const closeModal = (e) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
 	};
 
-	const item = {
-		_id: '60666c42cc7b410027a1a9b1',
-		name: 'Краторная булка N-200i',
-		type: 'bun',
-		proteins: 80,
-		fat: 24,
-		carbohydrates: 53,
-		calories: 420,
-		price: 1255,
-		image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-		image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-		image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-		__v: 0,
-	};
-
 	const modal = (
 		<Modal
 			header='Детали ингредиента'
 			isOpen={state.modalOpened}
-			content={<IngradientDatails ingredient={item}></IngradientDatails>}
+			content={state.modalContent}
 			onClose={closeModal}
 		/>
 	);
 
-	const getProduct = (e) => {
-		setState({ ...state, modalOpened: true, content: '88' });
+	const getProduct = (e, id) => {
+		const item = ingredients.filter((item) => item._id === id);
+		setState({
+			...state,
+			modalOpened: true,
+			modalContent: (
+				<IngradientDatails ingredient={item[0]}></IngradientDatails>
+			),
+		});
 		e.preventDefault();
 	};
 
@@ -102,9 +90,10 @@ export const BurgerIngredients = ({ ingredients }) => {
 										className={`${appStyles.positionRelative} pl-2 pr-2 mt-4 mb-4`}>
 										<Counter count={1} size='default' extraClass='m-1' />
 										<a
-											href='/product/{item._id}'
-											data-id={item._id}
-											onClick={getProduct}>
+											href='/product'
+											onClick={(e) => {
+												getProduct(e, item._id);
+											}}>
 											<img src={item.image} alt={item.name} />
 											<div>
 												<span className={appStyles.price}>{item.price}</span>

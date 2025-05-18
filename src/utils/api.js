@@ -1,19 +1,12 @@
-import React from 'react';
+const checkResporse = (res) => {
+	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+};
 
-export const getingredients = () => {
-	// eslint-disable-next-line react-hooks/rules-of-hooks,import/no-named-as-default-member
-	const [state, setState] = React.useState({
-		isLoading: false,
-		hasError: false,
-		data: [],
-	});
-	fetch('https://norma.nomoreparties.space/api/ingredients')
-		.then((res) => res.json())
+export const getIngredients = () => {
+	return fetch('https://norma.nomoreparties.space/api/ingredients')
+		.then(checkResporse)
 		.then((data) => {
-			setState({ ...state, data: data.data, isLoading: false });
-		})
-		.catch(() => {
-			setState({ ...state, hasError: true, isLoading: false });
+			if (data?.success) return data.data;
+			return Promise.reject(data);
 		});
-	return state;
 };

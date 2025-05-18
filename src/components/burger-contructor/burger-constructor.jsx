@@ -11,11 +11,13 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Modal } from '@components/modal/modal/modal.jsx';
 import { OrderDetails } from '@components/order-details/order-details.jsx';
+import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.jsx';
 
 export const BurgerConstructor = ({ ingredients }) => {
 	// eslint-disable-next-line import/no-named-as-default-member
 	const [state, setState] = React.useState({
 		modalOpened: false,
+		modalContent: null,
 	});
 
 	const closeModal = (e) => {
@@ -27,13 +29,25 @@ export const BurgerConstructor = ({ ingredients }) => {
 		<Modal
 			header=''
 			isOpen={state.modalOpened}
-			content={<OrderDetails />}
+			content={state.modalContent}
 			onClose={closeModal}
 		/>
 	);
 
+	const getProduct = (e, id) => {
+		const item = ingredients.filter((item) => item._id === id);
+		setState({
+			...state,
+			modalOpened: true,
+			modalContent: (
+				<IngradientDatails ingredient={item[0]}></IngradientDatails>
+			),
+		});
+		e.preventDefault();
+	};
+
 	const getOrder = (e) => {
-		setState({ ...state, modalOpened: true, content: '88' });
+		setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
 		e.preventDefault();
 	};
 
@@ -46,10 +60,14 @@ export const BurgerConstructor = ({ ingredients }) => {
 							<DragIcon type='primary' className='mr-2' />
 							<div
 								className={`${styles.burger_constructor_item} pt-4 pb-4 pr-4`}>
-								<div>
+								<a
+									href='/product'
+									onClick={(e) => {
+										getProduct(e, item._id);
+									}}>
 									<img src={item.image_mobile} alt={item.name} />
 									<span className={styles.product_name}>{item.name}</span>
-								</div>
+								</a>
 								<div>
 									<div>
 										<span className={appStyles.price}>{item.price}</span>

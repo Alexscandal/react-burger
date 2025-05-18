@@ -1,11 +1,11 @@
 import React from 'react';
 // eslint-disable-next-line postcss-modules/no-unused-class
 import styles from './app.module.css';
-// import { getingredients } from '@utils/api.js';
+import { getIngredients } from '@utils/api.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
-//import { Modal } from '@components/modal/modal/modal.jsx';
+import { Modal } from '@components/modal/modal/modal.jsx';
 
 export const App = () => {
 	// eslint-disable-next-line import/no-named-as-default-member
@@ -15,40 +15,25 @@ export const App = () => {
 		data: [],
 		modalOpened: false,
 	});
-	/*
-	const openModal = (e) => {
-		setState({ ...state, modalOpened: true });
-		e.preventDefault();
-	};
+	// eslint-disable-next-line import/no-named-as-default-member
+	React.useEffect(() => {
+		getIngredients().then((arr) =>
+			setState({ ...state, data: arr, isLoading: !(arr.length > 0) })
+		);
+	}, []);
 
 	const closeModal = (e) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
 	};
-	*/
-	// eslint-disable-next-line import/no-named-as-default-member
-	React.useEffect(() => {
-		setState({ ...state, hasError: false, isLoading: true });
-		fetch('https://norma.nomoreparties.space/api/ingredients')
-			.then((res) => res.json())
-			.then((data) => {
-				setState({ ...state, data: data.data, isLoading: false });
-			})
-			.catch(() => {
-				setState({ ...state, hasError: true, isLoading: false });
-			});
-		// setState({ ...state, getingredients });
-	}, []);
-	/*
 	const modal = (
 		<Modal
-			header='Внимание!'
+			header=''
 			isOpen={state.modalOpened}
-			content='777'
+			content={state.modalContent}
 			onClose={closeModal}
 		/>
 	);
-	*/
 
 	return (
 		<div className={styles.app}>
@@ -62,12 +47,15 @@ export const App = () => {
 				{state.hasError && 'Произошла ошибка'}
 				{!state.isLoading && !state.hasError /* && state.data.length*/ && (
 					<>
-						<BurgerIngredients ingredients={state.data} />
+						<BurgerIngredients
+							ingredients={state.data}
+							modal={modal}
+							modalOpened={state.modalOpened}
+						/>
 						<BurgerConstructor ingredients={state.data} />
 					</>
 				)}
 			</main>
-			{/*modal*/}
 		</div>
 	);
 };
