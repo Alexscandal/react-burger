@@ -1,4 +1,5 @@
 import styles from './overlay.module.css';
+import PropTypes from 'prop-types';
 
 export const Overlay = ({ content, onClick }) => {
 	// eslint-disable-next-line no-undef
@@ -8,4 +9,8 @@ export const Overlay = ({ content, onClick }) => {
 			{content}
 		</div>
 	);
+};
+
+Overlay.propTypes = {
+	content: PropTypes.string,
 };

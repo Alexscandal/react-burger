@@ -1,3 +1,5 @@
+import * as PropTypes from 'prop-types';
+import { ingredientPropType } from '@utils/prop-types.js';
 import styles from './ingradient-datails.module.css';
 
 export const IngradientDatails = ({ ingredient }) => {
@@ -25,4 +27,8 @@ export const IngradientDatails = ({ ingredient }) => {
 			</div>
 		</div>
 	);
+};
+
+IngradientDatails.propTypes = {
+	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };

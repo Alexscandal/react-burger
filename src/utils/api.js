@@ -8,5 +8,6 @@ export const getIngredients = () => {
 		.then((data) => {
 			if (data?.success) return data.data;
 			return Promise.reject(data);
-		});
+		})
+		.catch((err) => Promise.reject(err));
 };

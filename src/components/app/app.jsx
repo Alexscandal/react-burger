@@ -13,12 +13,18 @@ export const App = () => {
 		isLoading: false,
 		hasError: false,
 		data: [],
+		product: null,
 		modalOpened: false,
 	});
 	// eslint-disable-next-line import/no-named-as-default-member
 	React.useEffect(() => {
 		getIngredients().then((arr) =>
-			setState({ ...state, data: arr, isLoading: !(arr.length > 0) })
+			setState({
+				...state,
+				data: arr,
+				product: arr[0],
+				isLoading: !(arr.length > 0),
+			})
 		);
 	}, []);
 
@@ -52,7 +58,10 @@ export const App = () => {
 							modal={modal}
 							modalOpened={state.modalOpened}
 						/>
-						<BurgerConstructor ingredients={state.data} />
+						<BurgerConstructor
+							ingredients={state.data}
+							product={state.product}
+						/>
 					</>
 				)}
 			</main>

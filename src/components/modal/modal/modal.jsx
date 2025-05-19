@@ -3,6 +3,7 @@ import { Overlay } from '@components/modal/overlay/overlay.jsx';
 import styles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById('react-modals');
 
@@ -34,4 +35,8 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 		isOpen && <Overlay content={cont} onClick={onClose} />,
 		modalRoot
 	);
+};
+
+Modal.propTypes = {
+	content: PropTypes.string,
 };
