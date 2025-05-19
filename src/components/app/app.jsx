@@ -18,14 +18,22 @@ export const App = () => {
 	});
 	// eslint-disable-next-line import/no-named-as-default-member
 	React.useEffect(() => {
-		getIngredients().then((arr) =>
-			setState({
-				...state,
-				data: arr,
-				product: arr[0],
-				isLoading: !(arr.length > 0),
-			})
-		);
+		getIngredients()
+			.then((arr) =>
+				setState({
+					...state,
+					data: arr,
+					product: arr[0],
+					isLoading: !(arr.length > 0),
+				})
+			)
+			.catch(() =>
+				setState({
+					...state,
+					hasError: true,
+					isLoading: false,
+				})
+			);
 	}, []);
 
 	const closeModal = (e) => {
