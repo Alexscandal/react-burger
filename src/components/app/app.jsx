@@ -1,12 +1,54 @@
 import React from 'react';
 // eslint-disable-next-line postcss-modules/no-unused-class
 import styles from './app.module.css';
-import { ingredients } from '@utils/ingredients.js';
+import { getIngredients } from '@utils/api.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
+import { Modal } from '@components/modal/modal/modal.jsx';
 
 export const App = () => {
+	// eslint-disable-next-line import/no-named-as-default-member
+	const [state, setState] = React.useState({
+		isLoading: false,
+		hasError: false,
+		data: [],
+		product: null,
+		modalOpened: false,
+	});
+	// eslint-disable-next-line import/no-named-as-default-member
+	React.useEffect(() => {
+		getIngredients()
+			.then((arr) =>
+				setState({
+					...state,
+					data: arr,
+					product: arr[0],
+					isLoading: !(arr.length > 0),
+				})
+			)
+			.catch(() =>
+				setState({
+					...state,
+					hasError: true,
+					isLoading: false,
+				})
+			);
+	}, []);
+
+	const closeModal = (e) => {
+		setState({ ...state, modalOpened: false });
+		e.preventDefault();
+	};
+	const modal = (
+		<Modal
+			header=''
+			isOpen={state.modalOpened}
+			content={state.modalContent}
+			onClose={closeModal}
+		/>
+	);
+
 	return (
 		<div className={styles.app}>
 			<AppHeader />
@@ -15,8 +57,21 @@ export const App = () => {
 				Соберите бургер
 			</h1>
 			<main className={`${styles.main} pl-5 pr-5`}>
-				<BurgerIngredients ingredients={ingredients} />
-				<BurgerConstructor ingredients={ingredients} />
+				{state.isLoading && 'Загрузка...'}
+				{state.hasError && 'Произошла ошибка'}
+				{!state.isLoading && !state.hasError /* && state.data.length*/ && (
+					<>
+						<BurgerIngredients
+							ingredients={state.data}
+							modal={modal}
+							modalOpened={state.modalOpened}
+						/>
+						<BurgerConstructor
+							ingredients={state.data}
+							product={state.product}
+						/>
+					</>
+				)}
 			</main>
 		</div>
 	);

@@ -1,0 +1,21 @@
+.product {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.properties {
+	display: flex;
+	justify-content: center;
+	color: #8585ad;
+}
+
+.value {
+	font:
+		24px/28px 'Iceland',
+		serif;
+}
+
+h3 {
+	font-size: 24px;
+}

@@ -5,48 +5,93 @@ import { ingredientPropType } from '@utils/prop-types.js';
 import appStyles from '@components/app/app.module.css';
 import {
 	Button,
+	ConstructorElement,
 	CurrencyIcon,
-	DeleteIcon,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Modal } from '@components/modal/modal/modal.jsx';
+import { OrderDetails } from '@components/order-details/order-details.jsx';
 
-export const BurgerConstructor = ({ ingredients }) => {
-	console.log(ingredients);
+export const BurgerConstructor = ({ ingredients, product }) => {
+	// eslint-disable-next-line import/no-named-as-default-member
+	const [state, setState] = React.useState({
+		modalOpened: false,
+		modalContent: null,
+	});
+
+	const closeModal = (e) => {
+		setState({ ...state, modalOpened: false });
+		e.preventDefault();
+	};
+
+	const modal = (
+		<Modal
+			header=''
+			isOpen={state.modalOpened}
+			content={state.modalContent}
+			onClose={closeModal}
+		/>
+	);
+
+	const getOrder = (e) => {
+		setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
+		e.preventDefault();
+	};
+
+	console.log(product);
 
 	return (
 		<section className={styles.burger_constructor}>
-			<div className={`${appStyles.scroll} mb-5`}>
+			{product !== null && (
+				<div className='pl-8'>
+					<ConstructorElement
+						type='top'
+						isLocked={true}
+						text={product.name + '(верх)'}
+						price={product.price}
+						thumbnail={product.image_mobile}
+					/>
+				</div>
+			)}
+			<div className={`${appStyles.scroll} ${styles.scroll}`}>
 				<ul>
-					{ingredients.map((item) => (
-						<li className={'mt-4 mb-4'}>
-							<DragIcon type='primary' className='mr-2' />
-							<div
-								className={`${styles.burger_constructor_item} pt-4 pb-4 pr-4`}>
-								<div>
-									<img src={item.image_mobile} alt={item.name} />
-									<span className={styles.product_name}>{item.name}</span>
-								</div>
-								<div>
-									<div>
-										<span className={appStyles.price}>{item.price}</span>
-										<CurrencyIcon type='primary' className='ml-2' />
-									</div>
-									<a href='/'>
-										<DeleteIcon type='primary' className='ml-5 mr-4' />
-									</a>
-								</div>
-							</div>
-						</li>
-					))}
+					{ingredients
+						.filter((item) => item.type.includes('main'))
+						.map((item) => (
+							<li className={'mt-4 mb-4'} key={item._id}>
+								<DragIcon type='primary' className='mr-2' />
+								<ConstructorElement
+									text={item.name}
+									price={item.price}
+									thumbnail={item.image_mobile}
+								/>
+							</li>
+						))}
 				</ul>
 			</div>
-			<div className={`${styles.order_action} pt-5`}>
+			{product !== null && (
+				<div className='pl-8'>
+					<ConstructorElement
+						type='bottom'
+						isLocked={true}
+						text={product.name + '(низ)'}
+						price={product.price}
+						thumbnail={product.image_mobile}
+					/>
+				</div>
+			)}
+			<div className={`${styles.order_action} pt-10 pr-8`}>
 				<span className={appStyles.price}>610</span>
 				<CurrencyIcon type='primary' className='ml-2 mr-5' />
-				<Button htmlType='button' type='primary' size='large'>
+				<Button
+					htmlType='button'
+					type='primary'
+					size='large'
+					onClick={getOrder}>
 					Оформить заказ
 				</Button>
 			</div>
+			{modal}
 		</section>
 	);
 };

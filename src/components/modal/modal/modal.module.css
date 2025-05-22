@@ -1,0 +1,19 @@
+.modal {
+	position: relative;
+	width: 720px;
+	padding: 40px;
+	background: #1c1c21;
+	border-radius: 40px;
+}
+
+.close {
+	position: absolute;
+	top: 60px;
+	right: 40px;
+}
+
+.modal_header {
+	margin: 0.25em 0;
+	font-weight: 700;
+	font-size: 36px;
+}

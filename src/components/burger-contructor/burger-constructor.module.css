@@ -1,13 +1,16 @@
+a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
 .burger_constructor {
-	display: flex;
-	flex-direction: column;
 	width: 600px;
 	padding-bottom: 20px;
 	color: var(--text-primary-color);
 }
 
-.burger_constructor > div {
-	max-height: 630px;
+.burger_constructor .scroll {
+	max-height: 590px;
 }
 
 .burger_constructor ul {
@@ -18,7 +21,9 @@
 
 .burger_constructor ul li,
 .burger_constructor_item,
-.burger_constructor_item > div {
+.burger_constructor_item > div,
+.burger_constructor_item > a,
+.freeze {
 	display: flex;
 	align-items: center;
 }
@@ -30,12 +35,12 @@
 	border-radius: 40px;
 }
 
-.burger_constructor ul li:first-child .burger_constructor_item {
+.freeze.start .burger_constructor_item {
 	border-top-left-radius: 88px;
 	border-top-right-radius: 88px;
 }
 
-.burger_constructor ul li:last-child .burger_constructor_item {
+.freeze.end .burger_constructor_item {
 	border-bottom-right-radius: 88px;
 	border-bottom-left-radius: 88px;
 }
