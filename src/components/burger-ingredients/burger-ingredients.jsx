@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // eslint-disable-next-line postcss-modules/no-unused-class
 import appStyles from '../app/app.module.css';
 import styles from './burger-ingredients.module.css';
@@ -14,27 +14,55 @@ import { Modal } from '@components/modal/modal/modal.jsx';
 
 export const BurgerIngredients = ({ ingredients }) => {
 	// eslint-disable-next-line import/no-named-as-default-member
-	const [state, setState] = React.useState({
+	const [state, setState] = useState({
 		modalOpened: false,
 		modalContent: null,
+		activeTab: 'bun',
 	});
+
 	const categories = [
 		{
 			type: 'bun',
 			name: 'Булки',
-			active: true,
+			active: state.activeTab === 'bun',
 		},
 		{
 			type: 'sauce',
 			name: 'Соусы',
-			active: false,
+			active: state.activeTab === 'sauce',
 		},
 		{
 			type: 'main',
 			name: 'Начинки',
-			active: false,
+			active: state.activeTab === 'main',
 		},
 	];
+
+	const closeOnEscapePressed = (e) => {
+		const top = e.target.getBoundingClientRect().top,
+			items = e.target.querySelectorAll('h2');
+		let range = e.target.getBoundingClientRect().bottom - top,
+			tab = '';
+		for (let item of items) {
+			let item_range = Math.abs(
+				item.closest('div').getBoundingClientRect().top - top
+			);
+			if (item_range < range) {
+				range = item_range;
+				tab = item.closest('div').getAttribute('id');
+			}
+		}
+		setState({
+			activeTab: tab,
+		});
+	};
+
+	useEffect(() => {
+		const scrrolled = document.getElementById('ingradients');
+		return scrrolled !== null
+			? () => scrrolled.addEventListener('scroll', closeOnEscapePressed)
+			: false;
+	}, []);
 
 	const closeModal = (e) => {
 		setState({ ...state, modalOpened: false });
@@ -77,9 +105,9 @@ export const BurgerIngredients = ({ ingredients }) => {
 					))}
 				</ul>
 			</nav>
-			<div className={appStyles.scroll}>
+			<div className={appStyles.scroll} id='ingradients'>
 				{categories.map((category) => (
-					<div key={category.type}>
+					<div key={category.type} id={category.type}>
 						<h2>{category.name}</h2>
 						<ul>
 							{ingredients

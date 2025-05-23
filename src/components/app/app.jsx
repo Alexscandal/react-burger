@@ -1,31 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // eslint-disable-next-line postcss-modules/no-unused-class
 import styles from './app.module.css';
 import { getIngredients } from '@utils/api.js';
+import { loadData } from '@/services/actions/ingradients.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
 import { Modal } from '@components/modal/modal/modal.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line import/namespace
 
 export const App = () => {
-	// eslint-disable-next-line import/no-named-as-default-member
-	const [state, setState] = React.useState({
+	const dispatch = useDispatch();
+
+	const [state, setState] = useState({
 		isLoading: false,
 		hasError: false,
 		data: [],
 		product: null,
 		modalOpened: false,
 	});
-	// eslint-disable-next-line import/no-named-as-default-member
-	React.useEffect(() => {
+
+	const ingradients = useSelector((store) => store.ingradients.items);
+
+	useEffect(() => {
+		if (!ingradients.length) {
+			dispatch(loadData());
+		}
+	}, [dispatch, ingradients.length]);
+
+	useEffect(() => {
 		getIngredients()
-			.then((arr) =>
-				setState({
-					...state,
-					data: arr,
-					product: arr[0],
-					isLoading: !(arr.length > 0),
-				})
+			.then(
+				(arr) => {
+					setState({
+						...state,
+						data: arr,
+						product: arr[0],
+						isLoading: !(arr.length > 0),
+					});
+				}
+				//
 			)
 			.catch(() =>
 				setState({
