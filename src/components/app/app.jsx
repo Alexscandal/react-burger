@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from 'react';
-// eslint-disable-next-line postcss-modules/no-unused-class
-import styles from './app.module.css';
-import { getIngredients } from '@utils/api.js';
-import { loadData } from '@/services/actions/ingradients.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import styles from '@components/app/app.module.css';
+//import { getIngredients } from '@utils/api.js';
+import { loadData } from '@/services/actions/ingredients.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
 import { Modal } from '@components/modal/modal/modal.jsx';
-import { useDispatch, useSelector } from 'react-redux';
-// eslint-disable-next-line import/namespace
-
 export const App = () => {
 	const dispatch = useDispatch();
 
 	const [state, setState] = useState({
+		/*
 		isLoading: false,
 		hasError: false,
 		data: [],
 		product: null,
+		*/
 		modalOpened: false,
 	});
 
-	const ingradients = useSelector((store) => store.ingradients.items);
+	const { ingredients, hasError, isLoading } = useSelector((store) => ({
+		ingredients: store.ingredients.items,
+		hasError: store.ingredients.hasError,
+		isLoading: store.ingredients.isLoading,
+	}));
 
 	useEffect(() => {
-		if (!ingradients.length) {
-			dispatch(loadData());
-		}
-	}, [dispatch, ingradients.length]);
-
+		dispatch(loadData());
+	}, [dispatch]);
+	/*
 	useEffect(() => {
 		getIngredients()
 			.then(
@@ -40,7 +43,6 @@ export const App = () => {
 						isLoading: !(arr.length > 0),
 					});
 				}
-				//
 			)
 			.catch(() =>
 				setState({
@@ -50,7 +52,7 @@ export const App = () => {
 				})
 			);
 	}, []);
-
+	*/
 	const closeModal = (e) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
@@ -72,20 +74,17 @@ export const App = () => {
 				Соберите бургер
 			</h1>
 			<main className={`${styles.main} pl-5 pr-5`}>
-				{state.isLoading && 'Загрузка...'}
-				{state.hasError && 'Произошла ошибка'}
-				{!state.isLoading && !state.hasError /* && state.data.length*/ && (
-					<>
+				{isLoading && 'Загрузка...'}
+				{hasError && 'Произошла ошибка'}
+				{!isLoading && !hasError /* && state.data.length*/ && (
+					<DndProvider backend={HTML5Backend}>
 						<BurgerIngredients
-							ingredients={state.data}
+							ingredients={ingredients}
 							modal={modal}
 							modalOpened={state.modalOpened}
 						/>
-						<BurgerConstructor
-							ingredients={state.data}
-							product={state.product}
-						/>
-					</>
+						<BurgerConstructor ingredients={ingredients} />
+					</DndProvider>
 				)}
 			</main>
 		</div>

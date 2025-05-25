@@ -1,5 +1,5 @@
 /* reducer*/
-const ingradientInitialState = {
+const ingredientInitialState = {
 	_id: '',
 	name: '',
 	type: '',
@@ -14,8 +14,8 @@ const ingradientInitialState = {
 	__v: 0,
 };
 
-export const ingradientReducer = (
-	state = ingradientInitialState /*, action*/
+export const ingredientReducer = (
+	state = ingredientInitialState /*, action*/
 ) => {
 	return state;
 };

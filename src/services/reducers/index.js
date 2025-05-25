@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import { ingradientsReducer } from './ingradients.js';
-import { constructorReducer } from './ingradients-constructor.js';
-import { ingradientReducer } from './ingradient.js';
+import { ingredientsReducer } from './ingredients.js';
+import { constructorReducer } from './ingredients-constructor.js';
+import { ingredientReducer } from './ingredient.js';
 import { orderReducer } from './order.js';
 
 export const rootReducer = combineReducers({
-	ingradients: ingradientsReducer,
-	constructor: constructorReducer,
-	ingradient: ingradientReducer,
+	ingredients: ingredientsReducer,
+	cart: constructorReducer,
+	ingredient: ingredientReducer,
 	order: orderReducer,
 });

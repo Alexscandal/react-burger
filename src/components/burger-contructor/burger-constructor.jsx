@@ -1,5 +1,7 @@
-import React from 'react';
-import styles from './burger-constructor.module.css';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import styles from '@components/burger-contructor/burger-constructor.module.css';
 import * as PropTypes from 'prop-types';
 import { ingredientPropType } from '@utils/prop-types.js';
 import appStyles from '@components/app/app.module.css';
@@ -11,10 +13,15 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Modal } from '@components/modal/modal/modal.jsx';
 import { OrderDetails } from '@components/order-details/order-details.jsx';
+import { updateCount } from '@/services/actions/ingredients.js';
 
-export const BurgerConstructor = ({ ingredients, product }) => {
-	// eslint-disable-next-line import/no-named-as-default-member
-	const [state, setState] = React.useState({
+export const BurgerConstructor = (/*{ ingredients }*/) => {
+	const { ingredients, product } = useSelector((store) => ({
+		ingredients: store.cart.items,
+		product: store.cart.product,
+	}));
+
+	const [state, setState] = useState({
 		modalOpened: false,
 		modalContent: null,
 	});
@@ -38,12 +45,39 @@ export const BurgerConstructor = ({ ingredients, product }) => {
 		e.preventDefault();
 	};
 
-	console.log(product);
+	const onDropHandler = (itemId) => {
+		dispatch(updateCount(itemId.id));
+	};
+
+	const [, /*{isHover}*/ dropTopTarget] = useDrop({
+		accept: 'items',
+		drop(itemId) {
+			onDropHandler(itemId);
+		},
+		collect: (monitor) => ({
+			isHover: monitor.isOver(),
+		}),
+	});
+
+	const [, dropBottomTarget] = useDrop({
+		accept: 'items',
+		drop(itemId) {
+			onDropHandler(itemId);
+		},
+	});
+
+	const dispatch = useDispatch();
 
 	return (
 		<section className={styles.burger_constructor}>
-			{product !== null && (
-				<div className='pl-8'>
+			<div className='pl-8' ref={dropTopTarget}>
+				{product === null && (
+					<div
+						className={`constructor-element constructor-element_pos_top ${styles.flex_center}`}>
+						<div>Перетащите сюда булку</div>
+					</div>
+				)}
+				{product !== null && (
 					<ConstructorElement
 						type='top'
 						isLocked={true}
@@ -51,12 +85,19 @@ export const BurgerConstructor = ({ ingredients, product }) => {
 						price={product.price}
 						thumbnail={product.image_mobile}
 					/>
-				</div>
-			)}
+				)}
+			</div>
 			<div className={`${appStyles.scroll} ${styles.scroll}`}>
+				{ingredients.length === 0 && (
+					<div className='pl-8 pt-4 pb-4'>
+						<div className={`constructor-element ${styles.flex_center}`}>
+							<div>Перетащите сюда инградиенты</div>
+						</div>
+					</div>
+				)}
 				<ul>
 					{ingredients
-						.filter((item) => item.type.includes('main'))
+						.filter((item) => item.type.includes('bun'))
 						.map((item) => (
 							<li className={'mt-4 mb-4'} key={item._id}>
 								<DragIcon type='primary' className='mr-2' />
@@ -69,8 +110,14 @@ export const BurgerConstructor = ({ ingredients, product }) => {
 						))}
 				</ul>
 			</div>
-			{product !== null && (
-				<div className='pl-8'>
+			<div className='pl-8' ref={dropBottomTarget}>
+				{product === null && (
+					<div
+						className={`constructor-element constructor-element_pos_bottom ${styles.flex_center}`}>
+						<div>Перетащите сюда булку</div>
+					</div>
+				)}
+				{product !== null && (
 					<ConstructorElement
 						type='bottom'
 						isLocked={true}
@@ -78,8 +125,8 @@ export const BurgerConstructor = ({ ingredients, product }) => {
 						price={product.price}
 						thumbnail={product.image_mobile}
 					/>
-				</div>
-			)}
+				)}
+			</div>
 			<div className={`${styles.order_action} pt-10 pr-8`}>
 				<span className={appStyles.price}>610</span>
 				<CurrencyIcon type='primary' className='ml-2 mr-5' />
