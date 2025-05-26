@@ -14,12 +14,13 @@ import {
 import { Modal } from '@components/modal/modal/modal.jsx';
 import { OrderDetails } from '@components/order-details/order-details.jsx';
 import { updateCount } from '@/services/actions/ingredients.js';
+import { setProduct } from '@/services/actions/ingredient.js';
 import { addItem } from '@/services/actions/ingredients-constructor.js';
 
 export const BurgerConstructor = (/*{ ingredients }*/) => {
 	const { ingredients, product, products } = useSelector((store) => ({
 		ingredients: store.cart.items,
-		product: store.ingredients.product,
+		product: store.ingredient.product,
 		products: store.ingredients.items,
 	}));
 
@@ -49,7 +50,12 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 
 	const onDropHandler = (itemId) => {
 		dispatch(updateCount(itemId.id));
-		dispatch(addItem(itemId.id, products));
+		const found = products.find((item) => item._id === itemId.id);
+		if (found !== undefined && found.type === 'bun') {
+			dispatch(setProduct(itemId.id, products));
+		} else {
+			dispatch(addItem(itemId.id, products));
+		}
 	};
 
 	const [, /*{isHover}*/ dropTopTarget] = useDrop({
