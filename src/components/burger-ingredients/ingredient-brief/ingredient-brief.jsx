@@ -44,7 +44,7 @@ export const IngradientBrief = ({ ingredients, item }) => {
 	const id = item._id;
 
 	const [{ opacity }, ref] = useDrag({
-		type: 'items',
+		type: item.type, // same as accept in burger-ingredients
 		item: { id },
 		collect: (monitor) => ({
 			opacity: monitor.isDragging() ? 0.5 : 1,
@@ -53,7 +53,9 @@ export const IngradientBrief = ({ ingredients, item }) => {
 
 	return (
 		<div style={{ opacity }} ref={ref}>
-			<Counter count={item.count} size='default' extraClass='m-1' />
+			{item.count > 0 && (
+				<Counter count={item.count} size='default' extraClass='m-1' />
+			)}
 			<a
 				href='/product'
 				onClick={(e) => {

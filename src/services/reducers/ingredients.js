@@ -18,7 +18,7 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
 			return {
 				...state,
 				items: action.items,
-				product: action.items[0] ?? null,
+				//product: action.items[0] ?? null,
 				isLoading: !(action.items.length > 0),
 			};
 		case FAILED_LOADING:
@@ -32,6 +32,7 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
 			state.items.map((item) => {
 				if (item._id === action.id) {
 					item.count++;
+					state.product = item;
 				}
 			});
 			return state;

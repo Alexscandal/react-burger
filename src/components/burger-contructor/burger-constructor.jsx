@@ -14,11 +14,13 @@ import {
 import { Modal } from '@components/modal/modal/modal.jsx';
 import { OrderDetails } from '@components/order-details/order-details.jsx';
 import { updateCount } from '@/services/actions/ingredients.js';
+import { addItem } from '@/services/actions/ingredients-constructor.js';
 
 export const BurgerConstructor = (/*{ ingredients }*/) => {
-	const { ingredients, product } = useSelector((store) => ({
+	const { ingredients, product, products } = useSelector((store) => ({
 		ingredients: store.cart.items,
-		product: store.cart.product,
+		product: store.ingredients.product,
+		products: store.ingredients.items,
 	}));
 
 	const [state, setState] = useState({
@@ -47,10 +49,11 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 
 	const onDropHandler = (itemId) => {
 		dispatch(updateCount(itemId.id));
+		dispatch(addItem(itemId.id, products));
 	};
 
 	const [, /*{isHover}*/ dropTopTarget] = useDrop({
-		accept: 'items',
+		accept: 'bun',
 		drop(itemId) {
 			onDropHandler(itemId);
 		},
@@ -60,7 +63,14 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 	});
 
 	const [, dropBottomTarget] = useDrop({
-		accept: 'items',
+		accept: 'bun',
+		drop(itemId) {
+			onDropHandler(itemId);
+		},
+	});
+
+	const [, dropCenterTarget] = useDrop({
+		accept: ['sauce', 'main'],
 		drop(itemId) {
 			onDropHandler(itemId);
 		},
@@ -87,7 +97,9 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 					/>
 				)}
 			</div>
-			<div className={`${appStyles.scroll} ${styles.scroll}`}>
+			<div
+				className={`${appStyles.scroll} ${styles.scroll}`}
+				ref={dropCenterTarget}>
 				{ingredients.length === 0 && (
 					<div className='pl-8 pt-4 pb-4'>
 						<div className={`constructor-element ${styles.flex_center}`}>
@@ -96,18 +108,16 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 					</div>
 				)}
 				<ul>
-					{ingredients
-						.filter((item) => item.type.includes('bun'))
-						.map((item) => (
-							<li className={'mt-4 mb-4'} key={item._id}>
-								<DragIcon type='primary' className='mr-2' />
-								<ConstructorElement
-									text={item.name}
-									price={item.price}
-									thumbnail={item.image_mobile}
-								/>
-							</li>
-						))}
+					{ingredients.map((item) => (
+						<li className={'mt-4 mb-4'} key={item._id}>
+							<DragIcon type='primary' className='mr-2' />
+							<ConstructorElement
+								text={item.name}
+								price={item.price}
+								thumbnail={item.image_mobile}
+							/>
+						</li>
+					))}
 				</ul>
 			</div>
 			<div className='pl-8' ref={dropBottomTarget}>
