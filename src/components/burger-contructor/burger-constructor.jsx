@@ -21,6 +21,7 @@ import {
 	updateCost,
 	updateItemPrice,
 } from '@/services/actions/ingredients-constructor.js';
+import { orderCheckout } from '@/services/actions/order.js';
 
 export const BurgerConstructor = (/*{ ingredients }*/) => {
 	const { ingredients, product, products, cost } = useSelector((store) => ({
@@ -50,6 +51,7 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 	);
 
 	const getOrder = (e) => {
+		dispatch(orderCheckout());
 		setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
 		e.preventDefault();
 	};

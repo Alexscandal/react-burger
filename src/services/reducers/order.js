@@ -6,7 +6,7 @@ import {
 } from '@/services/actions/order.js';
 
 const orderInitialState = {
-	orderNum: 0,
+	orderNum: null,
 	orderCheckoutFailed: false,
 	orderCheckoutRequest: false,
 };

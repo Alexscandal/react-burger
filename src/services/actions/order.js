@@ -13,14 +13,14 @@ export function orderCheckout() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				ingredients: ['609646e4dc916e00276b286e', '609646e4dc916e00276b2870'],
+				ingredients: ['643d69a5c3f7b9001cfa093c', '643d69a5c3f7b9001cfa0941'],
 			}),
 		};
 		orderCheckoutRequest(options).then((res) => {
 			if (res && res.success) {
 				dispatch({
 					type: ORDER_CHECKOUT_SUCCESS,
-					order: res.data,
+					orderNum: res.order.number,
 				});
 			} else {
 				dispatch({

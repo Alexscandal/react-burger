@@ -19,7 +19,6 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 		return () => document.addEventListener('keydown', closeOnEscapePressed);
 	}, []);
 
-	// eslint-disable-next-line no-undef
 	const cont = (
 		<div className={styles.modal}>
 			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
