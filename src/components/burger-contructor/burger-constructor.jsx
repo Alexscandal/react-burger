@@ -15,11 +15,17 @@ import { Modal } from '@components/modal/modal/modal.jsx';
 import { OrderDetails } from '@components/order-details/order-details.jsx';
 import { updateCount } from '@/services/actions/ingredients.js';
 import { setProduct } from '@/services/actions/ingredient.js';
-import { addItem } from '@/services/actions/ingredients-constructor.js';
+import {
+	addItem,
+	removeItem,
+	updateCost,
+	updateItemPrice,
+} from '@/services/actions/ingredients-constructor.js';
 
 export const BurgerConstructor = (/*{ ingredients }*/) => {
-	const { ingredients, product, products } = useSelector((store) => ({
+	const { ingredients, product, products, cost } = useSelector((store) => ({
 		ingredients: store.cart.items,
+		cost: store.cart.cost,
 		product: store.ingredient.product,
 		products: store.ingredients.items,
 	}));
@@ -53,9 +59,12 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 		const found = products.find((item) => item._id === itemId.id);
 		if (found !== undefined && found.type === 'bun') {
 			dispatch(setProduct(itemId.id, products));
+			// set product price;
+			dispatch(updateItemPrice(found.price));
 		} else {
 			dispatch(addItem(itemId.id, products));
 		}
+		dispatch(updateCost());
 	};
 
 	const [, /*{isHover}*/ dropTopTarget] = useDrop({
@@ -81,6 +90,11 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 			onDropHandler(itemId);
 		},
 	});
+
+	function removeIngredient(e, id) {
+		dispatch(removeItem(id));
+		dispatch(updateCost());
+	}
 
 	const dispatch = useDispatch();
 
@@ -115,12 +129,15 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 				)}
 				<ul>
 					{ingredients.map((item) => (
-						<li className={'mt-4 mb-4'} key={item._id}>
+						<li className={'mt-4 mb-4'} key={item._id} data-id={item._id}>
 							<DragIcon type='primary' className='mr-2' />
 							<ConstructorElement
 								text={item.name}
 								price={item.price}
 								thumbnail={item.image_mobile}
+								handleClose={(e) => {
+									removeIngredient(e, item._id);
+								}}
 							/>
 						</li>
 					))}
@@ -143,17 +160,19 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 					/>
 				)}
 			</div>
-			<div className={`${styles.order_action} pt-10 pr-8`}>
-				<span className={appStyles.price}>610</span>
-				<CurrencyIcon type='primary' className='ml-2 mr-5' />
-				<Button
-					htmlType='button'
-					type='primary'
-					size='large'
-					onClick={getOrder}>
-					Оформить заказ
-				</Button>
-			</div>
+			{cost > 0 && product !== null && (
+				<div className={`${styles.order_action} pt-10 pr-8`}>
+					<span className={appStyles.price}>{cost}</span>
+					<CurrencyIcon type='primary' className='ml-2 mr-5' />
+					<Button
+						htmlType='button'
+						type='primary'
+						size='large'
+						onClick={getOrder}>
+						Оформить заказ
+					</Button>
+				</div>
+			)}
 			{modal}
 		</section>
 	);

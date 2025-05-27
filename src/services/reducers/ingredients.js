@@ -29,13 +29,19 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
 			};
 		case UPDATE_COUNT:
 			/* обновление количества товара */
+			// eslint-disable-next-line no-case-declarations
+			const current = state.items.find((item) => item._id === action.id);
 			state.items.map((item) => {
+				if (item.type === 'bun' && current.type === 'bun') {
+					item.count = 0;
+				}
 				if (item._id === action.id) {
 					item.count++;
 					state.product = item;
 				}
 			});
 			return state;
+		default:
+			return state;
 	}
-	return state;
 };
