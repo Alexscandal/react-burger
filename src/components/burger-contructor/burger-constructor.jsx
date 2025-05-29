@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import styles from '@components/burger-contructor/burger-constructor.module.css';
@@ -9,32 +9,38 @@ import {
 	Button,
 	ConstructorElement,
 	CurrencyIcon,
-	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Modal } from '@components/modal/modal/modal.jsx';
 import { OrderDetails } from '@components/order-details/order-details.jsx';
-import { updateCount } from '@/services/actions/ingredients.js';
+import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.jsx';
+import { reduceCount, updateCount } from '@/services/actions/ingredients.js';
 import { setProduct } from '@/services/actions/ingredient.js';
 import {
 	addItem,
 	removeItem,
 	updateCost,
 	updateItemPrice,
+	swapIndex,
 } from '@/services/actions/ingredients-constructor.js';
 import { orderCheckout } from '@/services/actions/order.js';
 
-export const BurgerConstructor = (/*{ ingredients }*/) => {
-	const { ingredients, product, products, cost } = useSelector((store) => ({
-		ingredients: store.cart.items,
-		cost: store.cart.cost,
-		product: store.ingredient.product,
-		products: store.ingredients.items,
-	}));
+export const BurgerConstructor = () => {
+	const { ingredients, product, products, cost, selected, orderNum } =
+		useSelector((store) => ({
+			ingredients: store.cart.items,
+			selected: store.cart.items,
+			cost: store.cart.cost,
+			product: store.ingredient.product,
+			products: store.ingredients.items,
+			orderNum: store.order.orderNum,
+		}));
 
 	const [state, setState] = useState({
 		modalOpened: false,
 		modalContent: null,
 	});
+
+	const dispatch = useDispatch();
 
 	const closeModal = (e) => {
 		setState({ ...state, modalOpened: false });
@@ -51,8 +57,15 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 	);
 
 	const getOrder = (e) => {
-		dispatch(orderCheckout());
-		setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
+		if (product !== null) {
+			let sel = selected.concat([product]);
+			console.info(
+				'ids',
+				selected.map((item) => item._id)
+			);
+			dispatch(orderCheckout(sel.map((item) => item._id)));
+			setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
+		}
 		e.preventDefault();
 	};
 
@@ -69,7 +82,7 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 		dispatch(updateCost());
 	};
 
-	const [, /*{isHover}*/ dropTopTarget] = useDrop({
+	const [, dropTopTarget] = useDrop({
 		accept: 'bun',
 		drop(itemId) {
 			onDropHandler(itemId);
@@ -89,16 +102,32 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 	const [, dropCenterTarget] = useDrop({
 		accept: ['sauce', 'main'],
 		drop(itemId) {
-			onDropHandler(itemId);
+			if (itemId.id !== undefined) {
+				onDropHandler(itemId);
+			}
 		},
+		collect: (monitor) => ({
+			isHover: monitor.isOver(),
+		}),
 	});
 
-	function removeIngredient(e, id) {
-		dispatch(removeItem(id));
+	function removeIngredient(id, index) {
+		dispatch(reduceCount(id));
+		dispatch(removeItem(id, index));
 		dispatch(updateCost());
 	}
 
-	const dispatch = useDispatch();
+	const moveListItem = useCallback(
+		(dragIndex, hoverIndex) => {
+			const dragItem = ingredients[dragIndex];
+			const hoverItem = ingredients[hoverIndex];
+			// Swap places of dragItem and hoverItem in the pets array
+			if (hoverItem !== undefined && dragItem !== undefined) {
+				dispatch(swapIndex(dragIndex, hoverIndex, hoverItem, dragItem));
+			}
+		},
+		[dispatch, ingredients]
+	);
 
 	return (
 		<section className={styles.burger_constructor}>
@@ -130,18 +159,14 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 					</div>
 				)}
 				<ul>
-					{ingredients.map((item) => (
-						<li className={'mt-4 mb-4'} key={item._id} data-id={item._id}>
-							<DragIcon type='primary' className='mr-2' />
-							<ConstructorElement
-								text={item.name}
-								price={item.price}
-								thumbnail={item.image_mobile}
-								handleClose={(e) => {
-									removeIngredient(e, item._id);
-								}}
-							/>
-						</li>
+					{ingredients.map((item, index) => (
+						<DraggableItem
+							item={item}
+							index={index}
+							key={item.id + '_' + index}
+							removeIngredient={() => removeIngredient(item._id, index)}
+							moveListItem={moveListItem}
+						/>
 					))}
 				</ul>
 			</div>
@@ -175,7 +200,7 @@ export const BurgerConstructor = (/*{ ingredients }*/) => {
 					</Button>
 				</div>
 			)}
-			{modal}
+			{orderNum && modal}
 		</section>
 	);
 };

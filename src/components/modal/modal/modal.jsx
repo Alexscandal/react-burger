@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import { Overlay } from '@components/modal/overlay/overlay.jsx';
 import styles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById('react-modals');
@@ -14,7 +14,7 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 		}
 	};
 	// eslint-disable-next-line import/no-named-as-default-member
-	React.useEffect(() => {
+	useEffect(() => {
 		document.addEventListener('keydown', closeOnEscapePressed);
 		return () => document.addEventListener('keydown', closeOnEscapePressed);
 	}, []);
@@ -37,5 +37,6 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 };
 
 Modal.propTypes = {
+	// eslint-disable-next-line import/no-named-as-default-member
 	content: PropTypes.string,
 };

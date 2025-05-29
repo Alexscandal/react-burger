@@ -1,4 +1,3 @@
-/* reducer*/
 import { SET_PRODUCT } from '@/services/actions/ingredient.js';
 
 const ingredientInitialState = {

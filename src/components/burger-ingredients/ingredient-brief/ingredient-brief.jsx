@@ -7,6 +7,7 @@ import {
 import appStyles from '@components/app/app.module.css';
 import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.jsx';
 import { Modal } from '@components/modal/modal/modal.jsx';
+import { ingredientPropType } from '@utils/prop-types.js';
 
 export const IngradientBrief = ({ ingredients, item }) => {
 	const [state, setState] = useState({
@@ -71,4 +72,8 @@ export const IngradientBrief = ({ ingredients, item }) => {
 			{modal}
 		</div>
 	);
+};
+
+IngradientBrief.propTypes = {
+	item: ingredientPropType.isRequired,
 };

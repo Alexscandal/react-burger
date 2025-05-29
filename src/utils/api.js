@@ -18,7 +18,7 @@ export const orderCheckoutRequest = async (requestOptions) => {
 	return await fetch(API_URL + 'orders', requestOptions)
 		.then(checkResporse)
 		.then((data) => {
-			if (data?.success) return data.data;
+			if (data?.success) return data;
 			return Promise.reject(data);
 		})
 		.catch((err) => Promise.reject(err));

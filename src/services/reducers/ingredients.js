@@ -1,8 +1,8 @@
-/* reducer*/
 import {
 	LOAD_DATA,
 	FAILED_LOADING,
 	UPDATE_COUNT,
+	REDUCE_COUNT,
 } from '@/services/actions/ingredients.js';
 
 const ingredientsInitialState = {
@@ -18,7 +18,6 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
 			return {
 				...state,
 				items: action.items,
-				//product: action.items[0] ?? null,
 				isLoading: !(action.items.length > 0),
 			};
 		case FAILED_LOADING:
@@ -28,7 +27,7 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
 				isLoading: false,
 			};
 		case UPDATE_COUNT:
-			/* обновление количества товара */
+			/* update item count */
 			// eslint-disable-next-line no-case-declarations
 			const current = state.items.find((item) => item._id === action.id);
 			state.items.map((item) => {
@@ -38,6 +37,13 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
 				if (item._id === action.id) {
 					item.count++;
 					state.product = item;
+				}
+			});
+			return state;
+		case REDUCE_COUNT:
+			state.items.map((item) => {
+				if (item._id === action.id) {
+					item.count--;
 				}
 			});
 			return state;

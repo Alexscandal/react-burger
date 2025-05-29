@@ -1,7 +1,8 @@
 export const ADD_ITEM = 'ADD_ITEM',
 	REMOVE_ITEM = 'REMOVE_ITEM',
 	UPDATE_COST = 'UPDATE_COST',
-	UPDATE_ITEM_PRICE = 'UPDATE_ITEM_PRICE';
+	UPDATE_ITEM_PRICE = 'UPDATE_ITEM_PRICE',
+	SWAP_INDEX = 'SWAP_INDEX';
 
 export function addItem(id, items) {
 	return function (dispatch) {
@@ -13,11 +14,12 @@ export function addItem(id, items) {
 	};
 }
 
-export function removeItem(id) {
+export function removeItem(id, index) {
 	return function (dispatch) {
 		dispatch({
 			type: REMOVE_ITEM,
 			id: id,
+			index: index,
 		});
 	};
 }
@@ -35,6 +37,18 @@ export function updateItemPrice(price) {
 		dispatch({
 			type: UPDATE_ITEM_PRICE,
 			product_price: price,
+		});
+	};
+}
+
+export function swapIndex(dragIndex, hoverIndex, hoverItem, dragItem) {
+	return function (dispatch) {
+		dispatch({
+			type: SWAP_INDEX,
+			dragIndex: dragIndex,
+			hoverIndex: hoverIndex,
+			hoverItem: hoverItem,
+			dragItem: dragItem,
 		});
 	};
 }

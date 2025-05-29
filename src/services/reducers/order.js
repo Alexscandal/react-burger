@@ -1,4 +1,3 @@
-/* reducer*/
 import {
 	ORDER_CHECKOUT_FAILED,
 	ORDER_CHECKOUT_REQUEST,
@@ -29,7 +28,7 @@ export const orderReducer = (state = orderInitialState, action) => {
 		case ORDER_CHECKOUT_SUCCESS: {
 			return {
 				...state,
-				order: action.order,
+				orderNum: action.orderNum,
 				orderCheckoutRequest: false,
 			};
 		}

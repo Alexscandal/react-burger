@@ -4,7 +4,10 @@ export const ORDER_CHECKOUT_REQUEST = 'ORDER_CHECKOUT_REQUEST';
 export const ORDER_CHECKOUT_SUCCESS = 'ORDER_CHECKOUT_SUCCESS';
 export const ORDER_CHECKOUT_FAILED = 'ORDER_CHECKOUT_FAILED';
 
-export function orderCheckout() {
+export function orderCheckout(ids) {
+	if (ids.length === 0) {
+		return false;
+	}
 	return function (dispatch) {
 		dispatch({
 			type: ORDER_CHECKOUT_REQUEST,
@@ -13,7 +16,7 @@ export function orderCheckout() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				ingredients: ['643d69a5c3f7b9001cfa093c', '643d69a5c3f7b9001cfa0941'],
+				ingredients: ids,
 			}),
 		};
 		orderCheckoutRequest(options).then((res) => {

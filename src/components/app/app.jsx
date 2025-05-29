@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import styles from '@components/app/app.module.css';
-//import { getIngredients } from '@utils/api.js';
 import { loadData } from '@/services/actions/ingredients.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
@@ -13,12 +12,6 @@ export const App = () => {
 	const dispatch = useDispatch();
 
 	const [state, setState] = useState({
-		/*
-		isLoading: false,
-		hasError: false,
-		data: [],
-		product: null,
-		*/
 		modalOpened: false,
 	});
 
@@ -31,28 +24,6 @@ export const App = () => {
 	useEffect(() => {
 		dispatch(loadData());
 	}, [dispatch]);
-	/*
-	useEffect(() => {
-		getIngredients()
-			.then(
-				(arr) => {
-					setState({
-						...state,
-						data: arr,
-						product: arr[0],
-						isLoading: !(arr.length > 0),
-					});
-				}
-			)
-			.catch(() =>
-				setState({
-					...state,
-					hasError: true,
-					isLoading: false,
-				})
-			);
-	}, []);
-	*/
 	const closeModal = (e) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();

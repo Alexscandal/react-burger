@@ -30,7 +30,7 @@ export const BurgerIngredients = ({ ingredients }) => {
 			active: state.activeTab === 'main',
 		},
 	];
-
+	/* activate tab on scroll */
 	const closeOnEscapePressed = (e) => {
 		const top = e.target.getBoundingClientRect().top,
 			items = e.target.querySelectorAll('h2');
@@ -56,7 +56,7 @@ export const BurgerIngredients = ({ ingredients }) => {
 			? () => scrrolled.addEventListener('scroll', closeOnEscapePressed)
 			: false;
 	}, []);
-
+	/* /activate tab on scroll */
 	return (
 		<section className={styles.burger_ingredients}>
 			<nav>
