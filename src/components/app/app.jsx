@@ -15,7 +15,7 @@ export const App = () => {
 		modalOpened: false,
 	});
 
-	const { ingredients, hasError, isLoading } = useSelector((store) => ({
+	const { hasError, isLoading } = useSelector((store) => ({
 		ingredients: store.ingredients.items,
 		hasError: store.ingredients.hasError,
 		isLoading: store.ingredients.isLoading,
@@ -49,12 +49,8 @@ export const App = () => {
 				{hasError && 'Произошла ошибка'}
 				{!isLoading && !hasError /* && state.data.length*/ && (
 					<DndProvider backend={HTML5Backend}>
-						<BurgerIngredients
-							ingredients={ingredients}
-							modal={modal}
-							modalOpened={state.modalOpened}
-						/>
-						<BurgerConstructor ingredients={ingredients} />
+						<BurgerIngredients modal={modal} modalOpened={state.modalOpened} />
+						<BurgerConstructor />
 					</DndProvider>
 				)}
 			</main>

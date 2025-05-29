@@ -2,8 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import styles from '@components/burger-contructor/burger-constructor.module.css';
-import * as PropTypes from 'prop-types';
-import { ingredientPropType } from '@utils/prop-types.js';
 import appStyles from '@components/app/app.module.css';
 import {
 	Button,
@@ -203,8 +201,4 @@ export const BurgerConstructor = () => {
 			{orderNum && modal}
 		</section>
 	);
-};
-
-BurgerConstructor.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };

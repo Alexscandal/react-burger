@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import appStyles from '@components/app/app.module.css';
 import styles from '@components/burger-ingredients/burger-ingredients.module.css';
-import * as PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '@utils/prop-types.js';
 import { IngradientBrief } from '@components/burger-ingredients/ingredient-brief/ingredient-brief.jsx';
+import { useSelector } from 'react-redux';
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = () => {
 	const [state, setState] = useState({
 		modalOpened: false,
 		modalContent: null,
 		activeTab: 'bun',
 	});
+
+	const { ingredients } = useSelector((store) => ({
+		ingredients: store.ingredients.items,
+	}));
 
 	const categories = [
 		{
@@ -92,8 +95,4 @@ export const BurgerIngredients = ({ ingredients }) => {
 			</div>
 		</section>
 	);
-};
-
-BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
