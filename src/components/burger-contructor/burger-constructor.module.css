@@ -3,6 +3,12 @@ a {
 	text-decoration: none;
 }
 
+.flex_center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .burger_constructor {
 	width: 600px;
 	padding-bottom: 20px;

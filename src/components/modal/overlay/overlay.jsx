@@ -12,5 +12,6 @@ export const Overlay = ({ content, onClick }) => {
 };
 
 Overlay.propTypes = {
+	// eslint-disable-next-line import/no-named-as-default-member
 	content: PropTypes.string,
 };

@@ -1,67 +1,65 @@
-import React from 'react';
-// eslint-disable-next-line postcss-modules/no-unused-class
-import appStyles from '../app/app.module.css';
-import styles from './burger-ingredients.module.css';
-import * as PropTypes from 'prop-types';
-import {
-	Counter,
-	CurrencyIcon,
-	Tab,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '@utils/prop-types.js';
-import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.jsx';
-import { Modal } from '@components/modal/modal/modal.jsx';
+import React, { useState, useEffect } from 'react';
+import appStyles from '@components/app/app.module.css';
+import styles from '@components/burger-ingredients/burger-ingredients.module.css';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { IngradientBrief } from '@components/burger-ingredients/ingredient-brief/ingredient-brief.jsx';
+import { useSelector } from 'react-redux';
 
-export const BurgerIngredients = ({ ingredients }) => {
-	// eslint-disable-next-line import/no-named-as-default-member
-	const [state, setState] = React.useState({
+export const BurgerIngredients = () => {
+	const [state, setState] = useState({
 		modalOpened: false,
 		modalContent: null,
+		activeTab: 'bun',
 	});
+
+	const { ingredients } = useSelector((store) => ({
+		ingredients: store.ingredients.items,
+	}));
+
 	const categories = [
 		{
 			type: 'bun',
 			name: 'Булки',
-			active: true,
+			active: state.activeTab === 'bun',
 		},
 		{
 			type: 'sauce',
 			name: 'Соусы',
-			active: false,
+			active: state.activeTab === 'sauce',
 		},
 		{
 			type: 'main',
 			name: 'Начинки',
-			active: false,
+			active: state.activeTab === 'main',
 		},
 	];
-
-	const closeModal = (e) => {
-		setState({ ...state, modalOpened: false });
-		e.preventDefault();
-	};
-
-	const modal = (
-		<Modal
-			header='Детали ингредиента'
-			isOpen={state.modalOpened}
-			content={state.modalContent}
-			onClose={closeModal}
-		/>
-	);
-
-	const getProduct = (e, id) => {
-		const item = ingredients.filter((item) => item._id === id);
+	/* activate tab on scroll */
+	const closeOnEscapePressed = (e) => {
+		const top = e.target.getBoundingClientRect().top,
+			items = e.target.querySelectorAll('h2');
+		let range = e.target.getBoundingClientRect().bottom - top,
+			tab = '';
+		for (let item of items) {
+			let item_range = Math.abs(
+				item.closest('div').getBoundingClientRect().top - top
+			);
+			if (item_range < range) {
+				range = item_range;
+				tab = item.closest('div').getAttribute('id');
+			}
+		}
 		setState({
-			...state,
-			modalOpened: true,
-			modalContent: (
-				<IngradientDatails ingredient={item[0]}></IngradientDatails>
-			),
+			activeTab: tab,
 		});
-		e.preventDefault();
 	};
 
+	useEffect(() => {
+		const scrrolled = document.getElementById('ingradients');
+		return scrrolled !== null
+			? () => scrrolled.addEventListener('scroll', closeOnEscapePressed)
+			: false;
+	}, []);
+	/* /activate tab on scroll */
 	return (
 		<section className={styles.burger_ingredients}>
 			<nav>
@@ -77,9 +75,9 @@ export const BurgerIngredients = ({ ingredients }) => {
 					))}
 				</ul>
 			</nav>
-			<div className={appStyles.scroll}>
+			<div className={appStyles.scroll} id='ingradients'>
 				{categories.map((category) => (
-					<div key={category.type}>
+					<div key={category.type} id={category.type}>
 						<h2>{category.name}</h2>
 						<ul>
 							{ingredients
@@ -88,30 +86,13 @@ export const BurgerIngredients = ({ ingredients }) => {
 									<li
 										key={item._id}
 										className={`${appStyles.positionRelative} pl-2 pr-2 mt-4 mb-4`}>
-										<Counter count={1} size='default' extraClass='m-1' />
-										<a
-											href='/product'
-											onClick={(e) => {
-												getProduct(e, item._id);
-											}}>
-											<img src={item.image} alt={item.name} />
-											<div>
-												<span className={appStyles.price}>{item.price}</span>
-												<CurrencyIcon type='primary' className='ml-2' />
-											</div>
-											<p>{item.name}</p>
-										</a>
+										<IngradientBrief ingredients={ingredients} item={item} />
 									</li>
 								))}
 						</ul>
 					</div>
 				))}
 			</div>
-			{modal}
 		</section>
 	);
-};
-
-BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };

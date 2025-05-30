@@ -1,41 +1,29 @@
-import React from 'react';
-// eslint-disable-next-line postcss-modules/no-unused-class
-import styles from './app.module.css';
-import { getIngredients } from '@utils/api.js';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import styles from '@components/app/app.module.css';
+import { loadData } from '@/services/actions/ingredients.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
 import { Modal } from '@components/modal/modal/modal.jsx';
-
 export const App = () => {
-	// eslint-disable-next-line import/no-named-as-default-member
-	const [state, setState] = React.useState({
-		isLoading: false,
-		hasError: false,
-		data: [],
-		product: null,
+	const dispatch = useDispatch();
+
+	const [state, setState] = useState({
 		modalOpened: false,
 	});
-	// eslint-disable-next-line import/no-named-as-default-member
-	React.useEffect(() => {
-		getIngredients()
-			.then((arr) =>
-				setState({
-					...state,
-					data: arr,
-					product: arr[0],
-					isLoading: !(arr.length > 0),
-				})
-			)
-			.catch(() =>
-				setState({
-					...state,
-					hasError: true,
-					isLoading: false,
-				})
-			);
-	}, []);
 
+	const { hasError, isLoading } = useSelector((store) => ({
+		ingredients: store.ingredients.items,
+		hasError: store.ingredients.hasError,
+		isLoading: store.ingredients.isLoading,
+	}));
+
+	useEffect(() => {
+		dispatch(loadData());
+	}, [dispatch]);
 	const closeModal = (e) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
@@ -57,20 +45,13 @@ export const App = () => {
 				Соберите бургер
 			</h1>
 			<main className={`${styles.main} pl-5 pr-5`}>
-				{state.isLoading && 'Загрузка...'}
-				{state.hasError && 'Произошла ошибка'}
-				{!state.isLoading && !state.hasError /* && state.data.length*/ && (
-					<>
-						<BurgerIngredients
-							ingredients={state.data}
-							modal={modal}
-							modalOpened={state.modalOpened}
-						/>
-						<BurgerConstructor
-							ingredients={state.data}
-							product={state.product}
-						/>
-					</>
+				{isLoading && 'Загрузка...'}
+				{hasError && 'Произошла ошибка'}
+				{!isLoading && !hasError /* && state.data.length*/ && (
+					<DndProvider backend={HTML5Backend}>
+						<BurgerIngredients modal={modal} modalOpened={state.modalOpened} />
+						<BurgerConstructor />
+					</DndProvider>
 				)}
 			</main>
 		</div>
