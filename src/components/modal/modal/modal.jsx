@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import { Overlay } from '@components/modal/overlay/overlay.jsx';
 import styles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -29,14 +29,15 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 			<div>{content}</div>
 		</div>
 	);
-	// eslint-disable-next-line import/no-named-as-default-member
-	return ReactDOM.createPortal(
+	return createPortal(
 		isOpen && <Overlay content={cont} onClick={onClose} />,
 		modalRoot
 	);
 };
 
 Modal.propTypes = {
-	// eslint-disable-next-line import/no-named-as-default-member
 	content: PropTypes.string,
+	header: PropTypes.string,
+	onClose: PropTypes.func,
+	isOpen: PropTypes.bool,
 };

@@ -15,11 +15,9 @@ const constructorInitialState = {
 export const constructorReducer = (state = constructorInitialState, action) => {
 	switch (action.type) {
 		case ADD_ITEM: // добавление в инградиенты
-			// eslint-disable-next-line no-case-declarations
-			const product = action.items.find((item) => item._id === action.id);
 			return {
 				...state,
-				items: [...state.items, product],
+				items: [...state.items, action.product],
 			};
 		case REMOVE_ITEM:
 			return {

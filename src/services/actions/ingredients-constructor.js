@@ -5,10 +5,12 @@ export const ADD_ITEM = 'ADD_ITEM',
 	SWAP_INDEX = 'SWAP_INDEX';
 
 export function addItem(id, items) {
+	const product = items.find((item) => item._id === id);
+	product.uid = crypto.randomUUID();
 	return function (dispatch) {
 		dispatch({
 			type: ADD_ITEM,
-			id: id,
+			product: product,
 			items: items,
 		});
 	};

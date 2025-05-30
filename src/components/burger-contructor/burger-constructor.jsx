@@ -161,7 +161,7 @@ export const BurgerConstructor = () => {
 						<DraggableItem
 							item={item}
 							index={index}
-							key={item.id + '_' + index}
+							key={item.uid}
 							removeIngredient={() => removeIngredient(item._id, index)}
 							moveListItem={moveListItem}
 						/>
