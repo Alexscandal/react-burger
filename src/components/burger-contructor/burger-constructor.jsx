@@ -75,7 +75,7 @@ export const BurgerConstructor = () => {
 			// set product price;
 			dispatch(updateItemPrice(found.price));
 		} else {
-			dispatch(addItem(itemId.id, products));
+			dispatch(addItem(itemId.id, found));
 		}
 		dispatch(updateCost());
 	};

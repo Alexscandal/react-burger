@@ -1,17 +1,16 @@
+import { nanoid } from '@reduxjs/toolkit';
+
 export const ADD_ITEM = 'ADD_ITEM',
 	REMOVE_ITEM = 'REMOVE_ITEM',
 	UPDATE_COST = 'UPDATE_COST',
 	UPDATE_ITEM_PRICE = 'UPDATE_ITEM_PRICE',
 	SWAP_INDEX = 'SWAP_INDEX';
 
-export function addItem(id, items) {
-	const product = items.find((item) => item._id === id);
-	product.uid = crypto.randomUUID();
+export function addItem(id, product) {
 	return function (dispatch) {
 		dispatch({
 			type: ADD_ITEM,
-			product: product,
-			items: items,
+			product: { ...product, uid: nanoid() },
 		});
 	};
 }
