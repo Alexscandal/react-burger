@@ -57,10 +57,6 @@ export const BurgerConstructor = () => {
 	const getOrder = (e) => {
 		if (product !== null) {
 			let sel = selected.concat([product]);
-			console.info(
-				'ids',
-				selected.map((item) => item._id)
-			);
 			dispatch(orderCheckout(sel.map((item) => item._id)));
 			setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
 		}

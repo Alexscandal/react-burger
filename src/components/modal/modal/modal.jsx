@@ -36,7 +36,7 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 };
 
 Modal.propTypes = {
-	content: PropTypes.string,
+	content: PropTypes.object,
 	header: PropTypes.string,
 	onClose: PropTypes.func,
 	isOpen: PropTypes.bool,
