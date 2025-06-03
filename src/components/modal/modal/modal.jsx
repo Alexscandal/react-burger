@@ -1,8 +1,8 @@
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import { Overlay } from '@components/modal/overlay/overlay.jsx';
 import styles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById('react-modals');
@@ -14,12 +14,11 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 		}
 	};
 	// eslint-disable-next-line import/no-named-as-default-member
-	React.useEffect(() => {
+	useEffect(() => {
 		document.addEventListener('keydown', closeOnEscapePressed);
 		return () => document.addEventListener('keydown', closeOnEscapePressed);
 	}, []);
 
-	// eslint-disable-next-line no-undef
 	const cont = (
 		<div className={styles.modal}>
 			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -30,13 +29,15 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 			<div>{content}</div>
 		</div>
 	);
-	// eslint-disable-next-line import/no-named-as-default-member
-	return ReactDOM.createPortal(
+	return createPortal(
 		isOpen && <Overlay content={cont} onClick={onClose} />,
 		modalRoot
 	);
 };
 
 Modal.propTypes = {
-	content: PropTypes.string,
+	content: PropTypes.object,
+	header: PropTypes.string,
+	onClose: PropTypes.func,
+	isOpen: PropTypes.bool,
 };
