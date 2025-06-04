@@ -14,8 +14,8 @@ export const getIngredients = () => {
 		.catch((err) => Promise.reject(err));
 };
 
-export const orderCheckoutRequest = async (requestOptions) => {
-	return await fetch(API_URL + 'orders', requestOptions)
+export const initialRequest = async (requestOptions, target) => {
+	return await fetch(API_URL + target, requestOptions)
 		.then(checkResporse)
 		.then((data) => {
 			if (data?.success) return data;
