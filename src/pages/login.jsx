@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styles from '@pages/form.module.css';
 import {
 	Button,
 	EmailInput,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useAuth } from '@/services/auth.jsx';
 
 export function LoginPage() {
+	const [form, setValue] = useState({ email: '', password: '' });
+	const auth = useAuth();
+
+	const onChange = (e) => {
+		setValue({ ...form, [e.target.name]: e.target.value });
+	};
+
+	const login = useCallback(
+		(e) => {
+			e.preventDefault();
+			auth.signIn(form);
+		},
+		[auth, form]
+	);
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
@@ -14,20 +29,16 @@ export function LoginPage() {
 				<form>
 					<EmailInput
 						placeholder={'E-mail'}
-						//onChange={e => setValue(e.target.value)}
-						//icon={'CurrencyIcon'}
-						//value={value}
+						onChange={onChange}
 						name={'email'}
 						error={false}
 						//ref={inputRef}
-						//onIconClick={onIconClick}
 						errorText={'Ошибка'}
 						size={'default'}
 						extraClass='mb-6'
 					/>
 					<PasswordInput
-						//onChange={onChange}
-						//value={value}
+						onChange={onChange}
 						name={'password'}
 						extraClass='mb-6'
 					/>
@@ -35,7 +46,8 @@ export function LoginPage() {
 						htmlType='button'
 						type='primary'
 						size='medium'
-						extraClass='mb-20'>
+						extraClass='mb-20'
+						onClick={login}>
 						Войти
 					</Button>
 					<p extraClass='mb-4'>
