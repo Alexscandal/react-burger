@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '@pages/profile.module.css';
 import {
 	Button,
@@ -8,6 +8,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export function ProfilePage() {
+	const [form, setValue] = useState({ name: '', email: '', password: '' });
+
+	const onChange = (e) => {
+		setValue({ ...form, [e.target.name]: e.target.value });
+	};
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
@@ -33,41 +38,45 @@ export function ProfilePage() {
 				</nav>
 				<div>
 					<form>
-						<Input
-							type={'text'}
-							placeholder={'Имя'}
-							name={'email'}
-							error={false}
-							errorText={'Ошибка'}
-							size={'default'}
-							extraClass='mb-6'
-						/>
-						<EmailInput
-							placeholder={'E-mail'}
-							//onChange={e => setValue(e.target.value)}
-							//icon={'CurrencyIcon'}
-							//value={value}
-							name={'email'}
-							error={false}
-							//ref={inputRef}
-							//onIconClick={onIconClick}
-							errorText={'Ошибка'}
-							size={'default'}
-							extraClass='mb-6'
-						/>
-						<PasswordInput
-							//onChange={onChange}
-							//value={value}
-							name={'password'}
-							extraClass='mb-6'
-						/>
-						<Button
-							htmlType='button'
-							type='primary'
-							size='medium'
-							extraClass='mb-20'>
-							Войти
-						</Button>
+						<div className='mb-6'>
+							<Input
+								type={'text'}
+								value={form.name}
+								placeholder={'Имя'}
+								name={'name'}
+								error={false}
+								errorText={'Ошибка'}
+								size={'default'}
+								onChange={onChange}
+							/>
+						</div>
+						<div className='mb-6'>
+							<EmailInput
+								placeholder={'E-mail'}
+								name={'email'}
+								value={form.email}
+								error={false}
+								//ref={inputRef}
+								errorText={'Ошибка'}
+								size={'default'}
+								onChange={onChange}
+							/>
+						</div>
+						<div className='mb-6'>
+							<PasswordInput
+								name={'password'}
+								value={form.password}
+								onChange={onChange}
+							/>
+						</div>
+						<div className={`${styles.content_right} mb-20`}>
+							<Button htmlType='button' type='secondary' size='medium'>
+								Отмена
+							</Button>
+							<Button htmlType='button' type='primary' size='medium'>
+								Сохранить
+							</Button>
+						</div>
 					</form>
 				</div>
 			</div>

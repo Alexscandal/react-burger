@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styles from '@pages/form.module.css';
 import {
 	Button,
@@ -6,44 +6,75 @@ import {
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useAuth } from '@/services/auth.jsx';
+import { Link } from 'react-router-dom';
 
 export function RegisterPage() {
+	const [form, setValue] = useState({ name: '', email: '', password: '' });
+	const auth = useAuth();
+
+	const onChange = (e) => {
+		setValue({ ...form, [e.target.name]: e.target.value });
+	};
+
+	const register = useCallback(
+		(e) => {
+			e.preventDefault();
+			auth
+				.signIn(form, 'auth/register')
+				.then((r) => console.info(r))
+				.catch((err) => () => {
+					alert(err.message);
+				});
+		},
+		[auth, form]
+	);
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
 				<h1>Регистрация</h1>
 				<form>
-					<Input
-						type={'text'}
-						placeholder={'Имя'}
-						name={'email'}
-						error={false}
-						errorText={'Ошибка'}
-						size={'default'}
-						extraClass='mb-6'
-					/>
-					<EmailInput
-						placeholder={'E-mail'}
-						name={'email'}
-						error={false}
-						errorText={'Ошибка'}
-						size={'default'}
-						extraClass='mb-6'
-					/>
-					<PasswordInput
-						name={'password'}
-						extraClass='mb-6'
-						onChange={() => {}}
-					/>
+					<div className='mb-6'>
+						<Input
+							type={'text'}
+							name={'name'}
+							value={form.name}
+							placeholder={'Имя'}
+							error={false}
+							errorText={'Ошибка'}
+							size={'default'}
+							onChange={onChange}
+						/>
+					</div>
+					<div className='mb-6'>
+						<EmailInput
+							placeholder={'E-mail'}
+							name={'email'}
+							value={form.email}
+							error={false}
+							errorText={'Ошибка'}
+							size={'default'}
+							onChange={onChange}
+						/>
+					</div>
+					<div className='mb-6'>
+						<PasswordInput
+							name={'password'}
+							value={form.password}
+							onChange={onChange}
+							minLength={5}
+						/>
+					</div>
 					<Button
 						htmlType='button'
 						type='primary'
 						size='medium'
-						extraClass='mb-20'>
+						extraClass='mb-20'
+						onClick={register}>
 						Зарегистрироваться
 					</Button>
 					<p>
-						Уже зарегистрированы? <a href='/login'>Войти</a>
+						Уже зарегистрированы? <Link to='/login'>Войти</Link>
 					</p>
 				</form>
 			</div>

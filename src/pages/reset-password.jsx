@@ -5,6 +5,7 @@ import {
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link } from 'react-router-dom';
 
 export function ResetPasswordPage() {
 	return (
@@ -35,7 +36,7 @@ export function ResetPasswordPage() {
 						Сохранить
 					</Button>
 					<p>
-						Вспомнили пароль? <a href='/login'>Войти</a>
+						Вспомнили пароль? <Link to='/login'>Войти</Link>
 					</p>
 				</form>
 			</div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { LoginPage } from '@pages/login.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
 import styles from '@components/app/app.module.css';
@@ -9,11 +9,12 @@ import { ForgotPasswordPage } from '@pages/forgot-password.jsx';
 import { ResetPasswordPage } from '@pages/reset-password.jsx';
 import { ProfilePage } from '@pages/profile.jsx';
 import { NotFound } from '@pages/not-found.jsx';
+import { ProvideAuth } from '@/services/auth';
 export const App = () => {
 	return (
 		<div className={styles.app}>
 			<AppHeader />
-			<Router>
+			<ProvideAuth>
 				<Routes>
 					<Route path='/' element={<HomePage />} />
 					<Route path='/login' element={<LoginPage />} />
@@ -23,7 +24,7 @@ export const App = () => {
 					<Route path='/reset-password' element={<ResetPasswordPage />} />
 					<Route path='*' element={<NotFound />} />
 				</Routes>
-			</Router>
+			</ProvideAuth>
 		</div>
 	);
 };

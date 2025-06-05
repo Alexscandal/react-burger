@@ -4,6 +4,7 @@ import {
 	Button,
 	EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link } from 'react-router-dom';
 
 export function ForgotPasswordPage() {
 	return (
@@ -11,14 +12,15 @@ export function ForgotPasswordPage() {
 			<div>
 				<h1>Восстановление пароля</h1>
 				<form>
-					<EmailInput
-						placeholder={'Укажите e-mail'}
-						name={'email'}
-						error={false}
-						errorText={'Ошибка'}
-						size={'default'}
-						extraClass='mb-6'
-					/>
+					<div className='mb-6'>
+						<EmailInput
+							placeholder={'Укажите e-mail'}
+							name={'email'}
+							error={false}
+							errorText={'Ошибка'}
+							size={'default'}
+						/>
+					</div>
 					<Button
 						htmlType='button'
 						type='primary'
@@ -27,7 +29,7 @@ export function ForgotPasswordPage() {
 						Восстановить
 					</Button>
 					<p>
-						Вспомнили пароль? <a href='/login'>Войти</a>
+						Вспомнили пароль? <Link to='/login'>Войти</Link>
 					</p>
 				</form>
 			</div>
