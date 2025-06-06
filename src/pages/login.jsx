@@ -6,19 +6,18 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAuth } from '@/services/auth.jsx';
-import { Link } from 'react-router-dom';
-import { useDispatch /*, useSelector*/ } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '@/services/actions/auth.js';
 
 export function LoginPage() {
 	const [form, setValue] = useState({ email: '', password: '' });
-	/*
 	const { user } = useSelector((store) => ({
-		user: store.auth,
+		user: store.auth.user,
 	}));
-	*/
 	const auth = useAuth();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
@@ -36,8 +35,12 @@ export function LoginPage() {
 					alert(err.message);
 				});
 		},
-		[auth, form]
+		[auth, dispatch, form, navigate]
 	);
+	if (localStorage.authToken !== undefined && user.name !== null) {
+		navigate('/', { replace: true });
+		//return <Navigate to='/' state={{ from: location }} replace />;
+	}
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>

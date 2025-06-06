@@ -30,8 +30,8 @@ nav {
 	flex-basis: 320px;
 }
 
-ul,
-li {
+nav > ul,
+nav > ul > li {
 	margin: 0;
 	padding: 0;
 	font-size: 24px;

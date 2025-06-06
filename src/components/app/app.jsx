@@ -10,13 +10,14 @@ import { ResetPasswordPage } from '@pages/reset-password.jsx';
 import { ProfilePage } from '@pages/profile.jsx';
 import { NotFound } from '@pages/not-found.jsx';
 import { ProvideAuth } from '@/services/auth';
+import { ProtectedRoute } from '@components/protected-route/protected-route.jsx';
 export const App = () => {
 	return (
 		<div className={styles.app}>
 			<AppHeader />
 			<ProvideAuth>
 				<Routes>
-					<Route path='/' element={<HomePage />} />
+					<Route path='/' element={<ProtectedRoute element={<HomePage />} />} />
 					<Route path='/login' element={<LoginPage />} />
 					<Route path='/register' element={<RegisterPage />} />
 					<Route path='/profile' element={<ProfilePage />} />

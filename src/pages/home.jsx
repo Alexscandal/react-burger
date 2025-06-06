@@ -28,6 +28,7 @@ export const HomePage = () => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
 	};
+	//delete localStorage.authToken;
 	const modal = (
 		<Modal
 			header=''

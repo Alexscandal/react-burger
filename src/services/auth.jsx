@@ -1,7 +1,7 @@
 import React, { useContext, /*useState,*/ createContext } from 'react';
 import { initialRequest } from '@utils/api.js';
 import { useDispatch } from 'react-redux';
-import { setUser } from '@/services/actions/auth.js';
+import { setUser, unsetUser } from '@/services/actions/auth.js';
 
 const AuthContext = createContext(undefined);
 
@@ -60,17 +60,29 @@ export function useProvideAuth() {
 			setUser({ ...data.user, id: data.user._id });
 		}
 	};
-	/*
+
 	const signOut = async () => {
-		await logoutRequest();
-		setUser(null);
-		deleteCookie('token');
+		const options = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token: localStorage.refreshToken }),
+		};
+		await initialRequest(options, 'auth/logout')
+			.then((res) => {
+				console.info(res);
+				if (res.success) {
+					delete localStorage.authToken;
+					delete localStorage.refreshToken;
+					dispatch(unsetUser());
+				}
+			})
+			.then((data) => data);
 	};
-*/
+
 	return {
 		//user,
 		//getUser,
 		signIn,
-		//signOut,
+		signOut,
 	};
 }
