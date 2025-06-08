@@ -8,7 +8,6 @@ import {
 import { useAuth } from '@/services/auth.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '@/services/actions/auth.js';
 
 export function LoginPage() {
 	const [form, setValue] = useState({ email: '', password: '' });
@@ -28,9 +27,7 @@ export function LoginPage() {
 			e.preventDefault();
 			auth
 				.signIn(form, 'auth/login')
-				.then(() => {
-					dispatch(setUser(form));
-				})
+				.then(() => {})
 				.catch((err) => () => {
 					alert(err.message);
 				});
@@ -53,7 +50,6 @@ export function LoginPage() {
 							value={form.email}
 							name={'email'}
 							error={false}
-							//ref={inputRef}
 							errorText={'Ошибка'}
 							size={'default'}
 						/>

@@ -44,6 +44,36 @@ export function ProfilePage() {
 		[auth]
 	);
 
+	const save = useCallback(
+		(e) => {
+			e.preventDefault();
+			let data = {
+				name: form.name,
+				email: form.email,
+			};
+			if (form.password !== '') {
+				data.password = form.password;
+			}
+			auth
+				.saveUser(data, 'auth/user')
+				.then((r) => console.info(r))
+				.catch((err) => () => {
+					alert(err.message);
+				});
+		},
+		[auth, form]
+	);
+
+	const reset = (e) => {
+		e.preventDefault();
+		setValue({
+			...form,
+			name: user.name,
+			email: user.email,
+			password: '',
+		});
+	};
+
 	if (localStorage.authToken === undefined || user.name === null) {
 		return <Navigate to='/login' replace />;
 	}
@@ -59,7 +89,7 @@ export function ProfilePage() {
 							</Link>
 						</li>
 						<li>
-							<Link to='/orders' className='pt-4 pb-4'>
+							<Link to='/feed' className='pt-4 pb-4'>
 								История заказов
 							</Link>
 						</li>
@@ -72,7 +102,7 @@ export function ProfilePage() {
 					<p>В этом разделе вы можете изменить свои персональные данные</p>
 				</nav>
 				<div>
-					<form>
+					<form id='userForm'>
 						<div className='mb-6'>
 							<Input
 								type={'text'}
@@ -109,10 +139,18 @@ export function ProfilePage() {
 						</div>
 						{form.changed && (
 							<div className={`${styles.content_right} mb-20`}>
-								<Button htmlType='button' type='secondary' size='medium'>
+								<Button
+									htmlType='reset'
+									type='secondary'
+									size='medium'
+									onClick={reset}>
 									Отмена
 								</Button>
-								<Button htmlType='button' type='primary' size='medium'>
+								<Button
+									htmlType='button'
+									type='primary'
+									size='medium'
+									onClick={save}>
 									Сохранить
 								</Button>
 							</div>

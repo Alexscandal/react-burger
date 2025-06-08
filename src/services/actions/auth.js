@@ -1,3 +1,5 @@
+import { initialRequest } from '@utils/api.js';
+
 export const SET_USER = 'SET_USER';
 export const UNSET_USER = 'UNSET_USER';
 
@@ -15,5 +17,27 @@ export function unsetUser() {
 		dispatch({
 			type: UNSET_USER,
 		});
+	};
+}
+
+export function getUser() {
+	return function (dispatch) {
+		const options = {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				authorization: 'Bearer ' + localStorage.authToken,
+			},
+		};
+		initialRequest(options, 'auth/user')
+			.then((data) => {
+				dispatch({
+					type: SET_USER,
+					user: data.user,
+				});
+			})
+			.catch((err) => {
+				console.info(err);
+			});
 	};
 }

@@ -7,11 +7,17 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAuth } from '@/services/auth.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export function RegisterPage() {
 	const [form, setValue] = useState({ name: '', email: '', password: '' });
+	const { user } = useSelector((store) => ({
+		user: store.auth.user,
+	}));
 	const auth = useAuth();
+	//const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
@@ -22,13 +28,18 @@ export function RegisterPage() {
 			e.preventDefault();
 			auth
 				.signIn(form, 'auth/register')
-				.then((r) => console.info(r))
+				.then(() => {
+					//dispatch(setUser(form));
+				})
 				.catch((err) => () => {
 					alert(err.message);
 				});
 		},
 		[auth, form]
 	);
+	if (localStorage.authToken !== undefined && user.name !== null) {
+		navigate('/', { replace: true });
+	}
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>

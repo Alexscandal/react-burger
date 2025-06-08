@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const ProtectedRoute = ({ element }) => {
 	const { user } = useSelector((store) => ({
@@ -12,4 +13,8 @@ export const ProtectedRoute = ({ element }) => {
 		return element;
 	}
 	return <Navigate to='/login' state={{ from: location }} replace />;
+};
+
+ProtectedRoute.propTypes = {
+	element: PropTypes.object,
 };

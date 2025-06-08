@@ -2,6 +2,7 @@ import React, { useContext, /*useState,*/ createContext } from 'react';
 import { initialRequest } from '@utils/api.js';
 import { useDispatch } from 'react-redux';
 import { setUser, unsetUser } from '@/services/actions/auth.js';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(undefined);
 
@@ -15,20 +16,34 @@ export function useAuth() {
 }
 
 export function useProvideAuth() {
-	//const [user, setUser] = useState(null);
 	const dispatch = useDispatch();
-	/*
-	const getUser = async () => {
-		return await getUserRequest()
-			.then((res) => res.json())
-			.then((data) => {
-				if (data.success) {
-					setUser({ ...data.user, id: data.user._id });
+	const navigate = useNavigate();
+
+	const saveUser = async (form, target) => {
+		console.info(form);
+		const options = {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				authorization: 'Bearer ' + localStorage.authToken,
+			},
+			body: JSON.stringify(form),
+		};
+		const data = await initialRequest(options, target)
+			.then((res) => {
+				console.info(res);
+				if (res.user) {
+					dispatch(setUser(res.user));
+					alert('Данные сохранены');
 				}
-				return data.success;
-			});
+				return res.json();
+			})
+			.then((data) => data);
+
+		if (data.success) {
+			setUser({ ...data.user, id: data.user._id });
+		}
 	};
-	*/
 
 	const signIn = async (form, target) => {
 		const options = {
@@ -54,7 +69,10 @@ export function useProvideAuth() {
 				}
 				return res.json();
 			})
-			.then((data) => data);
+			.then((data) => data)
+			.catch((err) => () => {
+				alert(err.message);
+			});
 
 		if (data.success) {
 			setUser({ ...data.user, id: data.user._id });
@@ -79,10 +97,30 @@ export function useProvideAuth() {
 			.then((data) => data);
 	};
 
+	const setPassword = async (form) => {
+		const options = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(form),
+		};
+		await initialRequest(options, 'password-reset/reset')
+			.then((res) => {
+				if (res?.success) {
+					navigate('/login', { replace: true });
+				}
+			})
+			.then((data) => {
+				console.info(data);
+			})
+			.catch((err) => () => {
+				console.info(err);
+			});
+	};
+
 	return {
-		//user,
-		//getUser,
 		signIn,
 		signOut,
+		saveUser,
+		setPassword,
 	};
 }

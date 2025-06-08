@@ -24,11 +24,12 @@ export const HomePage = () => {
 	useEffect(() => {
 		dispatch(loadData());
 	}, [dispatch]);
+
 	const closeModal = (e) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
 	};
-	//delete localStorage.authToken;
+
 	const modal = (
 		<Modal
 			header=''
