@@ -51,9 +51,8 @@ export function useProvideAuth() {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(form),
 		};
-		const data = await initialRequest(options, target)
+		await initialRequest(options, target)
 			.then((res) => {
-				console.info(res);
 				let authToken;
 				if (res.accessToken && res.accessToken.indexOf('Bearer') === 0) {
 					authToken = res.accessToken.split('Bearer ')[1];
@@ -70,13 +69,7 @@ export function useProvideAuth() {
 				return res.json();
 			})
 			.then((data) => data)
-			.catch((err) => () => {
-				alert(err.message);
-			});
-
-		if (data.success) {
-			setUser({ ...data.user, id: data.user._id });
-		}
+			.catch(() => () => {});
 	};
 
 	const signOut = async () => {

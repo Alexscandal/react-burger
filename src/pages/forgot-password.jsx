@@ -24,9 +24,7 @@ export function ForgotPasswordPage() {
 			auth
 				.signIn(form, 'password-reset')
 				.then(() => {})
-				.catch((err) => () => {
-					alert(err.message);
-				});
+				.catch(() => () => {});
 			navigate('/reset-password');
 		},
 		[auth, form]

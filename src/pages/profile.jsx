@@ -57,9 +57,7 @@ export function ProfilePage() {
 			auth
 				.saveUser(data, 'auth/user')
 				.then((r) => console.info(r))
-				.catch((err) => () => {
-					alert(err.message);
-				});
+				.catch(() => () => {});
 		},
 		[auth, form]
 	);

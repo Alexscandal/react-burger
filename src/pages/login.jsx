@@ -28,9 +28,7 @@ export function LoginPage() {
 			auth
 				.signIn(form, 'auth/login')
 				.then(() => {})
-				.catch((err) => () => {
-					alert(err.message);
-				});
+				.catch(() => () => {});
 		},
 		[auth, dispatch, form, navigate]
 	);

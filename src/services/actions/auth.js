@@ -31,10 +31,12 @@ export function getUser() {
 		};
 		initialRequest(options, 'auth/user')
 			.then((data) => {
-				dispatch({
-					type: SET_USER,
-					user: data.user,
-				});
+				if (data !== undefined) {
+					dispatch({
+						type: SET_USER,
+						user: data.user,
+					});
+				}
 			})
 			.catch((err) => {
 				console.info(err);
