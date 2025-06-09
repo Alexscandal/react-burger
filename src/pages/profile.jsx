@@ -7,7 +7,7 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/services/auth.jsx';
 
 export function ProfilePage() {
@@ -84,14 +84,22 @@ export function ProfilePage() {
 				<nav className='mr-15'>
 					<ul className='mb-20'>
 						<li>
-							<Link to='/profile' className={`pt-4 pb-4 ${styles.active}`}>
+							<NavLink
+								to='/profile'
+								className={({ isActive }) =>
+									isActive ? styles.active + ' pt-4 pb-4' : 'pt-4 pb-4'
+								}>
 								Профиль
-							</Link>
+							</NavLink>
 						</li>
 						<li>
-							<Link to='/feed' className='pt-4 pb-4'>
+							<NavLink
+								to='/profile/orders'
+								className={({ isActive }) =>
+									isActive ? styles.active + ' pt-4 pb-4' : 'pt-4 pb-4'
+								}>
 								История заказов
-							</Link>
+							</NavLink>
 						</li>
 						<li>
 							<Link to='/logout' className='pt-4 pb-4' onClick={logout}>

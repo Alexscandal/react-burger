@@ -5,7 +5,7 @@ import {
 	ProfileIcon,
 	Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { NavLink, useResolvedPath } from 'react-router-dom';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -13,30 +13,40 @@ export const AppHeader = () => {
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));
+	const resolvedPath = useResolvedPath('');
+	console.info(resolvedPath);
 	return (
 		<header className={styles.header}>
 			<nav className={`${styles.menu} p-4`}>
 				<div className={styles.menu_part_left}>
-					<Link to='/' className={`${styles.link} ${styles.link_active}`}>
+					<NavLink
+						to='/'
+						className={({ isActive }) =>
+							isActive ? styles.link_active + ' ' + styles.link : styles.link
+						}>
 						<BurgerIcon type='primary' />
 						<p className='text text_type_main-default ml-2'>Конструктор</p>
-					</Link>
-					<Link to='/feed' className={`${styles.link} ml-10`}>
+					</NavLink>
+					<NavLink to='/feed' className={`${styles.link} ml-10`}>
 						<ListIcon type='secondary' />
 						<p className='text text_type_main-default ml-2'>Лента заказов</p>
-					</Link>
+					</NavLink>
 				</div>
 				<div className={styles.logo}>
 					<Logo />
 				</div>
-				<Link
-					to='/profile'
-					className={`${styles.link} ${styles.link_position_last}`}>
-					<ProfileIcon type='secondary' />
-					<p className='text text_type_main-default ml-2'>
-						{user.name ?? 'Личный кабинет'}
-					</p>
-				</Link>
+				<div className={styles.link_position_last}>
+					<NavLink
+						to='/profile'
+						className={({ isActive }) =>
+							isActive ? styles.link_active + ' ' + styles.link : styles.link
+						}>
+						<ProfileIcon type='secondary' />
+						<p className='text text_type_main-default ml-2'>
+							{user.name ?? 'Личный кабинет'}
+						</p>
+					</NavLink>
+				</div>
 			</nav>
 		</header>
 	);

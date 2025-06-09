@@ -32,19 +32,6 @@ export const IngradientBrief = ({ /*ingredients,*/ item }) => {
 			onClose={closeModal}
 		/>
 	);
-	/*
-	const getProduct = (e, id) => {
-		const item = ingredients.filter((item) => item._id === id);
-		setState({
-			...state,
-			modalOpened: true,
-			modalContent: (
-				<IngradientDatails ingredient={item[0]}></IngradientDatails>
-			),
-		});
-		e.preventDefault();
-	};
-	*/
 	const id = item._id;
 
 	const [{ opacity }, ref] = useDrag({
@@ -61,11 +48,13 @@ export const IngradientBrief = ({ /*ingredients,*/ item }) => {
 				<Counter count={item.count} size='default' extraClass='m-1' />
 			)}
 			<Link
+				to={`/ingredients/${item._id}`}
+				state={{ background: location }}
+				/*
 				to={{
 					pathname: `/ingredients/${item._id}`,
 					state: { background: location },
 				}}
-				/*
 				onClick={(e) => {
 					getProduct(e, item._id);
 				}}*/

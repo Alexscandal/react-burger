@@ -27,7 +27,7 @@ export const App = () => {
 	useEffect(() => {
 		dispatch(getUser());
 	}, [dispatch]);
-	console.info(location);
+	console.info(background);
 
 	return (
 		<div className={styles.app}>
@@ -51,9 +51,12 @@ export const App = () => {
 						<Route
 							path='/ingredients/:id'
 							element={
-								<Modal onClose={handleModalClose}>
-									<IngredientsDetails />
-								</Modal>
+								<Modal
+									onClose={handleModalClose}
+									header='Детали ингредиента'
+									isOpen={true}
+									content={<IngredientsDetails />}
+								/>
 							}
 						/>
 					</Routes>

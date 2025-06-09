@@ -5,6 +5,7 @@ import { loadData } from '@/services/actions/ingredients.js';
 import styles from '@components/ingradient-datails/ingradient-datails.module.css';
 
 export function IngredientsDetails() {
+	//alert(77);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(loadData());
