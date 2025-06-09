@@ -5,7 +5,7 @@ import {
 	ProfileIcon,
 	Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink, useResolvedPath } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -13,8 +13,7 @@ export const AppHeader = () => {
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));
-	const resolvedPath = useResolvedPath('');
-	console.info(resolvedPath);
+	const location = document.location.pathname;
 	return (
 		<header className={styles.header}>
 			<nav className={`${styles.menu} p-4`}>
@@ -24,7 +23,7 @@ export const AppHeader = () => {
 						className={({ isActive }) =>
 							isActive ? styles.link_active + ' ' + styles.link : styles.link
 						}>
-						<BurgerIcon type='primary' />
+						<BurgerIcon type={location === '/' ? 'primary' : 'secondary'} />
 						<p className='text text_type_main-default ml-2'>Конструктор</p>
 					</NavLink>
 					<NavLink to='/feed' className={`${styles.link} ml-10`}>
@@ -41,7 +40,9 @@ export const AppHeader = () => {
 						className={({ isActive }) =>
 							isActive ? styles.link_active + ' ' + styles.link : styles.link
 						}>
-						<ProfileIcon type='secondary' />
+						<ProfileIcon
+							type={location === '/profile' ? 'primary' : 'secondary'}
+						/>
 						<p className='text text_type_main-default ml-2'>
 							{user.name ?? 'Личный кабинет'}
 						</p>
