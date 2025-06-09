@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import appStyles from '@components/app/app.module.css';
 import styles from '@components/burger-ingredients/burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -52,13 +52,6 @@ export const BurgerIngredients = () => {
 			activeTab: tab,
 		});
 	};
-
-	useEffect(() => {
-		const scrrolled = document.getElementById('ingradients');
-		return scrrolled !== null
-			? () => scrrolled.addEventListener('scroll', closeOnEscapePressed)
-			: false;
-	}, []);
 	/* /activate tab on scroll */
 	return (
 		<section className={styles.burger_ingredients}>
@@ -75,7 +68,7 @@ export const BurgerIngredients = () => {
 					))}
 				</ul>
 			</nav>
-			<div className={appStyles.scroll} id='ingradients'>
+			<div className={appStyles.scroll} onScroll={closeOnEscapePressed}>
 				{categories.map((category) => (
 					<div key={category.type} id={category.type}>
 						<h2>{category.name}</h2>
