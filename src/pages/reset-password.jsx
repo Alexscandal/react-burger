@@ -5,12 +5,17 @@ import {
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/services/auth.jsx';
+import { useSelector } from 'react-redux';
 
 export function ResetPasswordPage() {
 	const [form, setValue] = useState({ password: '', token: '' });
 	const auth = useAuth();
+	const navigate = useNavigate();
+	const { user } = useSelector((store) => ({
+		user: store.auth.user,
+	}));
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
@@ -30,6 +35,11 @@ export function ResetPasswordPage() {
 		},
 		[auth, form]
 	);
+
+	if (localStorage.authToken !== undefined && user.name !== null) {
+		navigate('/', { replace: true });
+	}
+
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>

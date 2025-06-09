@@ -34,7 +34,6 @@ export function LoginPage() {
 	);
 	if (localStorage.authToken !== undefined && user.name !== null) {
 		navigate('/', { replace: true });
-		//return <Navigate to='/' state={{ from: location }} replace />;
 	}
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>

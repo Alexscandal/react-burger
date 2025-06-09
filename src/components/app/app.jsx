@@ -15,6 +15,7 @@ import { ProvideAuth } from '@/services/auth';
 import { getUser } from '@/services/actions/auth.js';
 import { Modal } from '@components/modal/modal/modal.jsx';
 import { IngredientsDetails } from '@pages/ingredients-details.jsx';
+import { OrdersPage } from '@pages/orders.jsx';
 
 export const App = () => {
 	const location = useLocation();
@@ -41,6 +42,10 @@ export const App = () => {
 					<Route
 						path='/profile'
 						element={<ProtectedRoute element={<ProfilePage />} />}
+					/>
+					<Route
+						path='/profile/orders'
+						element={<ProtectedRoute element={<OrdersPage />} />}
 					/>
 					<Route path='/forgot-password' element={<ForgotPasswordPage />} />
 					<Route path='/reset-password' element={<ResetPasswordPage />} />

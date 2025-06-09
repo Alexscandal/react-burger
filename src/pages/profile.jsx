@@ -7,8 +7,9 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
-import { Link, Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/services/auth.jsx';
+import { ProfileMenu } from '@components/profile-menu/profile-menu.jsx';
 
 export function ProfilePage() {
 	const { user } = useSelector((store) => ({
@@ -24,8 +25,6 @@ export function ProfilePage() {
 
 	const auth = useAuth();
 
-	const navigate = useNavigate();
-
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
@@ -33,16 +32,6 @@ export function ProfilePage() {
 	const onKeyDown = () => {
 		setValue({ ...form, changed: true });
 	};
-
-	const logout = useCallback(
-		(e) => {
-			e.preventDefault();
-			auth.signOut(() => {
-				navigate('/login', { replace: true });
-			});
-		},
-		[auth]
-	);
 
 	const save = useCallback(
 		(e) => {
@@ -69,6 +58,7 @@ export function ProfilePage() {
 			name: user.name,
 			email: user.email,
 			password: '',
+			changed: false,
 		});
 	};
 
@@ -79,34 +69,7 @@ export function ProfilePage() {
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
-				<nav className='mr-15'>
-					<ul className='mb-20'>
-						<li>
-							<NavLink
-								to='/profile'
-								className={({ isActive }) =>
-									isActive ? styles.active + ' pt-4 pb-4' : 'pt-4 pb-4'
-								}>
-								Профиль
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								to='/profile/orders'
-								className={({ isActive }) =>
-									isActive ? styles.active + ' pt-4 pb-4' : 'pt-4 pb-4'
-								}>
-								История заказов
-							</NavLink>
-						</li>
-						<li>
-							<Link to='/logout' className='pt-4 pb-4' onClick={logout}>
-								Выход
-							</Link>
-						</li>
-					</ul>
-					<p>В этом разделе вы можете изменить свои персональные данные</p>
-				</nav>
+				<ProfileMenu />
 				<div>
 					<form id='userForm'>
 						<div className='mb-6'>
@@ -128,7 +91,6 @@ export function ProfilePage() {
 								name={'email'}
 								value={form.email ?? ''}
 								error={false}
-								//ref={inputRef}
 								errorText={'Ошибка'}
 								size={'default'}
 								onChange={onChange}
@@ -153,7 +115,7 @@ export function ProfilePage() {
 									Отмена
 								</Button>
 								<Button
-									htmlType='button'
+									htmlType='submit'
 									type='primary'
 									size='medium'
 									onClick={save}>
