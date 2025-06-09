@@ -5,12 +5,11 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import appStyles from '@components/app/app.module.css';
-//import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.jsx';
 import { Modal } from '@components/modal/modal/modal.jsx';
 import { ingredientPropType } from '@utils/prop-types.js';
 import { Link, useLocation } from 'react-router-dom';
 
-export const IngradientBrief = ({ /*ingredients,*/ item }) => {
+export const IngradientBrief = ({ item }) => {
 	const [state, setState] = useState({
 		modalOpened: false,
 		modalContent: null,
@@ -47,18 +46,7 @@ export const IngradientBrief = ({ /*ingredients,*/ item }) => {
 			{item.count > 0 && (
 				<Counter count={item.count} size='default' extraClass='m-1' />
 			)}
-			<Link
-				to={`/ingredients/${item._id}`}
-				state={{ background: location }}
-				/*
-				to={{
-					pathname: `/ingredients/${item._id}`,
-					state: { background: location },
-				}}
-				onClick={(e) => {
-					getProduct(e, item._id);
-				}}*/
-			>
+			<Link to={`/ingredients/${item._id}`} state={{ background: location }}>
 				<img src={item.image} alt={item.name} />
 				<div>
 					<span className={appStyles.price}>{item.price}</span>

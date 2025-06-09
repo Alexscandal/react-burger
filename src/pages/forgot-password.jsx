@@ -4,7 +4,7 @@ import {
 	Button,
 	EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/services/auth.jsx';
 import { useSelector } from 'react-redux';
 
@@ -12,6 +12,7 @@ export function ForgotPasswordPage() {
 	const [form, setValue] = useState({ email: '' });
 	const auth = useAuth();
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));
@@ -29,7 +30,7 @@ export function ForgotPasswordPage() {
 				.signIn(form, 'password-reset')
 				.then(() => {})
 				.catch(() => () => {});
-			navigate('/reset-password');
+			navigate('/reset-password', { state: { from: location } });
 		},
 		[auth, form]
 	);
