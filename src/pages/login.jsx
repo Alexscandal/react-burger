@@ -39,7 +39,7 @@ export function LoginPage() {
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
 				<h1>Вход</h1>
-				<form>
+				<form onSubmit={login}>
 					<div className='mb-6'>
 						<EmailInput
 							placeholder={'E-mail'}
@@ -60,11 +60,10 @@ export function LoginPage() {
 						/>
 					</div>
 					<Button
-						htmlType='button'
+						htmlType='submit'
 						type='primary'
 						size='medium'
-						extraClass='mb-20'
-						onClick={login}>
+						extraClass='mb-20'>
 						Войти
 					</Button>
 					<p className='mb-4'>

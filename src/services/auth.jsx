@@ -88,6 +88,7 @@ export function useProvideAuth() {
 				}
 			})
 			.then((data) => data);
+		navigate('/login', { replace: true });
 	};
 
 	const setPassword = async (form) => {

@@ -7,7 +7,6 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/services/auth.jsx';
 import { ProfileMenu } from '@components/profile-menu/profile-menu.jsx';
 
@@ -61,17 +60,12 @@ export function ProfilePage() {
 			changed: false,
 		});
 	};
-
-	if (localStorage.authToken === undefined || user.name === null) {
-		return <Navigate to='/login' replace />;
-	}
-
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
 				<ProfileMenu />
 				<div>
-					<form id='userForm'>
+					<form id='userForm' onSubmit={save}>
 						<div className='mb-6'>
 							<Input
 								type={'text'}
@@ -114,11 +108,7 @@ export function ProfilePage() {
 									onClick={reset}>
 									Отмена
 								</Button>
-								<Button
-									htmlType='submit'
-									type='primary'
-									size='medium'
-									onClick={save}>
+								<Button htmlType='submit' type='primary' size='medium'>
 									Сохранить
 								</Button>
 							</div>

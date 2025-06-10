@@ -2,16 +2,13 @@ import { Link, NavLink } from 'react-router-dom';
 import styles from '@pages/profile.module.css';
 import React, { useCallback } from 'react';
 import { useAuth } from '@/services/auth.jsx';
-import { navigate } from 'jsdom/lib/jsdom/living/window/navigation.js';
 
 export const ProfileMenu = () => {
 	const auth = useAuth();
 	const logout = useCallback(
 		(e) => {
 			e.preventDefault();
-			auth.signOut(() => {
-				navigate('/login', { replace: true });
-			});
+			auth.signOut();
 		},
 		[auth]
 	);

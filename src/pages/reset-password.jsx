@@ -52,7 +52,7 @@ export function ResetPasswordPage() {
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
 				<h1>Восстановление пароля</h1>
-				<form>
+				<form onSubmit={reset}>
 					<div className='mb-6'>
 						<PasswordInput
 							name={'password'}
@@ -72,11 +72,10 @@ export function ResetPasswordPage() {
 						/>
 					</div>
 					<Button
-						htmlType='button'
+						htmlType='submit'
 						type='primary'
 						size='medium'
-						extraClass='mb-20'
-						onClick={reset}>
+						extraClass='mb-20'>
 						Сохранить
 					</Button>
 					<p>

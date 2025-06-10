@@ -16,7 +16,6 @@ export const getIngredients = () => {
 
 export const initialRequest = async (requestOptions, target) => {
 	return await fetchWithRefresh(API_URL + target, requestOptions)
-		//.then(checkResponse)
 		.then((data) => {
 			if (data?.success) return data;
 			return Promise.reject(data);
@@ -54,17 +53,6 @@ export const fetchWithRefresh = async (url, options) => {
 		const res = await fetch(url, options);
 		return await checkResponse(res);
 	} catch (err) {
-		/*
-		if (err.message === 'jwt expired') {
-			const refreshData = await refreshToken(); //обновляем токен
-			options.headers.authorization = refreshData.accessToken;
-			const res = await fetch(url, options); //повторяем запрос
-			return await checkResponse(res);
-		} else {
-			alert(err.message);
-			return Promise.reject(err);
-		}
-		*/
 		switch (err.message) {
 			case 'jwt expired':
 				// eslint-disable-next-line no-case-declarations

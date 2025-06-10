@@ -28,7 +28,6 @@ export const App = () => {
 	useEffect(() => {
 		dispatch(getUser());
 	}, [dispatch]);
-	console.info(background);
 
 	return (
 		<div className={styles.app}>

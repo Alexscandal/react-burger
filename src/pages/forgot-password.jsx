@@ -43,7 +43,7 @@ export function ForgotPasswordPage() {
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
 				<h1>Восстановление пароля</h1>
-				<form>
+				<form onSubmit={forgot}>
 					<div className='mb-6'>
 						<EmailInput
 							placeholder={'Укажите e-mail'}
@@ -56,11 +56,10 @@ export function ForgotPasswordPage() {
 						/>
 					</div>
 					<Button
-						htmlType='button'
+						htmlType='submit'
 						type='primary'
 						size='medium'
-						extraClass='mb-20'
-						onClick={forgot}>
+						extraClass='mb-20'>
 						Восстановить
 					</Button>
 					<p>

@@ -16,7 +16,6 @@ export function RegisterPage() {
 		user: store.auth.user,
 	}));
 	const auth = useAuth();
-	//const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const onChange = (e) => {
@@ -28,9 +27,7 @@ export function RegisterPage() {
 			e.preventDefault();
 			auth
 				.signIn(form, 'auth/register')
-				.then(() => {
-					//dispatch(setUser(form));
-				})
+				.then(() => {})
 				.catch((err) => () => {
 					alert(err.message);
 				});
@@ -44,7 +41,7 @@ export function RegisterPage() {
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
 				<h1>Регистрация</h1>
-				<form>
+				<form onSubmit={register}>
 					<div className='mb-6'>
 						<Input
 							type={'text'}
@@ -77,11 +74,10 @@ export function RegisterPage() {
 						/>
 					</div>
 					<Button
-						htmlType='button'
+						htmlType='submit'
 						type='primary'
 						size='medium'
-						extraClass='mb-20'
-						onClick={register}>
+						extraClass='mb-20'>
 						Зарегистрироваться
 					</Button>
 					<p>
