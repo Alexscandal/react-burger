@@ -41,7 +41,7 @@ export const AppHeader = () => {
 							isActive ? styles.link_active + ' ' + styles.link : styles.link
 						}>
 						<ProfileIcon
-							type={location === '/profile' ? 'primary' : 'secondary'}
+							type={/^\/profile/.test(location) ? 'primary' : 'secondary'}
 						/>
 						<p className='text text_type_main-default ml-2'>
 							{user.name ?? 'Личный кабинет'}
