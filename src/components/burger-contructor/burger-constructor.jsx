@@ -21,9 +21,10 @@ import {
 	swapIndex,
 } from '@/services/actions/ingredients-constructor.js';
 import { orderCheckout } from '@/services/actions/order.js';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor = () => {
-	const { ingredients, product, products, cost, selected, orderNum } =
+	const { ingredients, product, products, cost, selected, orderNum, user } =
 		useSelector((store) => ({
 			ingredients: store.cart.items,
 			selected: store.cart.items,
@@ -31,7 +32,10 @@ export const BurgerConstructor = () => {
 			product: store.ingredient.product,
 			products: store.ingredients.items,
 			orderNum: store.order.orderNum,
+			user: store.auth.user,
 		}));
+
+	const navigate = useNavigate();
 
 	const [state, setState] = useState({
 		modalOpened: false,
@@ -55,6 +59,9 @@ export const BurgerConstructor = () => {
 	);
 
 	const getOrder = (e) => {
+		if (user.name === null) {
+			navigate('/login');
+		}
 		if (product !== null) {
 			let sel = selected.concat([product]);
 			dispatch(orderCheckout(sel.map((item) => item._id)));

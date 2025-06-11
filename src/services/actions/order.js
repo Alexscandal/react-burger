@@ -1,4 +1,4 @@
-import { orderCheckoutRequest } from '@utils/api.js';
+import { initialRequest } from '@utils/api.js';
 
 export const ORDER_CHECKOUT_REQUEST = 'ORDER_CHECKOUT_REQUEST';
 export const ORDER_CHECKOUT_SUCCESS = 'ORDER_CHECKOUT_SUCCESS';
@@ -19,7 +19,7 @@ export function orderCheckout(ids) {
 				ingredients: ids,
 			}),
 		};
-		orderCheckoutRequest(options).then((res) => {
+		initialRequest(options, 'orders').then((res) => {
 			if (res && res.success) {
 				dispatch({
 					type: ORDER_CHECKOUT_SUCCESS,

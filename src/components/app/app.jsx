@@ -1,59 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
-import styles from '@components/app/app.module.css';
-import { loadData } from '@/services/actions/ingredients.js';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
-import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { LoginPage } from '@pages/login.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
+import styles from '@components/app/app.module.css';
+import { HomePage } from '@pages/home.jsx';
+import { RegisterPage } from '@pages/register.jsx';
+import { ForgotPasswordPage } from '@pages/forgot-password.jsx';
+import { ResetPasswordPage } from '@pages/reset-password.jsx';
+import { ProfilePage } from '@pages/profile.jsx';
+import { NotFound } from '@pages/not-found.jsx';
+import { ProtectedRoute } from '@components/protected-route/protected-route.jsx';
+import { useDispatch } from 'react-redux';
+import { ProvideAuth } from '@/services/auth';
+import { getUser } from '@/services/actions/auth.js';
 import { Modal } from '@components/modal/modal/modal.jsx';
+import { IngredientsDetails } from '@pages/ingredients-details.jsx';
+import { OrdersPage } from '@pages/orders.jsx';
+
 export const App = () => {
-	const dispatch = useDispatch();
-
-	const [state, setState] = useState({
-		modalOpened: false,
-	});
-
-	const { hasError, isLoading } = useSelector((store) => ({
-		ingredients: store.ingredients.items,
-		hasError: store.ingredients.hasError,
-		isLoading: store.ingredients.isLoading,
-	}));
-
-	useEffect(() => {
-		dispatch(loadData());
-	}, [dispatch]);
-	const closeModal = (e) => {
-		setState({ ...state, modalOpened: false });
-		e.preventDefault();
+	const location = useLocation();
+	const navigate = useNavigate();
+	const background = location.state && location.state.background;
+	const handleModalClose = () => {
+		navigate(-1);
 	};
-	const modal = (
-		<Modal
-			header=''
-			isOpen={state.modalOpened}
-			content={state.modalContent}
-			onClose={closeModal}
-		/>
-	);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(getUser());
+	}, [dispatch]);
 
 	return (
 		<div className={styles.app}>
 			<AppHeader />
-			<h1
-				className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-				Соберите бургер
-			</h1>
-			<main className={`${styles.main} pl-5 pr-5`}>
-				{isLoading && 'Загрузка...'}
-				{hasError && 'Произошла ошибка'}
-				{!isLoading && !hasError /* && state.data.length*/ && (
-					<DndProvider backend={HTML5Backend}>
-						<BurgerIngredients modal={modal} modalOpened={state.modalOpened} />
-						<BurgerConstructor />
-					</DndProvider>
+			<ProvideAuth>
+				<Routes location={background || location}>
+					<Route path='/' element={<HomePage />} />
+					<Route path='/ingredients/:id' element={<IngredientsDetails />} />
+					<Route path='/login' element={<LoginPage />} />
+					<Route path='/register' element={<RegisterPage />} />
+					<Route
+						path='/profile'
+						element={<ProtectedRoute element={<ProfilePage />} />}
+					/>
+					<Route
+						path='/profile/orders'
+						element={<ProtectedRoute element={<OrdersPage />} />}
+					/>
+					<Route path='/forgot-password' element={<ForgotPasswordPage />} />
+					<Route path='/reset-password' element={<ResetPasswordPage />} />
+					<Route path='*' element={<NotFound />} />
+				</Routes>
+				{background && (
+					<Routes>
+						<Route
+							path='/ingredients/:id'
+							element={
+								<Modal
+									onClose={handleModalClose}
+									header='Детали ингредиента'
+									isOpen={true}
+									content={<IngredientsDetails />}
+								/>
+							}
+						/>
+					</Routes>
 				)}
-			</main>
+			</ProvideAuth>
 		</div>
 	);
 };

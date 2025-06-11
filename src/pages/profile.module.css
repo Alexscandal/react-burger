@@ -1,0 +1,45 @@
+.main,
+a {
+	color: #8585ad;
+}
+
+li a {
+	display: block;
+}
+
+a.active,
+a:hover {
+	color: #ffffff;
+}
+
+.main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.main > div {
+	display: flex;
+	width: 1240px;
+	max-width: 100%;
+}
+
+.main > div > nav {
+	flex-basis: 320px;
+}
+
+.main > div > nav > ul,
+.main > div > nav > ul > li {
+	margin: 0;
+	padding: 0;
+	font-size: 24px;
+	line-height: 1.4;
+	list-style: none;
+}
+
+.content_right {
+	display: flex;
+	justify-content: flex-end;
+}

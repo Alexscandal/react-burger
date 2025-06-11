@@ -13,7 +13,6 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 			onClose(e);
 		}
 	};
-	// eslint-disable-next-line import/no-named-as-default-member
 	useEffect(() => {
 		document.addEventListener('keydown', closeOnEscapePressed);
 		return () => document.addEventListener('keydown', closeOnEscapePressed);
