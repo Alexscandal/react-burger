@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { LoginPage } from '@pages/login.jsx';
-import { AppHeader } from '@components/app-header/app-header.jsx';
+import { useDispatch } from 'react-redux';
 import styles from '@components/app/app.module.css';
+import { AppHeader } from '@components/app-header/app-header.jsx';
+import { ProtectedRoute } from '@components/protected-route/protected-route.tsx';
+import { ProvideAuth } from '@/services/auth';
+import { getUser } from '@/services/actions/auth.js';
+import { Modal } from '@components/modal/modal/modal.jsx';
+import { LoginPage } from '@pages/login.jsx';
 import { HomePage } from '@pages/home.jsx';
 import { RegisterPage } from '@pages/register.jsx';
 import { ForgotPasswordPage } from '@pages/forgot-password.jsx';
 import { ResetPasswordPage } from '@pages/reset-password.jsx';
 import { ProfilePage } from '@pages/profile.jsx';
 import { NotFound } from '@pages/not-found.jsx';
-import { ProtectedRoute } from '@components/protected-route/protected-route.jsx';
-import { useDispatch } from 'react-redux';
-import { ProvideAuth } from '@/services/auth';
-import { getUser } from '@/services/actions/auth.js';
-import { Modal } from '@components/modal/modal/modal.jsx';
 import { IngredientsDetails } from '@pages/ingredients-details.jsx';
 import { OrdersPage } from '@pages/orders.jsx';
 
