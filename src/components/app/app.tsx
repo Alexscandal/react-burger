@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { LoginPage } from '@pages/login.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
