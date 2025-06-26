@@ -3,9 +3,9 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { App } from '@components/app/app.tsx';
-import './index.css';
+import '@/index.css';
 import { Provider } from 'react-redux';
-import { rootReducer } from './services/reducers';
+import { rootReducer } from '@/services/reducers';
 import { thunk } from 'redux-thunk';
 declare global {
 	interface Window {
