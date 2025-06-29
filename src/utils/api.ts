@@ -10,11 +10,22 @@ type TData = {
 	data: TIngradient[];
 };
 
-export const getIngredients: Promise<TIngradient[]> = () => {
+type TToken = {
+	accessToken: string;
+	refreshToken: string;
+	success: boolean;
+};
+
+type TRequestOptions = {
+	requestOptions: object;
+	target: string;
+	headers: { authorization: string };
+};
+
+export const getIngredients = () => {
 	return fetch(API_URL + 'ingredients')
 		.then(checkResponse)
 		.then((data: TData) => {
-			console.info('Data', data);
 			if (data?.success) return data.data;
 			return Promise.reject(data);
 		})
@@ -22,7 +33,7 @@ export const getIngredients: Promise<TIngradient[]> = () => {
 };
 
 export const initialRequest = async (
-	requestOptions: object,
+	requestOptions: TRequestOptions,
 	target: string
 ) => {
 	return await fetchWithRefresh(API_URL + target, requestOptions)
@@ -31,12 +42,6 @@ export const initialRequest = async (
 			return Promise.reject(data);
 		})
 		.catch((err: Error) => Promise.reject(err));
-};
-
-type TToken = {
-	accessToken: string;
-	refreshToken: string;
-	success: boolean;
 };
 
 export const refreshToken = () => {
@@ -64,7 +69,10 @@ export const refreshToken = () => {
 	);
 };
 
-export const fetchWithRefresh = async (url: string, options: object) => {
+export const fetchWithRefresh = async (
+	url: string,
+	options: TRequestOptions
+) => {
 	try {
 		const res = await fetch(url, options);
 		return await checkResponse(res);

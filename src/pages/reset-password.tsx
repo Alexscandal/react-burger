@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from '@pages/form.module.css';
 import {
 	Button,
@@ -18,12 +18,12 @@ export function ResetPasswordPage() {
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));
-	const onChange = (e) => {
+	const onChange = (e: { target: { name: string; value: string } }) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
 	const reset = useCallback(
-		(e) => {
+		(e: { preventDefault: () => void }) => {
 			e.preventDefault();
 			if (form.password === '' || form.token === '') {
 				return false;
@@ -31,7 +31,7 @@ export function ResetPasswordPage() {
 			auth
 				.setPassword(form)
 				.then(() => {})
-				.catch((err) => () => {
+				.catch((err: Error) => () => {
 					alert(err.message);
 				});
 		},

@@ -9,6 +9,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useAuth } from '@/services/auth.jsx';
 import { ProfileMenu } from '@components/profile-menu/profile-menu.tsx';
+import { TUser } from '@utils/types.ts';
 
 export function ProfilePage() {
 	const { user } = useSelector((store) => ({
@@ -24,7 +25,7 @@ export function ProfilePage() {
 
 	const auth = useAuth();
 
-	const onChange = (e) => {
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
@@ -33,24 +34,21 @@ export function ProfilePage() {
 	};
 
 	const save = useCallback(
-		(e) => {
+		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			let data = {
+			const data: TUser = {
 				name: form.name,
 				email: form.email,
 			};
 			if (form.password !== '') {
 				data.password = form.password;
 			}
-			auth
-				.saveUser(data, 'auth/user')
-				.then((r) => console.info(r))
-				.catch(() => () => {});
+			auth.saveUser(data, 'auth/user').catch(() => () => {});
 		},
 		[auth, form]
 	);
 
-	const reset = (e) => {
+	const reset = (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 		setValue({
 			...form,
@@ -84,7 +82,6 @@ export function ProfilePage() {
 								placeholder={'E-mail'}
 								name={'email'}
 								value={form.email ?? ''}
-								error={false}
 								errorText={'Ошибка'}
 								size={'default'}
 								onChange={onChange}

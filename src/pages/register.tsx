@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from '@pages/form.module.css';
 import {
 	Button,
@@ -23,12 +23,12 @@ export function RegisterPage() {
 	};
 
 	const register = useCallback(
-		(e) => {
+		(e: { preventDefault: () => void }) => {
 			e.preventDefault();
 			auth
 				.signIn(form, 'auth/register')
 				.then(() => {})
-				.catch((err) => () => {
+				.catch((err: Error) => () => {
 					alert(err.message);
 				});
 		},
@@ -59,7 +59,6 @@ export function RegisterPage() {
 							placeholder={'E-mail'}
 							name={'email'}
 							value={form.email}
-							error={false}
 							errorText={'Ошибка'}
 							size={'default'}
 							onChange={onChange}

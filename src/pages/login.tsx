@@ -18,12 +18,12 @@ export function LoginPage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const onChange = (e) => {
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
 	const login = useCallback(
-		(e) => {
+		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
 			auth
 				.signIn(form, 'auth/login')
@@ -46,7 +46,6 @@ export function LoginPage() {
 							onChange={onChange}
 							value={form.email}
 							name={'email'}
-							error={false}
 							errorText={'Ошибка'}
 							size={'default'}
 						/>

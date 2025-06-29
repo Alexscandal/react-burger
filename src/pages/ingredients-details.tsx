@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { loadData } from '@/services/actions/ingredients.js';
 import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.tsx';
+import { TIngradient } from '@utils/types.ts';
 
 export function IngredientsDetails() {
 	const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export function IngredientsDetails() {
 	}));
 	const { id } = useParams();
 	if (ingredients.length > 0) {
-		const ingredient = ingredients.find((item) => item._id === id);
+		const ingredient = ingredients.find((item: TIngradient) => item._id === id);
 		return <IngradientDatails ingredient={ingredient} />;
 	}
 }
