@@ -1,4 +1,4 @@
-import { initialRequest } from '@utils/api.js';
+import { initialRequest } from '@utils/api.ts';
 
 export const ORDER_CHECKOUT_REQUEST = 'ORDER_CHECKOUT_REQUEST';
 export const ORDER_CHECKOUT_SUCCESS = 'ORDER_CHECKOUT_SUCCESS';

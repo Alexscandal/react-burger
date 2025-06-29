@@ -16,12 +16,12 @@ export function ForgotPasswordPage() {
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));
-	const onChange = (e) => {
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
 	const forgot = useCallback(
-		(e) => {
+		(e: React.FormEvent<HTMLFormElement>): false | undefined => {
 			e.preventDefault();
 			if (form.email === '') {
 				return false;
@@ -49,7 +49,6 @@ export function ForgotPasswordPage() {
 							placeholder={'Укажите e-mail'}
 							name={'email'}
 							value={form.email}
-							error={false}
 							errorText={'Ошибка'}
 							size={'default'}
 							onChange={onChange}

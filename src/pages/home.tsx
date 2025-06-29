@@ -5,14 +5,20 @@ import { DndProvider } from 'react-dnd';
 import appStyles from '@components/app/app.module.css';
 import styles from '@pages/home.module.css';
 import { loadData } from '@/services/actions/ingredients.js';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
-import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
-import { Modal } from '@components/modal/modal/modal.jsx';
+import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.tsx';
+import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.tsx';
+import { Modal } from '@components/modal/modal/modal.tsx';
 export const HomePage = () => {
 	const dispatch = useDispatch();
 
-	const [state, setState] = useState({
+	type TModalState = {
+		modalOpened: boolean;
+		modalContent: React.JSX.Element | null;
+	};
+
+	const [state, setState] = useState<TModalState>({
 		modalOpened: false,
+		modalContent: null,
 	});
 
 	const { hasError, isLoading } = useSelector((store) => ({
@@ -25,7 +31,7 @@ export const HomePage = () => {
 		dispatch(loadData());
 	}, [dispatch]);
 
-	const closeModal = (e) => {
+	const closeModal = (e: { preventDefault: () => void }) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
 	};

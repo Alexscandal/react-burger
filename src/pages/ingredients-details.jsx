@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { loadData } from '@/services/actions/ingredients.js';
-import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.jsx';
+import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.tsx';
 
 export function IngredientsDetails() {
 	const dispatch = useDispatch();

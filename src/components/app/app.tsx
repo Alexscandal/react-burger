@@ -6,16 +6,16 @@ import { AppHeader } from '@components/app-header/app-header.jsx';
 import { ProtectedRoute } from '@components/protected-route/protected-route.tsx';
 import { ProvideAuth } from '@/services/auth';
 import { getUser } from '@/services/actions/auth.js';
-import { Modal } from '@components/modal/modal/modal.jsx';
+import { Modal } from '@components/modal/modal/modal.tsx';
 import { LoginPage } from '@pages/login.jsx';
-import { HomePage } from '@pages/home.jsx';
+import { HomePage } from '@pages/home.tsx';
 import { RegisterPage } from '@pages/register.jsx';
-import { ForgotPasswordPage } from '@pages/forgot-password.jsx';
+import { ForgotPasswordPage } from '@pages/forgot-password.tsx';
 import { ResetPasswordPage } from '@pages/reset-password.jsx';
 import { ProfilePage } from '@pages/profile.jsx';
-import { NotFound } from '@pages/not-found.jsx';
+import { NotFound } from '@pages/not-found.tsx';
 import { IngredientsDetails } from '@pages/ingredients-details.jsx';
-import { OrdersPage } from '@pages/orders.jsx';
+import { OrdersPage } from '@pages/orders.tsx';
 
 export const App = () => {
 	const location = useLocation();

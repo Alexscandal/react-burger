@@ -8,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 import { useAuth } from '@/services/auth.jsx';
-import { ProfileMenu } from '@components/profile-menu/profile-menu.jsx';
+import { ProfileMenu } from '@components/profile-menu/profile-menu.tsx';
 
 export function ProfilePage() {
 	const { user } = useSelector((store) => ({

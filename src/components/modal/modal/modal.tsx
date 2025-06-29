@@ -1,14 +1,19 @@
 import { createPortal } from 'react-dom';
-import { Overlay } from '@components/modal/overlay/overlay.jsx';
+import { Overlay } from '@components/modal/overlay/overlay.tsx';
 import styles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+type TModal = {
+	content: React.JSX.Element | null;
+	header: string;
+	onClose: (e: KeyboardEvent | React.MouseEvent<HTMLElement>) => void;
+	isOpen: boolean;
+};
 
-const modalRoot = document.getElementById('react-modals');
+const modalRoot: HTMLElement | null = document.getElementById('react-modals')!;
 
-export const Modal = ({ content, header, onClose, isOpen }) => {
-	const closeOnEscapePressed = (e) => {
+export const Modal = ({ content, header, onClose, isOpen }: TModal) => {
+	const closeOnEscapePressed = (e: KeyboardEvent) => {
 		if (e.key === 'Escape') {
 			onClose(e);
 		}
@@ -32,11 +37,4 @@ export const Modal = ({ content, header, onClose, isOpen }) => {
 		isOpen && <Overlay content={cont} onClick={onClose} />,
 		modalRoot
 	);
-};
-
-Modal.propTypes = {
-	content: PropTypes.object,
-	header: PropTypes.string,
-	onClose: PropTypes.func,
-	isOpen: PropTypes.bool,
 };

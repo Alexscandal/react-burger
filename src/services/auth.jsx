@@ -1,5 +1,5 @@
 import React, { useContext, /*useState,*/ createContext } from 'react';
-import { initialRequest } from '@utils/api.js';
+import { initialRequest } from '@utils/api.ts';
 import { useDispatch } from 'react-redux';
 import { setUser, unsetUser } from '@/services/actions/auth.js';
 import { useNavigate } from 'react-router-dom';
