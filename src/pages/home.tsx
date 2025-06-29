@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
@@ -7,19 +7,8 @@ import styles from '@pages/home.module.css';
 import { loadData } from '@/services/actions/ingredients.js';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.tsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.tsx';
-import { Modal } from '@components/modal/modal/modal.tsx';
 export const HomePage = () => {
 	const dispatch = useDispatch();
-
-	type TModalState = {
-		modalOpened: boolean;
-		modalContent: React.JSX.Element | null;
-	};
-
-	const [state, setState] = useState<TModalState>({
-		modalOpened: false,
-		modalContent: null,
-	});
 
 	const { hasError, isLoading } = useSelector((store) => ({
 		ingredients: store.ingredients.items,
@@ -30,20 +19,6 @@ export const HomePage = () => {
 	useEffect(() => {
 		dispatch(loadData());
 	}, [dispatch]);
-
-	const closeModal = (e: { preventDefault: () => void }) => {
-		setState({ ...state, modalOpened: false });
-		e.preventDefault();
-	};
-
-	const modal = (
-		<Modal
-			header=''
-			isOpen={state.modalOpened}
-			content={state.modalContent}
-			onClose={closeModal}
-		/>
-	);
 
 	return (
 		<>
@@ -56,7 +31,7 @@ export const HomePage = () => {
 				{hasError && 'Произошла ошибка'}
 				{!isLoading && !hasError && (
 					<DndProvider backend={HTML5Backend}>
-						<BurgerIngredients modal={modal} modalOpened={state.modalOpened} />
+						<BurgerIngredients />
 						<BurgerConstructor />
 					</DndProvider>
 				)}
