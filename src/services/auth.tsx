@@ -1,12 +1,14 @@
-import React, { useContext, /*useState,*/ createContext } from 'react';
+import { useContext, createContext } from 'react';
 import { initialRequest } from '@utils/api.ts';
 import { useDispatch } from 'react-redux';
 import { setUser, unsetUser } from '@/services/actions/auth.js';
 import { useNavigate } from 'react-router-dom';
 
-const AuthContext = createContext(undefined);
+const AuthContext = createContext<ReturnType<typeof useProvideAuth>>(
+	{} as ReturnType<typeof useProvideAuth>
+);
 
-export function ProvideAuth({ children }) {
+export function ProvideAuth({ children }: { children: React.ReactElement }) {
 	const auth = useProvideAuth();
 	return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
@@ -15,13 +17,21 @@ export function useAuth() {
 	return useContext(AuthContext);
 }
 
+type TRequestOptions = {
+	method: string;
+	headers: { 'Content-Type': string; authorization?: string };
+	body: string;
+};
+
 export function useProvideAuth() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const saveUser = async (form, target) => {
-		console.info(form);
-		const options = {
+	const saveUser = async (
+		form: { name: string; email: string; password: string },
+		target: string
+	) => {
+		const options: TRequestOptions = {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -31,7 +41,6 @@ export function useProvideAuth() {
 		};
 		const data = await initialRequest(options, target)
 			.then((res) => {
-				console.info(res);
 				if (res.user) {
 					dispatch(setUser(res.user));
 					alert('Данные сохранены');
@@ -45,8 +54,11 @@ export function useProvideAuth() {
 		}
 	};
 
-	const signIn = async (form, target) => {
-		const options = {
+	const signIn = async (
+		form: { name: string; email: string; password: string },
+		target: string
+	) => {
+		const options: TRequestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(form),
@@ -73,14 +85,13 @@ export function useProvideAuth() {
 	};
 
 	const signOut = async () => {
-		const options = {
+		const options: TRequestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token: localStorage.refreshToken }),
 		};
 		await initialRequest(options, 'auth/logout')
 			.then((res) => {
-				console.info(res);
 				if (res.success) {
 					delete localStorage.authToken;
 					delete localStorage.refreshToken;
@@ -91,8 +102,8 @@ export function useProvideAuth() {
 		navigate('/login', { replace: true });
 	};
 
-	const setPassword = async (form) => {
-		const options = {
+	const setPassword = async (form: { password: string; token: string }) => {
+		const options: TRequestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(form),

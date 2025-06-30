@@ -1,13 +1,8 @@
-import { TIngradient } from '@utils/types.ts';
+import { /*TIngradient,*/ TUser } from '@utils/types.ts';
 const API_URL = 'https://norma.nomoreparties.space/api/';
 
 const checkResponse = <T>(res: Response): Promise<T> => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
-
-type TData = {
-	success: boolean;
-	data: TIngradient[];
 };
 
 type TToken = {
@@ -22,10 +17,32 @@ type TRequestOptions = {
 	headers: { authorization: string };
 };
 
+/*
+type TResponseBody<
+	TDataKey extends string = '',
+	TDataType = NonNullable<unknown>,
+> = {
+	[key in TDataKey]: TDataType;
+} & {
+	success: boolean;
+	message?: string;
+	headers?: Headers;
+};
+
+type TData = {
+	success: boolean;
+	data: TIngradient[];
+};
+
+Promise<
+	TResponseBody<'ingredients', ReadonlyArray<TIngradient>>
+>
+*/
+
 export const getIngredients = () => {
 	return fetch(API_URL + 'ingredients')
 		.then(checkResponse)
-		.then((data: TData) => {
+		.then((data): TData | Promise<TData> => {
 			if (data?.success) return data.data;
 			return Promise.reject(data);
 		})
@@ -35,7 +52,7 @@ export const getIngredients = () => {
 export const initialRequest = async (
 	requestOptions: TRequestOptions,
 	target: string
-) => {
+): Promise<TUser> => {
 	return await fetchWithRefresh(API_URL + target, requestOptions)
 		.then((data) => {
 			if (data?.success) return data;

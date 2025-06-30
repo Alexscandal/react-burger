@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import styles from '@pages/profile.module.css';
 import { useCallback } from 'react';
-import { useAuth } from '@/services/auth.jsx';
+import { useAuth } from '@/services/auth.tsx';
 
 export const ProfileMenu = () => {
 	const auth = useAuth();

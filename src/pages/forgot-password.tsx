@@ -5,7 +5,7 @@ import {
 	EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/services/auth.jsx';
+import { useAuth } from '@/services/auth.tsx';
 import { useSelector } from 'react-redux';
 
 export function ForgotPasswordPage() {

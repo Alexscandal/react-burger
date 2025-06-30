@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from '@components/app/app.module.css';
-import { AppHeader } from '@components/app-header/app-header.jsx';
+import { AppHeader } from '@components/app-header/app-header.tsx';
 import { ProtectedRoute } from '@components/protected-route/protected-route.tsx';
 import { ProvideAuth } from '@/services/auth';
 import { getUser } from '@/services/actions/auth.js';
