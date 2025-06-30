@@ -1,4 +1,4 @@
-import { /*TIngradient,*/ TUser } from '@utils/types.ts';
+import { TIngradient, /*TIngradient,*/ TUser } from '@utils/types.ts';
 const API_URL = 'https://norma.nomoreparties.space/api/';
 
 const checkResponse = <T>(res: Response): Promise<T> => {
@@ -29,20 +29,20 @@ type TResponseBody<
 	headers?: Headers;
 };
 
-type TData = {
-	success: boolean;
-	data: TIngradient[];
-};
-
 Promise<
 	TResponseBody<'ingredients', ReadonlyArray<TIngradient>>
 >
 */
 
-export const getIngredients = () => {
+type TData = {
+	success: boolean;
+	data: TIngradient[];
+};
+
+export const getIngredients = (): Promise<TIngradient[] | TData> => {
 	return fetch(API_URL + 'ingredients')
 		.then(checkResponse)
-		.then((data): TData | Promise<TData> => {
+		.then((data: TData) => {
 			if (data?.success) return data.data;
 			return Promise.reject(data);
 		})
