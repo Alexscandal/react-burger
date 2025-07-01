@@ -5,6 +5,8 @@ import styles from '@components/app/app.module.css';
 import { AppHeader } from '@components/app-header/app-header.tsx';
 import { ProtectedRoute } from '@components/protected-route/protected-route.tsx';
 import { ProvideAuth } from '@/services/auth';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { getUser } from '@/services/actions/auth.js';
 import { Modal } from '@components/modal/modal/modal.tsx';
 import { LoginPage } from '@pages/login.tsx';
