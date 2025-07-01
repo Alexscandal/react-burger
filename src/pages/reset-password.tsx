@@ -14,7 +14,6 @@ export function ResetPasswordPage() {
 	const auth = useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
-	console.info('location', location.state);
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));

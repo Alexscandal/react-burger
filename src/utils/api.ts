@@ -15,6 +15,7 @@ type TRequestOptions = {
 	requestOptions: object;
 	target: string;
 	headers: { authorization: string };
+	body: string;
 };
 
 /*
@@ -91,7 +92,7 @@ export const initialRequest = (
 export const fetchWithRefresh = async (
 	url: string,
 	options: TRequestOptions
-): Promise<TUser | void> => {
+): Promise<TExtUser | void> => {
 	try {
 		const res = await fetch(url, options);
 		return await checkResponse<TExtUser>(res);

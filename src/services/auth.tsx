@@ -1,6 +1,8 @@
 import { useContext, createContext } from 'react';
 import { initialRequest } from '@utils/api.ts';
 import { useDispatch } from 'react-redux';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { setUser, unsetUser } from '@/services/actions/auth.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +23,7 @@ type TRequestOptions = {
 	method: string;
 	headers: { 'Content-Type': string; authorization?: string };
 	body: string;
+	target: string;
 };
 
 export function useProvideAuth() {
@@ -38,6 +41,7 @@ export function useProvideAuth() {
 				authorization: 'Bearer ' + localStorage.authToken,
 			},
 			body: JSON.stringify(form),
+			target: '',
 		};
 		const data = await initialRequest(options, target)
 			.then((res) => {
@@ -54,10 +58,7 @@ export function useProvideAuth() {
 		}
 	};
 
-	const signIn = async (
-		form: { name: string; email: string; password: string },
-		target: string
-	) => {
+	const signIn = async (form: { email: string }, target: string) => {
 		const options: TRequestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
