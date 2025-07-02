@@ -28,6 +28,8 @@ export function useProvideAuth() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	//const headers: object = { 'Content-Type': 'application/json' };
+
 	const saveUser = async (form: TUser, target: string) => {
 		const options: TRequestOptions = {
 			method: 'PATCH',
