@@ -25,10 +25,7 @@ export function LoginPage() {
 	const login = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			auth
-				.signIn(form, 'auth/login')
-				.then(() => {})
-				.catch(() => () => {});
+			auth.signIn(form, 'auth/login');
 		},
 		[auth, dispatch, form, navigate]
 	);

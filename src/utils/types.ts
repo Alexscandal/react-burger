@@ -18,4 +18,20 @@ export type TUser = {
 	email: string;
 	password?: string;
 	name: string;
+	_id?: string;
+};
+
+export type TExtUser = TUser & {
+	success: boolean;
+	user: TUser;
+	json: () => void;
+	accessToken: string;
+	refreshToken: string;
+};
+
+export type TRequestOptions = {
+	requestOptions: object;
+	target: string;
+	headers: { authorization: string };
+	body: string;
 };

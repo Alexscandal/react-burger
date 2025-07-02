@@ -1,6 +1,7 @@
 import { useContext, createContext } from 'react';
 import { initialRequest } from '@utils/api.ts';
 import { useDispatch } from 'react-redux';
+import { TRequestOptions, TExtUser, TUser } from '@utils/types.ts';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import { setUser, unsetUser } from '@/services/actions/auth.js';
@@ -10,7 +11,11 @@ const AuthContext = createContext<ReturnType<typeof useProvideAuth>>(
 	{} as ReturnType<typeof useProvideAuth>
 );
 
-export function ProvideAuth({ children }: { children: React.ReactElement }) {
+export function ProvideAuth({
+	children,
+}: {
+	children: React.ReactElement | React.ReactElement[];
+}) {
 	const auth = useProvideAuth();
 	return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
@@ -19,21 +24,11 @@ export function useAuth() {
 	return useContext(AuthContext);
 }
 
-type TRequestOptions = {
-	method: string;
-	headers: { 'Content-Type': string; authorization?: string };
-	body: string;
-	target: string;
-};
-
 export function useProvideAuth() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const saveUser = async (
-		form: { name: string; email: string; password: string },
-		target: string
-	) => {
+	const saveUser = async (form: TUser, target: string) => {
 		const options: TRequestOptions = {
 			method: 'PATCH',
 			headers: {
@@ -41,31 +36,26 @@ export function useProvideAuth() {
 				authorization: 'Bearer ' + localStorage.authToken,
 			},
 			body: JSON.stringify(form),
-			target: '',
 		};
-		const data = await initialRequest(options, target)
-			.then((res) => {
-				if (res.user) {
-					dispatch(setUser(res.user));
-					alert('Данные сохранены');
-				}
-				return res.json();
-			})
-			.then((data) => data);
-
-		if (data.success) {
-			setUser({ ...data.user, id: data.user._id });
-		}
+		initialRequest(options, target).then((res: TExtUser) => {
+			console.info('saveUser', res);
+			if (res.user) {
+				dispatch(setUser(res.user));
+				setUser({ ...res.user, id: res.user._id });
+				alert('Данные сохранены');
+			}
+			return res;
+		});
 	};
 
-	const signIn = async (form: { email: string }, target: string) => {
+	const signIn = (form: { email: string }, target: string) => {
 		const options: TRequestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(form),
 		};
-		await initialRequest(options, target)
-			.then((res) => {
+		initialRequest(options, target)
+			.then((res: TExtUser) => {
 				let authToken;
 				if (res.accessToken && res.accessToken.indexOf('Bearer') === 0) {
 					authToken = res.accessToken.split('Bearer ')[1];

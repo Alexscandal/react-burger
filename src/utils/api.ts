@@ -1,4 +1,4 @@
-import { TIngradient, TUser } from '@utils/types.ts';
+import { TIngradient, TRequestOptions, TExtUser } from '@utils/types.ts';
 const API_URL = 'https://norma.nomoreparties.space/api/';
 
 const checkResponse = <T>(res: Response): Promise<T> => {
@@ -9,13 +9,6 @@ type TToken = {
 	accessToken: string;
 	refreshToken: string;
 	success: boolean;
-};
-
-type TRequestOptions = {
-	requestOptions: object;
-	target: string;
-	headers: { authorization: string };
-	body: string;
 };
 
 /*
@@ -75,8 +68,6 @@ export const refreshToken = (): Promise<TToken> => {
 	);
 };
 
-type TExtUser = TUser & { success: boolean };
-
 export const initialRequest = (
 	requestOptions: TRequestOptions,
 	target: string
@@ -95,6 +86,7 @@ export const fetchWithRefresh = async (
 ): Promise<TExtUser | void> => {
 	try {
 		const res = await fetch(url, options);
+		console.info('fetchWithRefresh', res);
 		return await checkResponse<TExtUser>(res);
 	} catch (err) {
 		if (err instanceof Error) {
