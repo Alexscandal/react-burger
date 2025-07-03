@@ -2,19 +2,27 @@ import {
 	ConstructorElement,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useRef } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import { useRef } from 'react';
+import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 import { useSelector } from 'react-redux';
-import { ingredientPropType } from '@utils/prop-types.js';
-import PropTypes from 'prop-types';
+import { TIngradient } from '@utils/types.ts';
+
+type TDraggableItem = {
+	item: TIngradient;
+	index: number;
+	removeIngredient: (_id: string, index: number) => void;
+	moveListItem: (dragIndex: number, hoverIndex: number) => void;
+};
 
 export const DraggableItem = ({
 	item,
 	index,
 	removeIngredient,
 	moveListItem,
-}) => {
+}: TDraggableItem) => {
 	const { ingredients } = useSelector((store) => ({
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		ingredients: store.cart.items,
 	}));
 
@@ -26,17 +34,33 @@ export const DraggableItem = ({
 		}),
 	});
 
+	const ref = useRef<HTMLLIElement | null>(null);
+
 	const [, dropRef] = useDrop({
 		accept: ['sauce', 'main'],
-		hover: (item, monitor) => {
-			const dragIndex = ingredients.findIndex((i) => i === item.item);
+		hover: (
+			item: { item: number; index: number },
+			monitor: DropTargetMonitor<{ item: number; index: number }>
+		) => {
+			const dragIndex = ingredients.findIndex((i: number) => i === item.item);
 			const hoverIndex = index;
 			const hoverBoundingRect = ref.current?.getBoundingClientRect();
-			const hoverMiddleY =
-				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-			const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
+			const hoverMiddleY = hoverBoundingRect
+				? (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+				: null;
+			const clientOffset = monitor.getClientOffset();
+			if (!clientOffset) {
+				return;
+			}
+			const hoverActualY = hoverBoundingRect
+				? clientOffset.y - hoverBoundingRect.top
+				: clientOffset.y;
 
-			if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
+			if (
+				hoverMiddleY === null ||
+				(dragIndex < hoverIndex && hoverActualY < hoverMiddleY)
+			)
+				return;
 			if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return;
 
 			moveListItem(dragIndex, hoverIndex);
@@ -44,15 +68,14 @@ export const DraggableItem = ({
 		},
 	});
 
-	const ref = useRef(null);
-	const dragDropRef = dragRef(dropRef(ref));
+	dragRef(dropRef(ref));
 
 	return (
 		<li
 			className={'mt-4 mb-4'}
 			data-id={item._id}
 			style={{ opacity }}
-			ref={dragDropRef}>
+			ref={ref}>
 			<DragIcon type='primary' className='mr-2' />
 			<ConstructorElement
 				text={item.name}
@@ -64,14 +87,4 @@ export const DraggableItem = ({
 			/>
 		</li>
 	);
-};
-
-DraggableItem.propTypes = {
-	item: ingredientPropType.isRequired,
-	// eslint-disable-next-line import/no-named-as-default-member
-	removeIngredient: PropTypes.func,
-	// eslint-disable-next-line import/no-named-as-default-member
-	moveListItem: PropTypes.func,
-	// eslint-disable-next-line import/no-named-as-default-member
-	index: PropTypes.number.isRequired,
 };

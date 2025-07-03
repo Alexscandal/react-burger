@@ -18,6 +18,8 @@ export const BurgerIngredients = () => {
 	});
 
 	const { ingredients }: TIngradientData = useSelector((store) => ({
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		ingredients: store.ingredients.items,
 	}));
 

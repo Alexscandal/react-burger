@@ -11,23 +11,6 @@ type TToken = {
 	success: boolean;
 };
 
-/*
-type TResponseBody<
-	TDataKey extends string = '',
-	TDataType = NonNullable<unknown>,
-> = {
-	[key in TDataKey]: TDataType;
-} & {
-	success: boolean;
-	message?: string;
-	headers?: Headers;
-};
-
-Promise<
-	TResponseBody<'ingredients', ReadonlyArray<TIngradient>>
->
-*/
-
 type TData = {
 	success: boolean;
 	data: TIngradient[];

@@ -7,15 +7,16 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAuth } from '@/services/auth.tsx';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export function LoginPage() {
 	const [form, setValue] = useState({ email: '', password: '' });
 	const { user } = useSelector((store) => ({
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		user: store.auth.user,
 	}));
 	const auth = useAuth();
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +28,7 @@ export function LoginPage() {
 			e.preventDefault();
 			auth.signIn(form, 'auth/login');
 		},
-		[auth, dispatch, form, navigate]
+		[auth, form]
 	);
 	if (localStorage.authToken !== undefined && user.name !== null) {
 		navigate('/', { replace: true });

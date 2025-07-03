@@ -11,8 +11,14 @@ import {
 import { Modal } from '@components/modal/modal/modal.tsx';
 import { OrderDetails } from '@components/order-details/order-details.tsx';
 import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.tsx';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { reduceCount, updateCount } from '@/services/actions/ingredients.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { setProduct } from '@/services/actions/ingredient.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import {
 	addItem,
 	removeItem,
@@ -20,6 +26,8 @@ import {
 	updateItemPrice,
 	swapIndex,
 } from '@/services/actions/ingredients-constructor.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { orderCheckout } from '@/services/actions/order.js';
 import { useNavigate } from 'react-router-dom';
 import { TIngradient } from '@utils/types.ts';
@@ -27,12 +35,26 @@ import { TIngradient } from '@utils/types.ts';
 export const BurgerConstructor = () => {
 	const { ingredients, product, products, cost, selected, orderNum, user } =
 		useSelector((store) => ({
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			ingredients: store.cart.items,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			selected: store.cart.items,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			cost: store.cart.cost,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			product: store.ingredient.product,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			products: store.ingredients.items,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			orderNum: store.order.orderNum,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			user: store.auth.user,
 		}));
 

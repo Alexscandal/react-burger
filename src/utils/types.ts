@@ -33,6 +33,6 @@ export type TRequestOptions = {
 	method: string;
 	requestOptions?: object;
 	target?: string;
-	headers: HeadersInit;
+	headers: HeadersInit & { authorization?: string };
 	body: string;
 };
