@@ -30,8 +30,9 @@ export type TExtUser = TUser & {
 };
 
 export type TRequestOptions = {
-	requestOptions: object;
-	target: string;
-	headers: { authorization: string };
+	method: string;
+	requestOptions?: object;
+	target?: string;
+	headers: HeadersInit;
 	body: string;
 };

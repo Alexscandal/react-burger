@@ -36,7 +36,7 @@ export function useProvideAuth() {
 			headers: {
 				'Content-Type': 'application/json',
 				authorization: 'Bearer ' + localStorage.authToken,
-			},
+			} as HeadersInit,
 			body: JSON.stringify(form),
 		};
 		initialRequest(options, target).then((res: TExtUser) => {
@@ -53,7 +53,7 @@ export function useProvideAuth() {
 	const signIn = (form: { email: string }, target: string) => {
 		const options: TRequestOptions = {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers: { 'Content-Type': 'application/json' } as HeadersInit,
 			body: JSON.stringify(form),
 		};
 		initialRequest(options, target)
@@ -80,7 +80,7 @@ export function useProvideAuth() {
 	const signOut = async () => {
 		const options: TRequestOptions = {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers: { 'Content-Type': 'application/json' } as HeadersInit,
 			body: JSON.stringify({ token: localStorage.refreshToken }),
 		};
 		await initialRequest(options, 'auth/logout')
@@ -98,7 +98,7 @@ export function useProvideAuth() {
 	const setPassword = async (form: { password: string; token: string }) => {
 		const options: TRequestOptions = {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers: { 'Content-Type': 'application/json' } as HeadersInit,
 			body: JSON.stringify(form),
 		};
 		await initialRequest(options, 'password-reset/reset')
