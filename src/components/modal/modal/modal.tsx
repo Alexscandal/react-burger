@@ -23,18 +23,20 @@ export const Modal = ({ content, header, onClose, isOpen }: TModal) => {
 		return () => document.addEventListener('keydown', closeOnEscapePressed);
 	}, []);
 
-	const cont = (
-		<div className={styles.modal}>
-			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-			<a href='#' onClick={onClose}>
-				<CloseIcon type='primary' className={styles.close} />
-			</a>
-			<div className={styles.modal_header}>{header}</div>
-			<div>{content}</div>
-		</div>
-	);
 	return createPortal(
-		isOpen && <Overlay content={cont} onClick={onClose} />,
+		isOpen && (
+			<div className={styles.modal_container}>
+				<Overlay onClick={onClose} />
+				<div className={styles.modal}>
+					{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+					<a href='#' onClick={onClose}>
+						<CloseIcon type='primary' className={styles.close} />
+					</a>
+					<div className={styles.modal_header}>{header}</div>
+					<div>{content}</div>
+				</div>
+			</div>
+		),
 		modalRoot
 	);
 };
