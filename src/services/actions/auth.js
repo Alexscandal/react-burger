@@ -1,4 +1,4 @@
-import { initialRequest } from '@utils/api.js';
+import { initialRequest } from '@utils/api.ts';
 
 export const SET_USER = 'SET_USER';
 export const UNSET_USER = 'UNSET_USER';
@@ -38,8 +38,6 @@ export function getUser() {
 					});
 				}
 			})
-			.catch((err) => {
-				console.info(err);
-			});
+			.catch(() => {});
 	};
 }

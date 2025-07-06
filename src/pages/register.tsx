@@ -1,36 +1,38 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from '@pages/form.module.css';
 import {
 	Button,
 	EmailInput,
+	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAuth } from '@/services/auth.jsx';
+import { useAuth } from '@/services/auth.tsx';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-export function LoginPage() {
-	const [form, setValue] = useState({ email: '', password: '' });
+export function RegisterPage() {
+	const [form, setValue] = useState({ name: '', email: '', password: '' });
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));
 	const auth = useAuth();
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const onChange = (e) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
-	const login = useCallback(
-		(e) => {
+	const register = useCallback(
+		(e: { preventDefault: () => void }) => {
 			e.preventDefault();
 			auth
-				.signIn(form, 'auth/login')
+				.signIn(form, 'auth/register')
 				.then(() => {})
-				.catch(() => () => {});
+				.catch((err: Error) => () => {
+					alert(err.message);
+				});
 		},
-		[auth, dispatch, form, navigate]
+		[auth, form]
 	);
 	if (localStorage.authToken !== undefined && user.name !== null) {
 		navigate('/', { replace: true });
@@ -38,25 +40,36 @@ export function LoginPage() {
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
-				<h1>Вход</h1>
-				<form onSubmit={login}>
+				<h1>Регистрация</h1>
+				<form onSubmit={register}>
 					<div className='mb-6'>
-						<EmailInput
-							placeholder={'E-mail'}
-							onChange={onChange}
-							value={form.email}
-							name={'email'}
+						<Input
+							type={'text'}
+							name={'name'}
+							value={form.name}
+							placeholder={'Имя'}
 							error={false}
 							errorText={'Ошибка'}
 							size={'default'}
+							onChange={onChange}
+						/>
+					</div>
+					<div className='mb-6'>
+						<EmailInput
+							placeholder={'E-mail'}
+							name={'email'}
+							value={form.email}
+							errorText={'Ошибка'}
+							size={'default'}
+							onChange={onChange}
 						/>
 					</div>
 					<div className='mb-6'>
 						<PasswordInput
-							onChange={onChange}
-							value={form.password}
 							name={'password'}
-							minLength={0}
+							value={form.password}
+							onChange={onChange}
+							minLength={5}
 						/>
 					</div>
 					<Button
@@ -64,15 +77,10 @@ export function LoginPage() {
 						type='primary'
 						size='medium'
 						extraClass='mb-20'>
-						Войти
+						Зарегистрироваться
 					</Button>
-					<p className='mb-4'>
-						Вы — новый пользователь?{' '}
-						<Link to='/register'>Зарегистрироваться</Link>
-					</p>
 					<p>
-						Забыли пароль?{' '}
-						<Link to='/forgot-password'>Восстановить пароль</Link>
+						Уже зарегистрированы? <Link to='/login'>Войти</Link>
 					</p>
 				</form>
 			</div>

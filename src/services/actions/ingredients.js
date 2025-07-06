@@ -1,4 +1,4 @@
-import { getIngredients } from '@utils/api.js';
+import { getIngredients } from '@utils/api.ts';
 
 export const LOAD_DATA = 'LOAD_DATA',
 	FAILED_LOADING = 'FAILED_LOADING',

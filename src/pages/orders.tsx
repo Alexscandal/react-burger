@@ -1,6 +1,5 @@
 import styles from '@pages/profile.module.css';
-import { ProfileMenu } from '@components/profile-menu/profile-menu.jsx';
-import React from 'react';
+import { ProfileMenu } from '@components/profile-menu/profile-menu.tsx';
 
 export function OrdersPage() {
 	return (

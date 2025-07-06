@@ -8,11 +8,17 @@ import {
 	ConstructorElement,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Modal } from '@components/modal/modal/modal.jsx';
-import { OrderDetails } from '@components/order-details/order-details.jsx';
-import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.jsx';
+import { Modal } from '@components/modal/modal/modal.tsx';
+import { OrderDetails } from '@components/order-details/order-details.tsx';
+import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.tsx';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { reduceCount, updateCount } from '@/services/actions/ingredients.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { setProduct } from '@/services/actions/ingredient.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import {
 	addItem,
 	removeItem,
@@ -20,31 +26,57 @@ import {
 	updateItemPrice,
 	swapIndex,
 } from '@/services/actions/ingredients-constructor.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { orderCheckout } from '@/services/actions/order.js';
 import { useNavigate } from 'react-router-dom';
+import { TIngradient } from '@utils/types.ts';
 
 export const BurgerConstructor = () => {
 	const { ingredients, product, products, cost, selected, orderNum, user } =
 		useSelector((store) => ({
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			ingredients: store.cart.items,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			selected: store.cart.items,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			cost: store.cart.cost,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			product: store.ingredient.product,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			products: store.ingredients.items,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			orderNum: store.order.orderNum,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
 			user: store.auth.user,
 		}));
 
+	type TItem = {
+		id: string;
+	};
+
+	type TModalState = {
+		modalOpened: boolean;
+		modalContent: React.JSX.Element | null;
+	};
+
 	const navigate = useNavigate();
 
-	const [state, setState] = useState({
+	const [state, setState] = useState<TModalState>({
 		modalOpened: false,
 		modalContent: null,
 	});
 
 	const dispatch = useDispatch();
 
-	const closeModal = (e) => {
+	const closeModal = (e: { preventDefault: () => void }) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
 	};
@@ -58,21 +90,21 @@ export const BurgerConstructor = () => {
 		/>
 	);
 
-	const getOrder = (e) => {
+	const getOrder = (e: { preventDefault: () => void }) => {
 		if (user.name === null) {
 			navigate('/login');
 		}
 		if (product !== null) {
-			let sel = selected.concat([product]);
-			dispatch(orderCheckout(sel.map((item) => item._id)));
+			const sel = selected.concat([product]);
+			dispatch(orderCheckout(sel.map((item: { _id: never }) => item._id)));
 			setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
 		}
 		e.preventDefault();
 	};
 
-	const onDropHandler = (itemId) => {
+	const onDropHandler = (itemId: TItem): void => {
 		dispatch(updateCount(itemId.id));
-		const found = products.find((item) => item._id === itemId.id);
+		const found = products.find((item: TIngradient) => item._id === itemId.id);
 		if (found !== undefined && found.type === 'bun') {
 			dispatch(setProduct(itemId.id, products));
 			// set product price;
@@ -85,7 +117,7 @@ export const BurgerConstructor = () => {
 
 	const [, dropTopTarget] = useDrop({
 		accept: 'bun',
-		drop(itemId) {
+		drop(itemId: TItem): void {
 			onDropHandler(itemId);
 		},
 		collect: (monitor) => ({
@@ -95,14 +127,14 @@ export const BurgerConstructor = () => {
 
 	const [, dropBottomTarget] = useDrop({
 		accept: 'bun',
-		drop(itemId) {
+		drop(itemId: TItem) {
 			onDropHandler(itemId);
 		},
 	});
 
 	const [, dropCenterTarget] = useDrop({
 		accept: ['sauce', 'main'],
-		drop(itemId) {
+		drop(itemId: TItem) {
 			if (itemId.id !== undefined) {
 				onDropHandler(itemId);
 			}
@@ -112,14 +144,14 @@ export const BurgerConstructor = () => {
 		}),
 	});
 
-	function removeIngredient(id, index) {
+	function removeIngredient(id: string, index: number) {
 		dispatch(reduceCount(id));
 		dispatch(removeItem(id, index));
 		dispatch(updateCost());
 	}
 
 	const moveListItem = useCallback(
-		(dragIndex, hoverIndex) => {
+		(dragIndex: string | number, hoverIndex: string | number) => {
 			const dragItem = ingredients[dragIndex];
 			const hoverItem = ingredients[hoverIndex];
 			// Swap places of dragItem and hoverItem in the pets array
@@ -160,7 +192,7 @@ export const BurgerConstructor = () => {
 					</div>
 				)}
 				<ul>
-					{ingredients.map((item, index) => (
+					{ingredients.map((item: TIngradient, index: number) => (
 						<DraggableItem
 							item={item}
 							index={index}

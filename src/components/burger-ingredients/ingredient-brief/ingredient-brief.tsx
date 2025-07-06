@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import {
 	Counter,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import appStyles from '@components/app/app.module.css';
-import { Modal } from '@components/modal/modal/modal.jsx';
-import { ingredientPropType } from '@utils/prop-types.js';
+import { Modal } from '@components/modal/modal/modal.tsx';
+import { TIngradient } from '@utils/types.ts';
 import { Link, useLocation } from 'react-router-dom';
+type TIngradientData = {
+	item: TIngradient;
+};
 
-export const IngradientBrief = ({ item }) => {
+export const IngradientBrief = ({ item }: TIngradientData) => {
 	const [state, setState] = useState({
 		modalOpened: false,
 		modalContent: null,
@@ -18,7 +21,7 @@ export const IngradientBrief = ({ item }) => {
 
 	const location = useLocation();
 
-	const closeModal = (e) => {
+	const closeModal = (e: { preventDefault: () => void }) => {
 		setState({ ...state, modalOpened: false });
 		e.preventDefault();
 	};
@@ -57,8 +60,4 @@ export const IngradientBrief = ({ item }) => {
 			{modal}
 		</div>
 	);
-};
-
-IngradientBrief.propTypes = {
-	item: ingredientPropType.isRequired,
 };

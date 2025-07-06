@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from '@pages/form.module.css';
 import {
 	Button,
@@ -6,7 +6,7 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { useAuth } from '@/services/auth.jsx';
+import { useAuth } from '@/services/auth.tsx';
 import { useSelector } from 'react-redux';
 
 export function ResetPasswordPage() {
@@ -14,16 +14,15 @@ export function ResetPasswordPage() {
 	const auth = useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
-	console.info('location', location.state);
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));
-	const onChange = (e) => {
+	const onChange = (e: { target: { name: string; value: string } }) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
 	const reset = useCallback(
-		(e) => {
+		(e: { preventDefault: () => void }) => {
 			e.preventDefault();
 			if (form.password === '' || form.token === '') {
 				return false;
@@ -31,7 +30,7 @@ export function ResetPasswordPage() {
 			auth
 				.setPassword(form)
 				.then(() => {})
-				.catch((err) => () => {
+				.catch((err: Error) => () => {
 					alert(err.message);
 				});
 		},

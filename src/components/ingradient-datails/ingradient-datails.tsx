@@ -1,8 +1,10 @@
-import * as PropTypes from 'prop-types';
-import { ingredientPropType } from '@utils/prop-types.js';
 import styles from './ingradient-datails.module.css';
+import { TIngradient } from '@utils/types.ts';
+type TIngradientData = {
+	ingredient: TIngradient;
+};
 
-export const IngradientDatails = ({ ingredient }) => {
+export const IngradientDatails = ({ ingredient }: TIngradientData) => {
 	return (
 		<div className={styles.product}>
 			<img src={ingredient.image_large} alt={ingredient.name} />
@@ -27,8 +29,4 @@ export const IngradientDatails = ({ ingredient }) => {
 			</div>
 		</div>
 	);
-};
-
-IngradientDatails.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };

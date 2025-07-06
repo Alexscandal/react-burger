@@ -3,34 +3,30 @@ import styles from '@pages/form.module.css';
 import {
 	Button,
 	EmailInput,
-	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAuth } from '@/services/auth.jsx';
+import { useAuth } from '@/services/auth.tsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-export function RegisterPage() {
-	const [form, setValue] = useState({ name: '', email: '', password: '' });
+export function LoginPage() {
+	const [form, setValue] = useState({ email: '', password: '' });
 	const { user } = useSelector((store) => ({
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		user: store.auth.user,
 	}));
 	const auth = useAuth();
 	const navigate = useNavigate();
 
-	const onChange = (e) => {
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
-	const register = useCallback(
-		(e) => {
+	const login = useCallback(
+		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			auth
-				.signIn(form, 'auth/register')
-				.then(() => {})
-				.catch((err) => () => {
-					alert(err.message);
-				});
+			auth.signIn(form, 'auth/login');
 		},
 		[auth, form]
 	);
@@ -40,37 +36,24 @@ export function RegisterPage() {
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
-				<h1>Регистрация</h1>
-				<form onSubmit={register}>
-					<div className='mb-6'>
-						<Input
-							type={'text'}
-							name={'name'}
-							value={form.name}
-							placeholder={'Имя'}
-							error={false}
-							errorText={'Ошибка'}
-							size={'default'}
-							onChange={onChange}
-						/>
-					</div>
+				<h1>Вход</h1>
+				<form onSubmit={login}>
 					<div className='mb-6'>
 						<EmailInput
 							placeholder={'E-mail'}
-							name={'email'}
+							onChange={onChange}
 							value={form.email}
-							error={false}
+							name={'email'}
 							errorText={'Ошибка'}
 							size={'default'}
-							onChange={onChange}
 						/>
 					</div>
 					<div className='mb-6'>
 						<PasswordInput
-							name={'password'}
-							value={form.password}
 							onChange={onChange}
-							minLength={5}
+							value={form.password}
+							name={'password'}
+							minLength={0}
 						/>
 					</div>
 					<Button
@@ -78,10 +61,15 @@ export function RegisterPage() {
 						type='primary'
 						size='medium'
 						extraClass='mb-20'>
-						Зарегистрироваться
+						Войти
 					</Button>
+					<p className='mb-4'>
+						Вы — новый пользователь?{' '}
+						<Link to='/register'>Зарегистрироваться</Link>
+					</p>
 					<p>
-						Уже зарегистрированы? <Link to='/login'>Войти</Link>
+						Забыли пароль?{' '}
+						<Link to='/forgot-password'>Восстановить пароль</Link>
 					</p>
 				</form>
 			</div>

@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import appStyles from '@components/app/app.module.css';
 import styles from '@components/burger-ingredients/burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngradientBrief } from '@components/burger-ingredients/ingredient-brief/ingredient-brief.jsx';
+import { IngradientBrief } from '@components/burger-ingredients/ingredient-brief/ingredient-brief.tsx';
 import { useSelector } from 'react-redux';
+import { TIngradient } from '@utils/types.ts';
+
+type TIngradientData = {
+	ingredients: TIngradient[];
+};
 
 export const BurgerIngredients = () => {
 	const [state, setState] = useState({
@@ -12,7 +17,9 @@ export const BurgerIngredients = () => {
 		activeTab: 'bun',
 	});
 
-	const { ingredients } = useSelector((store) => ({
+	const { ingredients }: TIngradientData = useSelector((store) => ({
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		ingredients: store.ingredients.items,
 	}));
 
@@ -34,22 +41,26 @@ export const BurgerIngredients = () => {
 		},
 	];
 	/* activate tab on scroll */
-	const closeOnEscapePressed = (e) => {
-		const top = e.target.getBoundingClientRect().top,
-			items = e.target.querySelectorAll('h2');
-		let range = e.target.getBoundingClientRect().bottom - top,
-			tab = '';
-		for (let item of items) {
-			let item_range = Math.abs(
-				item.closest('div').getBoundingClientRect().top - top
+	const onScroll: React.UIEventHandler<HTMLDivElement> = (
+		e: React.UIEvent<HTMLDivElement, UIEvent>
+	): void => {
+		const top = e.currentTarget.getBoundingClientRect().top,
+			items = e.currentTarget.querySelectorAll('h2');
+		let range = e.currentTarget.getBoundingClientRect().bottom - top,
+			tab: string | null = '';
+		for (const item of items) {
+			const item_range = Math.abs(
+				item.closest('div')!.getBoundingClientRect().top - top
 			);
 			if (item_range < range) {
 				range = item_range;
-				tab = item.closest('div').getAttribute('id');
+				tab = item.closest('div')!.getAttribute('id');
 			}
 		}
 		setState({
-			activeTab: tab,
+			modalOpened: false,
+			modalContent: null,
+			activeTab: tab ? tab : '',
 		});
 	};
 	/* /activate tab on scroll */
@@ -68,7 +79,7 @@ export const BurgerIngredients = () => {
 					))}
 				</ul>
 			</nav>
-			<div className={appStyles.scroll} onScroll={closeOnEscapePressed}>
+			<div className={appStyles.scroll} onScroll={onScroll}>
 				{categories.map((category) => (
 					<div key={category.type} id={category.type}>
 						<h2>{category.name}</h2>
@@ -79,7 +90,7 @@ export const BurgerIngredients = () => {
 									<li
 										key={item._id}
 										className={`${appStyles.positionRelative} pl-2 pr-2 mt-4 mb-4`}>
-										<IngradientBrief ingredients={ingredients} item={item} />
+										<IngradientBrief item={item} />
 									</li>
 								))}
 						</ul>
