@@ -18,6 +18,7 @@ import { ProfilePage } from '@pages/profile.tsx';
 import { NotFound } from '@pages/not-found.tsx';
 import { IngredientsDetails } from '@pages/ingredients-details.tsx';
 import { OrdersPage } from '@pages/orders.tsx';
+import { FeedPage } from '@pages/feed.tsx';
 
 export const App = () => {
 	const location = useLocation();
@@ -38,6 +39,7 @@ export const App = () => {
 				<Routes location={background || location}>
 					<Route path='/' element={<HomePage />} />
 					<Route path='/ingredients/:id' element={<IngredientsDetails />} />
+					<Route path='/feed' element={<FeedPage />} />
 					<Route path='/login' element={<LoginPage />} />
 					<Route path='/register' element={<RegisterPage />} />
 					<Route
