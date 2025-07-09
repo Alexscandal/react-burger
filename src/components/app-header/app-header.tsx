@@ -25,8 +25,14 @@ export const AppHeader = () => {
 						<BurgerIcon type={location === '/' ? 'primary' : 'secondary'} />
 						<p className='text text_type_main-default ml-2'>Конструктор</p>
 					</NavLink>
-					<NavLink to='/feed' className={`${styles.link} ml-10`}>
-						<ListIcon type='secondary' />
+					<NavLink
+						to='/feed'
+						className={({ isActive }) =>
+							(isActive
+								? styles.link_active + ' ' + styles.link
+								: styles.link) + ' ml-10'
+						}>
+						<ListIcon type={location === '/feed' ? 'primary' : 'secondary'} />
 						<p className='text text_type_main-default ml-2'>Лента заказов</p>
 					</NavLink>
 				</div>

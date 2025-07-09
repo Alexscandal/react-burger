@@ -63,7 +63,10 @@ export function ProfilePage() {
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>
-				<ProfileMenu />
+				<div className={`${styles.content_left} mr-15`}>
+					<ProfileMenu />
+					<p>В этом разделе вы можете изменить свои персональные данные</p>
+				</div>
 				<div>
 					<form id='userForm' onSubmit={save}>
 						<div className='mb-6'>

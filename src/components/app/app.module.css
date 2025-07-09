@@ -17,6 +17,10 @@ body {
 	position: relative;
 }
 
+.text_center {
+	text-align: center;
+}
+
 .app {
 	display: flex;
 	flex-direction: column;
@@ -27,6 +31,10 @@ body {
 
 .d_flex {
 	display: flex;
+}
+
+.flex_grow {
+	flex-grow: 1;
 }
 
 .justify_content_between {
@@ -80,7 +88,10 @@ body {
 .feed li {
 	background: #1c1c21;
 	border-radius: 40px;
-	cursor: pointer;
+}
+
+.feed a {
+	color: var(--text-primary-color);
 }
 
 .block_images {
@@ -88,10 +99,14 @@ body {
 }
 
 .block_images > div {
+	margin-left: -16px;
+}
+
+.block_images > div,
+.image {
 	position: relative;
 	width: 64px;
 	height: 64px;
-	margin-left: -16px;
 	overflow: hidden;
 	text-align: center;
 	background:
@@ -103,6 +118,7 @@ body {
 	border-radius: 100%;
 }
 
+.image img,
 .block_images > div img {
 	margin-left: -50%;
 }

@@ -18,3 +18,7 @@ li {
 .main > div > div {
 	flex-basis: calc(50% - 30px);
 }
+
+.main a {
+	color: var(--text-primary-color);
+}
