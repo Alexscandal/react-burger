@@ -12,7 +12,6 @@ import { Modal } from '@components/modal/modal/modal.tsx';
 import { OrderDetails } from '@components/order-details/order-details.tsx';
 import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.tsx';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import { reduceCount, updateCount } from '@/services/actions/ingredients.ts';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
@@ -153,7 +152,6 @@ export const BurgerConstructor = () => {
 		(dragIndex: number, hoverIndex: number) => {
 			const dragItem = ingredients[dragIndex];
 			const hoverItem = ingredients[hoverIndex];
-			// Swap places of dragItem and hoverItem in the pets array
 			if (hoverItem !== undefined && dragItem !== undefined) {
 				dispatch(swapIndex(dragIndex, hoverIndex, hoverItem, dragItem));
 			}

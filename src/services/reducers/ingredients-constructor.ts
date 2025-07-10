@@ -20,8 +20,8 @@ type TAction = {
 	dragItem: TIngradient;
 	index: number;
 	product_price: number;
-	dragIndex: string;
-	hoverIndex: string;
+	dragIndex: number;
+	hoverIndex: number;
 };
 
 export const constructorReducer = (
