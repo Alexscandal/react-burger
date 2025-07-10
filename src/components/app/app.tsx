@@ -41,7 +41,7 @@ export const App = () => {
 					<Route path='/' element={<HomePage />} />
 					<Route path='/ingredients/:id' element={<IngredientsDetails />} />
 					<Route path='/feed' element={<FeedPage />} />
-					<Route path='/feed/:number' element={<OrderPage />} />
+					<Route path='/feed/:number' element={<OrderPage modal={false} />} />
 					<Route path='/login' element={<LoginPage />} />
 					<Route path='/register' element={<RegisterPage />} />
 					<Route
@@ -54,7 +54,7 @@ export const App = () => {
 					/>
 					<Route
 						path='/profile/orders/:number'
-						element={<ProtectedRoute element={<OrderPage />} />}
+						element={<ProtectedRoute element={<OrderPage modal={false} />} />}
 					/>
 					<Route path='/forgot-password' element={<ForgotPasswordPage />} />
 					<Route path='/reset-password' element={<ResetPasswordPage />} />
@@ -73,10 +73,31 @@ export const App = () => {
 								/>
 							}
 						/>
-						<Route path='/feed/:number' element={<OrderPage />} />
+						<Route
+							path='/feed/:number'
+							element={
+								<Modal
+									onClose={handleModalClose}
+									header=''
+									isOpen={true}
+									content={<OrderPage modal={true} />}
+								/>
+							}
+						/>
 						<Route
 							path='/profile/orders/:number'
-							element={<ProtectedRoute element={<OrderPage />} />}
+							element={
+								<ProtectedRoute
+									element={
+										<Modal
+											onClose={handleModalClose}
+											header=''
+											isOpen={true}
+											content={<OrderPage modal={true} />}
+										/>
+									}
+								/>
+							}
 						/>
 					</Routes>
 				)}

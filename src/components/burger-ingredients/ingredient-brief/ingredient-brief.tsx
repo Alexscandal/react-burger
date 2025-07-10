@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import {
 	Counter,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import appStyles from '@components/app/app.module.css';
-import { Modal } from '@components/modal/modal/modal.tsx';
 import { TIngradient } from '@utils/types.ts';
 import { Link, useLocation } from 'react-router-dom';
 type TIngradientData = {
@@ -13,27 +11,8 @@ type TIngradientData = {
 };
 
 export const IngradientBrief = ({ item }: TIngradientData) => {
-	const [state, setState] = useState({
-		modalOpened: false,
-		modalContent: null,
-		activeTab: 'bun',
-	});
-
 	const location = useLocation();
 
-	const closeModal = (e: { preventDefault: () => void }) => {
-		setState({ ...state, modalOpened: false });
-		e.preventDefault();
-	};
-
-	const modal = (
-		<Modal
-			header='Детали ингредиента'
-			isOpen={state.modalOpened}
-			content={state.modalContent}
-			onClose={closeModal}
-		/>
-	);
 	const id = item._id;
 
 	const [{ opacity }, ref] = useDrag({
@@ -57,7 +36,6 @@ export const IngradientBrief = ({ item }: TIngradientData) => {
 				</div>
 				<p>{item.name}</p>
 			</Link>
-			{modal}
 		</div>
 	);
 };

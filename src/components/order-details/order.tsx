@@ -1,12 +1,17 @@
 import appStyles from '@components/app/app.module.css';
 import styles from './order-details.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import React from 'react';
 
-export const Order = () => {
+export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 	return (
 		<div className={styles.order_content}>
 			<p
-				className={`${appStyles.text_center} text text_type_digits-default mb-10`}>
+				className={
+					modal
+						? `${appStyles.text_center} text text_type_digits-default mt-5 mb-10`
+						: 'text text_type_digits-default mb-10'
+				}>
 				#034533
 			</p>
 			<p className='text text_type_main-medium mb-3'>
