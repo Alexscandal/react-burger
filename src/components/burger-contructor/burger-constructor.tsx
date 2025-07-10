@@ -13,24 +13,22 @@ import { OrderDetails } from '@components/order-details/order-details.tsx';
 import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.tsx';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-import { reduceCount, updateCount } from '@/services/actions/ingredients.js';
+import { reduceCount, updateCount } from '@/services/actions/ingredients.ts';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import { setProduct } from '@/services/actions/ingredient.js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import {
 	addItem,
 	removeItem,
 	updateCost,
 	updateItemPrice,
 	swapIndex,
-} from '@/services/actions/ingredients-constructor.js';
+} from '@/services/actions/ingredients-constructor.ts';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import { orderCheckout } from '@/services/actions/order.js';
 import { useNavigate } from 'react-router-dom';
-import { TIngradient } from '@utils/types.ts';
+import { AppDispatch, TIngradient } from '@utils/types.ts';
 
 export const BurgerConstructor = () => {
 	const { ingredients, product, products, cost, selected, orderNum, user } =
@@ -74,7 +72,8 @@ export const BurgerConstructor = () => {
 		modalContent: null,
 	});
 
-	const dispatch = useDispatch();
+	//const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const closeModal = (e: { preventDefault: () => void }) => {
 		setState({ ...state, modalOpened: false });
@@ -151,7 +150,7 @@ export const BurgerConstructor = () => {
 	}
 
 	const moveListItem = useCallback(
-		(dragIndex: string | number, hoverIndex: string | number) => {
+		(dragIndex: number, hoverIndex: number) => {
 			const dragItem = ingredients[dragIndex];
 			const hoverItem = ingredients[hoverIndex];
 			// Swap places of dragItem and hoverItem in the pets array

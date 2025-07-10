@@ -1,4 +1,5 @@
 import { getIngredients } from '@utils/api.ts';
+import { AppDispatch } from '@utils/types.ts';
 
 export const LOAD_DATA = 'LOAD_DATA',
 	FAILED_LOADING = 'FAILED_LOADING',
@@ -6,7 +7,7 @@ export const LOAD_DATA = 'LOAD_DATA',
 	REDUCE_COUNT = 'REDUCE_COUNT';
 
 export function loadData() {
-	return function (dispatch) {
+	return function (dispatch: AppDispatch) {
 		getIngredients()
 			.then((arr) => {
 				arr.map((item) => {
@@ -25,8 +26,8 @@ export function loadData() {
 	};
 }
 
-export function updateCount(id) {
-	return function (dispatch) {
+export function updateCount(id: string) {
+	return function (dispatch: AppDispatch) {
 		dispatch({
 			type: UPDATE_COUNT,
 			id: id,
@@ -34,8 +35,8 @@ export function updateCount(id) {
 	};
 }
 
-export function reduceCount(id) {
-	return function (dispatch) {
+export function reduceCount(id: string) {
+	return function (dispatch: AppDispatch) {
 		dispatch({
 			type: REDUCE_COUNT,
 			id: id,
