@@ -33,25 +33,18 @@ export const BurgerConstructor = () => {
 	const { ingredients, product, products, cost, selected, orderNum, user } =
 		useSelector((store) => ({
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			ingredients: store.cart.items,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			selected: store.cart.items,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			cost: store.cart.cost,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			product: store.ingredient.product,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			products: store.ingredients.items,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			orderNum: store.order.orderNum,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			user: store.auth.user,
 		}));
 
