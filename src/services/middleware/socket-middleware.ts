@@ -37,7 +37,7 @@ export const socketMiddleware = <R, S>(
 		const { dispatch } = store;
 		let isConnected = false;
 		let url = '';
-		let reconnectId = 0;
+		let reconnectId: number | ReturnType<typeof setTimeout> = 0;
 
 		return (next) => (action) => {
 			if (connect.match(action)) {
