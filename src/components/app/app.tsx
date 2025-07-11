@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '@services/store';
 import styles from '@components/app/app.module.css';
 import { AppHeader } from '@components/app-header/app-header.tsx';
 import { ProtectedRoute } from '@components/protected-route/protected-route.tsx';
@@ -18,7 +18,6 @@ import { IngredientsDetails } from '@pages/ingredients-details.tsx';
 import { OrdersPage } from '@pages/orders.tsx';
 import { FeedPage } from '@pages/feed.tsx';
 import { OrderPage } from '@pages/order.tsx';
-import { AppDispatch } from '@utils/types.ts';
 
 export const App = () => {
 	const location = useLocation();
@@ -27,7 +26,7 @@ export const App = () => {
 	const handleModalClose = () => {
 		navigate(-1);
 	};
-	const dispatch = useDispatch<AppDispatch>();
+	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(getUser());
 	}, [dispatch]);

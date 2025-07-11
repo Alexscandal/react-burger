@@ -1,7 +1,7 @@
 import { useContext, createContext } from 'react';
 import { initialRequest } from '@utils/api.ts';
-import { useDispatch } from 'react-redux';
-import { TRequestOptions, TExtUser, TUser, AppDispatch } from '@utils/types.ts';
+import { useDispatch } from '@services/store';
+import { TRequestOptions, TExtUser, TUser } from '@utils/types.ts';
 import { setUser, unsetUser } from '@/services/actions/auth.ts';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ export function useAuth() {
 }
 
 export function useProvideAuth() {
-	const dispatch = useDispatch<AppDispatch>();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	//const headers: object = { 'Content-Type': 'application/json' };

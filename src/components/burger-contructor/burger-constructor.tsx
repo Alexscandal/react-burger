@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useDispatch } from '@services/store';
 import { useDrop } from 'react-dnd';
 import styles from '@components/burger-contructor/burger-constructor.module.css';
 import appStyles from '@components/app/app.module.css';
@@ -22,7 +23,7 @@ import {
 } from '@/services/actions/ingredients-constructor.ts';
 import { orderCheckout } from '@/services/actions/order.ts';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch, TIngradient } from '@utils/types.ts';
+import { TIngradient } from '@utils/types.ts';
 
 export const BurgerConstructor = () => {
 	const { ingredients, product, products, cost, selected, orderNum, user } =
@@ -52,8 +53,7 @@ export const BurgerConstructor = () => {
 		modalContent: null,
 	});
 
-	//const dispatch = useDispatch();
-	const dispatch = useDispatch<AppDispatch>();
+	const dispatch = useDispatch();
 
 	const closeModal = (e: { preventDefault: () => void }) => {
 		setState({ ...state, modalOpened: false });
@@ -74,8 +74,8 @@ export const BurgerConstructor = () => {
 			navigate('/login');
 		}
 		if (product !== null) {
-			const sel = selected.concat([product]);
-			dispatch(orderCheckout(sel.map((item: { _id: never }) => item._id)));
+			const sel: string[] = selected.concat([product]);
+			dispatch(orderCheckout(sel.map((item: { _id: string }) => item._id)));
 			setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
 		}
 		e.preventDefault();
