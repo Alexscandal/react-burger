@@ -1,6 +1,6 @@
 import { useContext, createContext } from 'react';
 import { initialRequest } from '@utils/api.ts';
-import { useDispatch } from '@services/store';
+import { useDispatch } from '@/services/store.ts';
 import { TRequestOptions, TExtUser, TUser } from '@utils/types.ts';
 import { setUser, unsetUser } from '@/services/actions/auth.ts';
 import { useNavigate } from 'react-router-dom';

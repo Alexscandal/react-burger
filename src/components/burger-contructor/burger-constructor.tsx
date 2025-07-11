@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useDispatch } from '@services/store';
+import { useDispatch } from '@/services/store.ts';
 import { useDrop } from 'react-dnd';
 import styles from '@components/burger-contructor/burger-constructor.module.css';
 import appStyles from '@components/app/app.module.css';

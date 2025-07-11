@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from '@services/store';
+import { useDispatch } from '@/services/store.ts';
 import styles from '@components/app/app.module.css';
 import { AppHeader } from '@components/app-header/app-header.tsx';
 import { ProtectedRoute } from '@components/protected-route/protected-route.tsx';

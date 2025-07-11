@@ -3,7 +3,7 @@ import { combineSlices, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
 import { liveTableSlice } from './live-table/slice';
 //import thunk from 'redux-thunk';
 //import { rootReducer } from './reducers';
-import { socketMiddleware } from '@services/middleware/socket-middleware';
+import { socketMiddleware } from '@/services/middleware/socket-middleware.ts';
 import {
 	connect,
 	disconnect,
@@ -13,7 +13,7 @@ import {
 	onError,
 	onMessage,
 	onOpen,
-} from '@services/live-table/actions';
+} from '@/services/live-table/actions.ts';
 import {
 	useSelector as selectorHook,
 	useDispatch as dispatchHook,
