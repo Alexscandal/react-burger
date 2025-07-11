@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import { ingredientsReducer } from './ingredients.ts';
 import { constructorReducer } from './ingredients-constructor.ts';
-import { ingredientReducer } from './ingredient.js';
-import { orderReducer } from './order.js';
-import { authReducer } from './auth.js';
+import { ingredientReducer } from './ingredient.ts';
+import { orderReducer } from './order.ts';
+import { authReducer } from './auth.ts';
 
 export const rootReducer = combineReducers({
 	ingredients: ingredientsReducer,

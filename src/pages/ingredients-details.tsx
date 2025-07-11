@@ -1,14 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import { loadData } from '@/services/actions/ingredients.ts';
 import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.tsx';
-import { TIngradient } from '@utils/types.ts';
+import { AppDispatch, TIngradient } from '@utils/types.ts';
 
 export function IngredientsDetails() {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	useEffect(() => {
 		dispatch(loadData());
 	}, [dispatch]);

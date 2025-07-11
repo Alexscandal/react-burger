@@ -1,10 +1,14 @@
-import { SET_PRODUCT } from '@/services/actions/ingredient.js';
+import { SET_PRODUCT } from '@/services/actions/ingredient.ts';
+import { TIngradient } from '@utils/types.ts';
 
 const ingredientInitialState = {
 	product: null,
 };
 
-export const ingredientReducer = (state = ingredientInitialState, action) => {
+export const ingredientReducer = (
+	state = ingredientInitialState,
+	action: { type: string; id: string; items: TIngradient[] }
+) => {
 	switch (action.type) {
 		case SET_PRODUCT:
 			// eslint-disable-next-line no-case-declarations

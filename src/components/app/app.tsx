@@ -5,9 +5,7 @@ import styles from '@components/app/app.module.css';
 import { AppHeader } from '@components/app-header/app-header.tsx';
 import { ProtectedRoute } from '@components/protected-route/protected-route.tsx';
 import { ProvideAuth } from '@/services/auth';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { getUser } from '@/services/actions/auth.js';
+import { getUser } from '@/services/actions/auth.ts';
 import { Modal } from '@components/modal/modal/modal.tsx';
 import { LoginPage } from '@pages/login.tsx';
 import { HomePage } from '@pages/home.tsx';
@@ -20,6 +18,7 @@ import { IngredientsDetails } from '@pages/ingredients-details.tsx';
 import { OrdersPage } from '@pages/orders.tsx';
 import { FeedPage } from '@pages/feed.tsx';
 import { OrderPage } from '@pages/order.tsx';
+import { AppDispatch } from '@utils/types.ts';
 
 export const App = () => {
 	const location = useLocation();
@@ -28,7 +27,7 @@ export const App = () => {
 	const handleModalClose = () => {
 		navigate(-1);
 	};
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	useEffect(() => {
 		dispatch(getUser());
 	}, [dispatch]);

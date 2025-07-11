@@ -1,10 +1,8 @@
 import { useContext, createContext } from 'react';
 import { initialRequest } from '@utils/api.ts';
 import { useDispatch } from 'react-redux';
-import { TRequestOptions, TExtUser, TUser } from '@utils/types.ts';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { setUser, unsetUser } from '@/services/actions/auth.js';
+import { TRequestOptions, TExtUser, TUser, AppDispatch } from '@utils/types.ts';
+import { setUser, unsetUser } from '@/services/actions/auth.ts';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext<ReturnType<typeof useProvideAuth>>(
@@ -25,7 +23,7 @@ export function useAuth() {
 }
 
 export function useProvideAuth() {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 
 	//const headers: object = { 'Content-Type': 'application/json' };

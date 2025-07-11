@@ -15,6 +15,13 @@ import {
 	UPDATE_COUNT,
 	REDUCE_COUNT,
 } from '@/services/actions/ingredients.ts';
+import { SET_PRODUCT } from '@services/actions/ingredient.ts';
+import {
+	ORDER_CHECKOUT_FAILED,
+	ORDER_CHECKOUT_REQUEST,
+	ORDER_CHECKOUT_SUCCESS,
+} from '@services/actions/order.ts';
+import { SET_USER, UNSET_USER } from '@services/actions/auth.ts';
 
 export type TAddItem = {
 	readonly type: typeof ADD_ITEM;
@@ -65,7 +72,44 @@ export type TIngredients =
 	| TUpdateCount
 	| TReduceCount;
 
-type TApplicationActions = TIngredientsConstructorActions | TIngredients;
+export type TSetProduct = {
+	readonly type: typeof SET_PRODUCT;
+};
+
+export type TOrderChackoutRequest = {
+	readonly type: typeof ORDER_CHECKOUT_REQUEST;
+};
+
+export type TOrderChackoutSucccess = {
+	readonly type: typeof ORDER_CHECKOUT_SUCCESS;
+};
+
+export type TOrderChackoutFailed = {
+	readonly type: typeof ORDER_CHECKOUT_FAILED;
+};
+
+export type TOrderChackout =
+	| TOrderChackoutRequest
+	| TOrderChackoutSucccess
+	| TOrderChackoutFailed;
+
+export type TSetUser = {
+	readonly type: typeof SET_USER;
+};
+
+export type TUnsetUser = {
+	readonly type: typeof UNSET_USER;
+};
+
+export type TUserActions = TSetUser | TUnsetUser;
+
+type TApplicationActions =
+	| TIngredientsConstructorActions
+	| TIngredients
+	| TSetProduct
+	| TOrderChackout
+	| TUserActions;
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = ThunkDispatch<
 	RootState,
@@ -100,6 +144,7 @@ export type TUser = {
 	password?: string;
 	name: string;
 	_id?: string;
+	id?: string;
 };
 
 export type TExtUser = TUser & {
@@ -108,6 +153,9 @@ export type TExtUser = TUser & {
 	json: () => void;
 	accessToken: string;
 	refreshToken: string;
+	order: {
+		number: number;
+	};
 };
 
 export type TRequestOptions = {
@@ -115,5 +163,13 @@ export type TRequestOptions = {
 	requestOptions?: object;
 	target?: string;
 	headers: HeadersInit & { authorization?: string };
-	body: string;
+	body?: string;
+};
+
+export type TOrder = {
+	name: string;
+	order: {
+		number: number;
+	};
+	success: boolean;
 };

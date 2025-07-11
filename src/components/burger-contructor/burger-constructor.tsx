@@ -11,11 +11,8 @@ import {
 import { Modal } from '@components/modal/modal/modal.tsx';
 import { OrderDetails } from '@components/order-details/order-details.tsx';
 import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.tsx';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import { reduceCount, updateCount } from '@/services/actions/ingredients.ts';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { setProduct } from '@/services/actions/ingredient.js';
+import { setProduct } from '@/services/actions/ingredient.ts';
 import {
 	addItem,
 	removeItem,
@@ -23,28 +20,19 @@ import {
 	updateItemPrice,
 	swapIndex,
 } from '@/services/actions/ingredients-constructor.ts';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { orderCheckout } from '@/services/actions/order.js';
+import { orderCheckout } from '@/services/actions/order.ts';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch, TIngradient } from '@utils/types.ts';
 
 export const BurgerConstructor = () => {
 	const { ingredients, product, products, cost, selected, orderNum, user } =
 		useSelector((store) => ({
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			ingredients: store.cart.items,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			selected: store.cart.items,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			cost: store.cart.cost,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			product: store.ingredient.product,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			products: store.ingredients.items,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			orderNum: store.order.orderNum,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			user: store.auth.user,
 		}));
 

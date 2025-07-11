@@ -56,7 +56,7 @@ export const initialRequest = (
 	target: string
 ): Promise<TExtUser> => {
 	return fetchWithRefresh(API_URL + target, requestOptions)
-		.then((data) => {
+		.then((data: TExtUser | void) => {
 			if (data?.success) return data;
 			return Promise.reject(data);
 		})
