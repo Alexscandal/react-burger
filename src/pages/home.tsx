@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '@/services/store';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import appStyles from '@components/app/app.module.css';
 import styles from '@pages/home.module.css';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import { loadData } from '@/services/actions/ingredients.ts';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.tsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.tsx';

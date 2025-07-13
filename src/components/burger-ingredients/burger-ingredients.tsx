@@ -3,7 +3,7 @@ import appStyles from '@components/app/app.module.css';
 import styles from '@components/burger-ingredients/burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngradientBrief } from '@components/burger-ingredients/ingredient-brief/ingredient-brief.tsx';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@/services/store.ts';
 import { TIngradient } from '@utils/types.ts';
 
 type TIngradientData = {

@@ -1,5 +1,6 @@
 import { TIngradient, TRequestOptions, TExtUser } from '@utils/types.ts';
 const API_URL = 'https://norma.nomoreparties.space/api/';
+export const ORDERS_URL = 'wss://norma.nomoreparties.space/orders';
 
 const checkResponse = <T>(res: Response): Promise<T> => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));

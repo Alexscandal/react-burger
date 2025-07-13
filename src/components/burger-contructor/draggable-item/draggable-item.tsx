@@ -4,7 +4,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useRef } from 'react';
 import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@/services/store.ts';
 import { TIngradient } from '@utils/types.ts';
 
 type TDraggableItem = {

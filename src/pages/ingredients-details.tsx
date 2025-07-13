@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useDispatch } from '@/services/store.ts';
+import { useDispatch, useSelector } from '@/services/store.ts';
 import { useEffect } from 'react';
 import { loadData } from '@/services/actions/ingredients.ts';
 import { IngradientDatails } from '@components/ingradient-datails/ingradient-datails.tsx';

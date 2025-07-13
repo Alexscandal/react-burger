@@ -6,7 +6,7 @@ import {
 	Input,
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@/services/store.ts';
 import { useAuth } from '@/services/auth.tsx';
 import { ProfileMenu } from '@components/profile-menu/profile-menu.tsx';
 import { TUser } from '@utils/types.ts';

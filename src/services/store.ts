@@ -1,8 +1,5 @@
-import { /*applyMiddleware, createStore,*/ compose } from 'redux';
 import { combineSlices, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
-import { liveTableSlice } from './live-table/slice';
-//import thunk from 'redux-thunk';
-//import { rootReducer } from './reducers';
+import { liveTableSlice } from '@/services/live-orders-all/slice';
 import { socketMiddleware } from '@/services/middleware/socket-middleware.ts';
 import {
 	connect,
@@ -13,7 +10,7 @@ import {
 	onError,
 	onMessage,
 	onOpen,
-} from '@/services/live-table/actions.ts';
+} from '@/services/live-orders-all/actions.ts';
 import {
 	useSelector as selectorHook,
 	useDispatch as dispatchHook,
@@ -31,19 +28,6 @@ const liveTableMiddleware = socketMiddleware({
 	onMessage,
 });
 
-declare global {
-	interface Window {
-		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-	}
-}
-/*
-export const composeEnhancers =
-	window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-
-export const store = createStore(rootReducer, enhancer);
-*/
 export const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) =>

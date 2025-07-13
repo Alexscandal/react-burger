@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LiveTable, WebsocketStatus } from '@utils/live-table.ts';
-import { onClose, onConnecting, onError, onMessage, onOpen } from './actions';
+import { onError, onMessage } from './actions';
 import { liveTableUpdate } from './live-table-update';
 
 export type LiveTableStore = {
@@ -21,15 +21,6 @@ export const liveTableSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
-			.addCase(onConnecting, (state) => {
-				state.status = WebsocketStatus.CONNECTING;
-			})
-			.addCase(onOpen, (state) => {
-				state.status = WebsocketStatus.ONLINE;
-			})
-			.addCase(onClose, (state) => {
-				state.status = WebsocketStatus.OFFLINE;
-			})
 			.addCase(onError, (state, action) => {
 				state.error = action.payload;
 			})

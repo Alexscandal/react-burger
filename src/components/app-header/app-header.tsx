@@ -6,7 +6,8 @@ import {
 	Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
+import { useSelector } from '@/services/store';
 
 export const AppHeader = () => {
 	const { user } = useSelector((store) => ({

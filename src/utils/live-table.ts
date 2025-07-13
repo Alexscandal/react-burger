@@ -5,8 +5,11 @@ export enum WebsocketStatus {
 }
 
 export interface TableRow {
-	id: number;
-	text: string;
+	_id: string;
+	status: string;
+	number: number;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export type LiveTable = Array<TableRow>;
