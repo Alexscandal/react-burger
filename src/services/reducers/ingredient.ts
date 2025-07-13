@@ -3,6 +3,8 @@ import { TIngradient } from '@utils/types.ts';
 
 const ingredientInitialState = {
 	product: null,
+	items: [],
+	cost: 0,
 };
 
 export const ingredientReducer = (

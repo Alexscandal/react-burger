@@ -22,30 +22,11 @@ import {
 } from '@/services/actions/ingredients-constructor.ts';
 import { orderCheckout } from '@/services/actions/order.ts';
 import { useNavigate } from 'react-router-dom';
-import { TIngradient, TUser } from '@utils/types.ts';
-
-type TStore = {
-	cart: {
-		items: TIngradient[];
-		cost: number;
-	};
-	ingredient: {
-		product: TIngradient;
-	};
-	ingredients: {
-		items: TIngradient[];
-	};
-	order: {
-		orderNum: number;
-	};
-	auth: {
-		user: TUser;
-	};
-};
+import { TIngradient } from '@utils/types.ts';
 
 export const BurgerConstructor = () => {
 	const { ingredients, product, products, cost, selected, orderNum, user } =
-		useSelector((store: TStore) => ({
+		useSelector((store) => ({
 			ingredients: store.cart.items,
 			selected: store.cart.items,
 			cost: store.cart.cost,
@@ -92,8 +73,9 @@ export const BurgerConstructor = () => {
 			navigate('/login');
 		}
 		if (product !== null) {
-			const sel: TIngradient[] = selected.concat([product]);
-			const ids = sel.map((item: { _id: string }) => item._id);
+			const sel = [...selected, product];
+			console.info(sel);
+			const ids = sel.map((item: TIngradient | undefined) => item?._id);
 			dispatch(orderCheckout(ids));
 			setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
 		}

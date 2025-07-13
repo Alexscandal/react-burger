@@ -1,4 +1,7 @@
-import { combineSlices, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
+import {
+	/*combineSlices,*/ configureStore,
+	ThunkDispatch,
+} from '@reduxjs/toolkit';
 import { liveTableSlice } from '@/services/live-orders-all/slice';
 import { socketMiddleware } from '@/services/middleware/socket-middleware.ts';
 import {
@@ -15,8 +18,21 @@ import {
 	useSelector as selectorHook,
 	useDispatch as dispatchHook,
 } from 'react-redux';
+import { combineReducers } from 'redux';
+import { authReducer } from '@/services/reducers/auth.ts';
+import { ingredientsReducer } from '@/services/reducers/ingredients.ts';
+import { ingredientReducer } from '@/services/reducers/ingredient.ts';
+import { orderReducer } from '@/services/reducers/order.ts';
 
-const rootReducer = combineSlices(liveTableSlice);
+//const rootReducer = combineSlices(liveTableSlice);
+const rootReducer = combineReducers({
+	[liveTableSlice.reducerPath]: liveTableSlice.reducer,
+	auth: authReducer,
+	cart: ingredientReducer,
+	ingredient: ingredientReducer,
+	ingredients: ingredientsReducer,
+	order: orderReducer,
+});
 
 const liveTableMiddleware = socketMiddleware({
 	connect: connect,
