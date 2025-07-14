@@ -10,6 +10,7 @@ export interface TableRow {
 	number: number;
 	createdAt: string;
 	updatedAt: string;
+	id: number;
 }
 
 export type LiveTable = Array<TableRow>;
