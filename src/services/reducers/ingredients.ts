@@ -18,6 +18,7 @@ export const ingredientsReducer = (
 	state = ingredientsInitialState,
 	action: { id: string; type: string; items: TIngradient[] }
 ) => {
+	const items: TIngradient[] = state.items;
 	switch (action.type) {
 		case LOAD_DATA:
 			return {
@@ -37,19 +38,21 @@ export const ingredientsReducer = (
 			const current: TIngradient | undefined = state.items.find(
 				(item: TIngradient) => item._id === action.id
 			);
-			console.info(current);
-			state.items.map((item: TIngradient) => {
+			items.map((item: TIngradient) => {
 				if (item.type === 'bun' && current!.type === 'bun') {
 					item.count = 0;
 				}
 				if (item._id === action.id) {
 					item.count++;
-					state.product = item;
+					return {
+						...state,
+						product: item,
+					};
 				}
 			});
 			return state;
 		case REDUCE_COUNT:
-			state.items.map((item: TIngradient) => {
+			items.map((item: TIngradient) => {
 				if (item._id === action.id) {
 					item.count--;
 				}
