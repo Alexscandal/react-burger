@@ -150,7 +150,7 @@ export const BurgerConstructor = () => {
 						<div>Перетащите сюда булку</div>
 					</div>
 				)}
-				{product !== null && (
+				{product !== null && product !== undefined && (
 					<ConstructorElement
 						type='top'
 						isLocked={true}
@@ -189,7 +189,7 @@ export const BurgerConstructor = () => {
 						<div>Перетащите сюда булку</div>
 					</div>
 				)}
-				{product !== null && (
+				{product !== null && product !== undefined && (
 					<ConstructorElement
 						type='bottom'
 						isLocked={true}
