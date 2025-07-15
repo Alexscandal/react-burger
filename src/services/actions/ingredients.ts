@@ -26,20 +26,12 @@ export function loadData() {
 	};
 }
 
-export function updateCount(id: string) {
-	return function (dispatch: AppDispatch) {
-		dispatch({
-			type: UPDATE_COUNT,
-			id: id,
-		});
-	};
-}
+export const updateCount = (id: string): { type: string; id: string } => ({
+	type: UPDATE_COUNT,
+	id: id,
+});
 
-export function reduceCount(id: string) {
-	return function (dispatch: AppDispatch) {
-		dispatch({
-			type: REDUCE_COUNT,
-			id: id,
-		});
-	};
-}
+export const reduceCount = (id: string): { type: string; id: string } => ({
+	type: REDUCE_COUNT,
+	id: id,
+});

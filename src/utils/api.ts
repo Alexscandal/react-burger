@@ -70,7 +70,6 @@ export const fetchWithRefresh = async (
 ): Promise<TExtUser | void> => {
 	try {
 		const res = await fetch(url, options);
-		console.info('fetchWithRefresh', res);
 		return await checkResponse<TExtUser>(res);
 	} catch (err) {
 		if (err instanceof Error) {

@@ -25,6 +25,7 @@ export const liveTableSlice = createSlice({
 				state.error = action.payload;
 			})
 			.addCase(onMessage, (state, action) => {
+				console.info('actions', action);
 				state.table = liveTableUpdate(state.table, action.payload);
 			});
 	},

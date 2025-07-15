@@ -136,7 +136,7 @@ export type TIngradient = {
 	image_mobile: string;
 	image_large: string;
 	count: number;
-	uid: number;
+	uid: string;
 };
 
 export type TUser = {

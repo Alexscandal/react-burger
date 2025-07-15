@@ -1,5 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit';
-import { TIngradient, AppDispatch, AppThunkAction } from '@utils/types.ts';
+import { TIngradient } from '@utils/types.ts';
 
 export const ADD_ITEM = 'ADD_ITEM',
 	REMOVE_ITEM = 'REMOVE_ITEM',
@@ -7,56 +7,54 @@ export const ADD_ITEM = 'ADD_ITEM',
 	UPDATE_ITEM_PRICE = 'UPDATE_ITEM_PRICE',
 	SWAP_INDEX = 'SWAP_INDEX';
 
-export function addItem(id: string, product: TIngradient): AppThunkAction {
-	return function (dispatch: AppDispatch) {
-		dispatch({
-			type: ADD_ITEM,
-			product: { ...product, uid: nanoid() },
-			id: id,
-		});
-	};
-}
+export const addItem = (
+	id: string,
+	product: TIngradient
+): {
+	type: string;
+	product: TIngradient;
+	id: string;
+} => ({
+	type: ADD_ITEM,
+	product: { ...product, uid: nanoid() },
+	id: id,
+});
 
-export function removeItem(id: string, index: number): AppThunkAction {
-	return function (dispatch: AppDispatch) {
-		dispatch({
-			type: REMOVE_ITEM,
-			id: id,
-			index: index,
-		});
-	};
-}
+export const removeItem = (
+	id: string,
+	index: number
+): { type: string; id: string; index: number } => ({
+	type: REMOVE_ITEM,
+	id: id,
+	index: index,
+});
 
-export function updateCost(): AppThunkAction {
-	return function (dispatch: AppDispatch) {
-		dispatch({
-			type: UPDATE_COST,
-		});
-	};
-}
+export const updateCost = (): { type: string } => ({
+	type: UPDATE_COST,
+});
 
-export function updateItemPrice(price: number): AppThunkAction {
-	return function (dispatch: AppDispatch) {
-		dispatch({
-			type: UPDATE_ITEM_PRICE,
-			product_price: price,
-		});
-	};
-}
+export const updateItemPrice = (
+	price: number
+): { type: string; product_price: number } => ({
+	type: UPDATE_ITEM_PRICE,
+	product_price: price,
+});
 
-export function swapIndex(
+export const swapIndex = (
 	dragIndex: number,
 	hoverIndex: number,
 	hoverItem: TIngradient,
 	dragItem: TIngradient
-): AppThunkAction {
-	return function (dispatch: AppDispatch) {
-		dispatch({
-			type: SWAP_INDEX,
-			dragIndex: dragIndex,
-			hoverIndex: hoverIndex,
-			hoverItem: hoverItem,
-			dragItem: dragItem,
-		});
-	};
-}
+): {
+	type: string;
+	dragIndex: number;
+	hoverIndex: number;
+	hoverItem: TIngradient;
+	dragItem: TIngradient;
+} => ({
+	type: SWAP_INDEX,
+	dragIndex: dragIndex,
+	hoverIndex: hoverIndex,
+	hoverItem: hoverItem,
+	dragItem: dragItem,
+});
