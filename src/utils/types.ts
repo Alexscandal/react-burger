@@ -139,6 +139,10 @@ export type TIngradient = {
 	uid: string;
 };
 
+export type TIngradients = {
+	ingredients: TIngradient[];
+};
+
 export type TUser = {
 	email: string;
 	password?: string;

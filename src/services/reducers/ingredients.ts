@@ -43,7 +43,7 @@ export const ingredientsReducer = (
 					item.count = 0;
 				}
 				if (item._id === action.id) {
-					item.count++;
+					//item.count++;
 					return {
 						...state,
 						product: item,

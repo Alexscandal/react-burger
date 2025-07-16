@@ -35,7 +35,18 @@ export const BurgerConstructor = () => {
 			orderNum: store.order.orderNum,
 			user: store.auth.user,
 		}));
+	/*
+	const oCounts: null | object = products.reduce(
+		(o, item) => ({ ...o, [item._id]: 0 }),
+		{}
+	);
 
+	const [indCounts, setCount] = useState(oCounts);
+
+	const Inc = () => {
+		setCount({ ...indCounts, ['643d69a5c3f7b9001cfa093e']: 3 });
+	};
+*/
 	type TItem = {
 		id: string;
 	};

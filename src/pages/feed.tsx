@@ -1,12 +1,15 @@
 import appStyles from '@components/app/app.module.css';
 import styles from '@pages/feed.module.css';
 import { OrderBrief } from '@components/order-details/order-brief.tsx';
+/*
 import { connect, disconnect } from '@/services/live-orders-all/actions';
 import { useDispatch, useSelector } from '@/services/store';
 import { getStatus, getTable } from '@/services/live-orders-all/slice';
 import { useEffect } from 'react';
+*/
 
 export function FeedPage() {
+	/*
 	const table = useSelector(getTable);
 	const status = useSelector(getStatus);
 	console.info(status);
@@ -21,6 +24,7 @@ export function FeedPage() {
 			wsDisconnect();
 		};
 	});
+	*/
 	return (
 		<main className={`${styles.main} pt-5 pb-5`}>
 			<h1>Лента заказов</h1>

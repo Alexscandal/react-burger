@@ -4,11 +4,7 @@ import styles from '@components/burger-ingredients/burger-ingredients.module.css
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngradientBrief } from '@components/burger-ingredients/ingredient-brief/ingredient-brief.tsx';
 import { useSelector } from '@/services/store.ts';
-import { TIngradient } from '@utils/types.ts';
-
-type TIngradientData = {
-	ingredients: TIngradient[];
-};
+import { TIngradients } from '@utils/types.ts';
 
 export const BurgerIngredients = () => {
 	const [state, setState] = useState({
@@ -17,9 +13,7 @@ export const BurgerIngredients = () => {
 		activeTab: 'bun',
 	});
 
-	const { ingredients }: TIngradientData = useSelector((store) => ({
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
+	const { ingredients }: TIngradients = useSelector((store) => ({
 		ingredients: store.ingredients.items,
 	}));
 
