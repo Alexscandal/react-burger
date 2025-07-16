@@ -1,13 +1,13 @@
 import {
 	/*combineSlices,*/ configureStore,
-	//ThunkDispatch,
+	ThunkDispatch,
 } from '@reduxjs/toolkit';
-//import { liveTableSlice } from '@/services/live-orders-all/slice';
+import { liveTableSlice } from '@/services/live-orders-all/slice';
 import { socketMiddleware } from '@/services/middleware/socket-middleware.ts';
 import {
 	connect,
 	disconnect,
-	//LiveTableActionTypes,
+	LiveTableActionTypes,
 	onClose,
 	onConnecting,
 	onError,
@@ -26,7 +26,7 @@ import { orderReducer } from '@/services/reducers/order.ts';
 
 //const rootReducer = combineSlices(liveTableSlice);
 const rootReducer = combineReducers({
-	//[liveTableSlice.reducerPath]: liveTableSlice.reducer,
+	[liveTableSlice.reducerPath]: liveTableSlice.reducer,
 	auth: authReducer,
 	cart: ingredientReducer,
 	ingredient: ingredientReducer,
@@ -50,13 +50,13 @@ export const store = configureStore({
 		getDefaultMiddleware().concat(liveTableMiddleware),
 });
 export type RootState = ReturnType<typeof rootReducer>;
-/*
+
 export type AppDispatch = ThunkDispatch<
 	RootState,
 	unknown,
 	LiveTableActionTypes
 >;
-*/
-export type AppDispatch = typeof store.dispatch;
+
+//export type AppDispatch = typeof store.dispatch;
 export const useDispatch = dispatchHook.withTypes<AppDispatch>();
 export const useSelector = selectorHook.withTypes<RootState>();
