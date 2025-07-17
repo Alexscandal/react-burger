@@ -11,7 +11,7 @@ import {
 import { Modal } from '@components/modal/modal/modal.tsx';
 import { OrderDetails } from '@components/order-details/order-details.tsx';
 import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.tsx';
-import { reduceCount, updateCount } from '@/services/actions/ingredients.ts';
+//import { reduceCount, updateCount } from '@/services/actions/ingredients.ts';
 import { setProduct } from '@/services/actions/ingredient.ts';
 import {
 	addItem,
@@ -93,7 +93,7 @@ export const BurgerConstructor = () => {
 	};
 
 	const onDropHandler = (itemId: TItem): void => {
-		dispatch(updateCount(itemId.id));
+		//dispatch(updateCount(itemId.id));
 		const found = products.find((item: TIngradient) => item._id === itemId.id);
 		if (found !== undefined && found.type === 'bun') {
 			dispatch(setProduct(itemId.id, products));
@@ -135,7 +135,7 @@ export const BurgerConstructor = () => {
 	});
 
 	function removeIngredient(id: string, index: number) {
-		dispatch(reduceCount(id));
+		//dispatch(reduceCount(id));
 		dispatch(removeItem(id, index));
 		dispatch(updateCost());
 	}

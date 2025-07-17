@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import appStyles from '@components/app/app.module.css';
 import styles from '@components/burger-ingredients/burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngradientBrief } from '@components/burger-ingredients/ingredient-brief/ingredient-brief.tsx';
 import { useSelector } from '@/services/store.ts';
-import { TIngradients } from '@utils/types.ts';
+import { TIngradient } from '@utils/types.ts';
 
 export const BurgerIngredients = () => {
 	const [state, setState] = useState({
@@ -13,9 +13,31 @@ export const BurgerIngredients = () => {
 		activeTab: 'bun',
 	});
 
-	const { ingredients }: TIngradients = useSelector((store) => ({
+	const { ingredients, product, selected } = useSelector((store) => ({
 		ingredients: store.ingredients.items,
+		product: store.ingredient.product,
+		selected: store.cart.items,
 	}));
+
+	const oCounts: null | object = ingredients.reduce(
+		(o, item) => ({ ...o, [item._id]: 0 }),
+		{}
+	);
+
+	const [indCounts, setCount] = useState(oCounts);
+
+	useMemo(() => {
+		setCount({ ...indCounts, oCounts });
+		if (product?._id !== null && product?._id !== undefined) {
+			setCount({ ...indCounts, [product._id]: 1 });
+		}
+		Object.entries(selected).forEach(([, value]: [string, TIngradient]) => {
+			const id = value._id;
+			const col = indCounts[id] + 1;
+			console.log(`entries ${id}: ${col}`);
+			setCount({ ...indCounts, [id]: col });
+		});
+	}, [product, selected]);
 
 	const categories = [
 		{
@@ -84,7 +106,7 @@ export const BurgerIngredients = () => {
 									<li
 										key={item._id}
 										className={`${appStyles.positionRelative} pl-2 pr-2 mt-4 mb-4`}>
-										<IngradientBrief item={item} />
+										<IngradientBrief item={item} counts={indCounts} />
 									</li>
 								))}
 						</ul>
