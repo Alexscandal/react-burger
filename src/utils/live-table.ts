@@ -1,3 +1,5 @@
+import { TIngradient } from '@utils/types.ts';
+
 export enum WebsocketStatus {
 	CONNECTING = 'CONNECTING...',
 	ONLINE = 'ONLINE',
@@ -6,11 +8,13 @@ export enum WebsocketStatus {
 
 export interface TableRow {
 	_id: string;
+	name: string;
 	status: string;
 	number: number;
 	createdAt: string;
 	updatedAt: string;
-	id: number;
+	ingredients: TIngradient[];
+	//id: number;
 }
 
 export type LiveTable = Array<TableRow>;
