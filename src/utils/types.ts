@@ -9,12 +9,7 @@ import {
 	UPDATE_ITEM_PRICE,
 } from '@services/actions/ingredients-constructor.ts';
 
-import {
-	LOAD_DATA,
-	FAILED_LOADING,
-	UPDATE_COUNT,
-	REDUCE_COUNT,
-} from '@/services/actions/ingredients.ts';
+import { LOAD_DATA, FAILED_LOADING } from '@/services/actions/ingredients.ts';
 import { SET_PRODUCT } from '@services/actions/ingredient.ts';
 import {
 	ORDER_CHECKOUT_FAILED,
@@ -58,19 +53,7 @@ export type TFailedLoading = {
 	readonly type: typeof FAILED_LOADING;
 };
 
-export type TUpdateCount = {
-	readonly type: typeof UPDATE_COUNT;
-};
-
-export type TReduceCount = {
-	readonly type: typeof REDUCE_COUNT;
-};
-
-export type TIngredients =
-	| TLoadData
-	| TFailedLoading
-	| TUpdateCount
-	| TReduceCount;
+export type TIngredients = TLoadData | TFailedLoading;
 
 export type TSetProduct = {
 	readonly type: typeof SET_PRODUCT;

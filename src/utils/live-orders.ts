@@ -6,7 +6,7 @@ export enum WebsocketStatus {
 	OFFLINE = 'OFFLINE',
 }
 
-export interface TableRow {
+export interface Order {
 	_id: string;
 	name: string;
 	status: string;
@@ -14,12 +14,12 @@ export interface TableRow {
 	createdAt: string;
 	updatedAt: string;
 	ingredients: TIngradient[];
-	//id: number;
+	id: number;
 }
 
-export type LiveTable = Array<TableRow>;
+export type LiveOrders = Array<Order>;
 
-export enum LiveTableActionType {
+export enum LiveOrdersActionType {
 	DATA = 'data',
 	INSERT = 'insert',
 	DELETE = 'delete',
@@ -28,33 +28,33 @@ export enum LiveTableActionType {
 }
 
 export type Data = {
-	type: LiveTableActionType.DATA;
-	data: LiveTable;
+	type: LiveOrdersActionType.DATA;
+	data: LiveOrders;
 };
 
 export type Insert = {
-	type: LiveTableActionType.INSERT;
+	type: LiveOrdersActionType.INSERT;
 	data: {
-		rows: Array<TableRow>;
+		rows: Array<Order>;
 		pos: number;
 	};
 };
 
 export type Update = {
-	type: LiveTableActionType.UPDATE;
-	data: LiveTable;
+	type: LiveOrdersActionType.UPDATE;
+	data: LiveOrders;
 };
 
 export type Delete = {
-	type: LiveTableActionType.DELETE;
+	type: LiveOrdersActionType.DELETE;
 	data: Array<number>;
 };
 
 export type Move = {
-	type: LiveTableActionType.MOVE;
+	type: LiveOrdersActionType.MOVE;
 	data: Array<{ from: number; to: number }>;
 };
 
-export type LiveTableAction = Insert | Data | Delete | Update | Move;
+export type LiveOrdersAction = Insert | Data | Delete | Update | Move;
 
-export type LiveTableActions = Array<LiveTableAction>;
+export type LiveOrdersActions = Array<LiveOrdersAction>;

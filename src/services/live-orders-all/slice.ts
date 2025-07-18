@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { LiveTable, WebsocketStatus } from '@utils/live-table.ts';
+import { LiveOrders, WebsocketStatus } from '@utils/live-orders.ts';
 import { onError, onMessage } from './actions';
 import { liveTableUpdate } from './live-table-update';
 
 export type LiveTableStore = {
 	status: WebsocketStatus;
-	table: LiveTable;
+	table: LiveOrders;
 	error: string | null;
 };
 

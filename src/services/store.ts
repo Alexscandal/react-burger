@@ -7,7 +7,7 @@ import { socketMiddleware } from '@/services/middleware/socket-middleware.ts';
 import {
 	connect,
 	disconnect,
-	LiveTableActionTypes,
+	LiveOrdersActionTypes,
 	onClose,
 	onConnecting,
 	onError,
@@ -55,7 +55,7 @@ export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = ThunkDispatch<
 	RootState,
 	unknown,
-	LiveTableActionTypes
+	LiveOrdersActionTypes
 >;
 
 //export type AppDispatch = typeof store.dispatch;

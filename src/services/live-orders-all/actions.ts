@@ -1,22 +1,23 @@
 import { createAction } from '@reduxjs/toolkit';
-import { LiveTableActions } from '@utils/live-table.ts';
+import { LiveOrdersActions } from '@utils/live-orders.ts';
 
-export const connect = createAction<string, 'liveTable/connect'>(
-	'liveTable/connect'
+export const connect = createAction<string, 'liveOrders/connect'>(
+	'liveOrders/connect'
 );
-export const disconnect = createAction('liveTable/disconnect');
+export const disconnect = createAction('liveOrders/disconnect');
 
-export const onConnecting = createAction('liveTable/onConnecting');
-export const onOpen = createAction('liveTable/onOpen');
-export const onClose = createAction('liveTable/onClose');
-export const onError = createAction<string, 'liveTable/onError'>(
-	'liveTable/onError'
+export const onConnecting = createAction('liveOrders/onConnecting');
+export const onOpen = createAction('liveOrders/onOpen');
+export const onClose = createAction('liveOrders/onClose');
+export const onError = createAction<string, 'liveOrders/onError'>(
+	'liveOrders/onError'
 );
-export const onMessage = createAction<LiveTableActions, 'liveTable/onMessage'>(
-	'liveTable/onMessage'
-);
+export const onMessage = createAction<
+	LiveOrdersActions,
+	'liveOrders/onMessage'
+>('liveOrders/onMessage');
 
-export type LiveTableActionTypes =
+export type LiveOrdersActionTypes =
 	| ReturnType<typeof connect>
 	| ReturnType<typeof disconnect>
 	| ReturnType<typeof onConnecting>

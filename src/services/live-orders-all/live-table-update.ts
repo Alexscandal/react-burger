@@ -1,17 +1,17 @@
 import {
-	LiveTable,
-	LiveTableActionType,
-	LiveTableActions,
+	LiveOrders,
+	LiveOrdersActionType,
+	LiveOrdersActions,
 	Insert as LiveTableInsertAction,
 	Delete as LiveTableDeleteAction,
 	Update as LiveTableUpdateAction,
 	Move as LiveTableMoveAction,
-} from '@utils/live-table';
+} from '@utils/live-orders.ts';
 
 const insertData = (
-	table: LiveTable,
+	table: LiveOrders,
 	action: LiveTableInsertAction
-): LiveTable => {
+): LiveOrders => {
 	return [
 		...table.slice(0, action.data.pos),
 		...action.data.rows,
@@ -20,16 +20,16 @@ const insertData = (
 };
 
 const deleteData = (
-	table: LiveTable,
+	table: LiveOrders,
 	action: LiveTableDeleteAction
-): LiveTable => {
+): LiveOrders => {
 	return table.filter(({ id }) => !action.data.includes(id));
 };
 
 const updateData = (
-	table: LiveTable,
+	table: LiveOrders,
 	action: LiveTableUpdateAction
-): LiveTable => {
+): LiveOrders => {
 	return table.map((row) => {
 		const index = action.data.findIndex(
 			(updatedRow) => updatedRow.id === row.id
@@ -42,9 +42,9 @@ const updateData = (
 };
 
 const moveData = (
-	prevTable: LiveTable,
+	prevTable: LiveOrders,
 	action: LiveTableMoveAction
-): LiveTable => {
+): LiveOrders => {
 	const table = [...prevTable];
 	action.data.forEach((move) => {
 		table.splice(move.to, 0, table.splice(move.from, 1)[0]);
@@ -53,25 +53,25 @@ const moveData = (
 };
 
 export const liveTableUpdate = (
-	prevTable: LiveTable,
-	actions: LiveTableActions
-): LiveTable => {
+	prevTable: LiveOrders,
+	actions: LiveOrdersActions
+): LiveOrders => {
 	let table = prevTable;
 	actions.forEach((action) => {
 		switch (action.type) {
-			case LiveTableActionType.DATA:
+			case LiveOrdersActionType.DATA:
 				table = action.data;
 				break;
-			case LiveTableActionType.INSERT:
+			case LiveOrdersActionType.INSERT:
 				table = insertData(table, action);
 				break;
-			case LiveTableActionType.DELETE:
+			case LiveOrdersActionType.DELETE:
 				table = deleteData(table, action);
 				break;
-			case LiveTableActionType.UPDATE:
+			case LiveOrdersActionType.UPDATE:
 				table = updateData(table, action);
 				break;
-			case LiveTableActionType.MOVE:
+			case LiveOrdersActionType.MOVE:
 				table = moveData(table, action);
 				break;
 		}
