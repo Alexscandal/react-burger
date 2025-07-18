@@ -28,6 +28,7 @@ export const constructorReducer = (
 	state = constructorInitialState,
 	action: TAction
 ) => {
+	//alert('constructorReducer ' + action.type);
 	switch (action.type) {
 		case ADD_ITEM: // добавление в инградиенты
 			return {

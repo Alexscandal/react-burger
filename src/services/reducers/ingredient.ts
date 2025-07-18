@@ -11,6 +11,7 @@ export const ingredientReducer = (
 	state = ingredientInitialState,
 	action: { type: string; id: string; items: TIngradient[] }
 ) => {
+	//alert('ingredientReducer ' + action.type);
 	switch (action.type) {
 		case SET_PRODUCT:
 			// eslint-disable-next-line no-case-declarations

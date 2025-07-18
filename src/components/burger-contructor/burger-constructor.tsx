@@ -11,7 +11,6 @@ import {
 import { Modal } from '@components/modal/modal/modal.tsx';
 import { OrderDetails } from '@components/order-details/order-details.tsx';
 import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.tsx';
-//import { reduceCount, updateCount } from '@/services/actions/ingredients.ts';
 import { setProduct } from '@/services/actions/ingredient.ts';
 import {
 	addItem,
@@ -35,18 +34,7 @@ export const BurgerConstructor = () => {
 			orderNum: store.order.orderNum,
 			user: store.auth.user,
 		}));
-	/*
-	const oCounts: null | object = products.reduce(
-		(o, item) => ({ ...o, [item._id]: 0 }),
-		{}
-	);
 
-	const [indCounts, setCount] = useState(oCounts);
-
-	const Inc = () => {
-		setCount({ ...indCounts, ['643d69a5c3f7b9001cfa093e']: 3 });
-	};
-*/
 	type TItem = {
 		id: string;
 	};
@@ -93,7 +81,6 @@ export const BurgerConstructor = () => {
 	};
 
 	const onDropHandler = (itemId: TItem): void => {
-		//dispatch(updateCount(itemId.id));
 		const found = products.find((item: TIngradient) => item._id === itemId.id);
 		if (found !== undefined && found.type === 'bun') {
 			dispatch(setProduct(itemId.id, products));

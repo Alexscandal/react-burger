@@ -22,13 +22,14 @@ import { combineReducers } from 'redux';
 import { authReducer } from '@/services/reducers/auth.ts';
 import { ingredientsReducer } from '@/services/reducers/ingredients.ts';
 import { ingredientReducer } from '@/services/reducers/ingredient.ts';
+import { constructorReducer } from '@/services/reducers/ingredients-constructor.ts';
 import { orderReducer } from '@/services/reducers/order.ts';
 
 //const rootReducer = combineSlices(liveTableSlice);
 const rootReducer = combineReducers({
 	[liveTableSlice.reducerPath]: liveTableSlice.reducer,
 	auth: authReducer,
-	cart: ingredientReducer,
+	cart: constructorReducer,
 	ingredient: ingredientReducer,
 	ingredients: ingredientsReducer,
 	order: orderReducer,

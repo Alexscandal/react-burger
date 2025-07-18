@@ -2,9 +2,7 @@ import { getIngredients } from '@utils/api.ts';
 import { AppDispatch } from '@utils/types.ts';
 
 export const LOAD_DATA = 'LOAD_DATA',
-	FAILED_LOADING = 'FAILED_LOADING',
-	UPDATE_COUNT = 'UPDATE_COUNT',
-	REDUCE_COUNT = 'REDUCE_COUNT';
+	FAILED_LOADING = 'FAILED_LOADING';
 
 export function loadData() {
 	return function (dispatch: AppDispatch) {
@@ -25,13 +23,3 @@ export function loadData() {
 			);
 	};
 }
-
-export const updateCount = (id: string): { type: string; id: string } => ({
-	type: UPDATE_COUNT,
-	id: id,
-});
-
-export const reduceCount = (id: string): { type: string; id: string } => ({
-	type: REDUCE_COUNT,
-	id: id,
-});

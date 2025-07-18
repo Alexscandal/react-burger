@@ -6,7 +6,7 @@ export const ORDER_CHECKOUT_SUCCESS = 'ORDER_CHECKOUT_SUCCESS';
 export const ORDER_CHECKOUT_FAILED = 'ORDER_CHECKOUT_FAILED';
 
 export function orderCheckout(ids: (string | undefined)[]) {
-	if (ids.length > 0) {
+	if (ids.length === 0) {
 		return () => void (async (): Promise<void> => {});
 	}
 	return function (dispatch: AppDispatch) {

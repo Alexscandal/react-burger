@@ -19,25 +19,28 @@ export const BurgerIngredients = () => {
 		selected: store.cart.items,
 	}));
 
-	const oCounts: null | object = ingredients.reduce(
-		(o, item) => ({ ...o, [item._id]: 0 }),
-		{}
-	);
+	type TCounts = {
+		[key: string]: number;
+	};
 
-	const [indCounts, setCount] = useState(oCounts);
+	const oCounts: null | TCounts = {};
+	ingredients.forEach(function (item) {
+		//console.info(`id ${item._id}`);
+		oCounts[`${item._id}`] = 0;
+	});
+	let indCounts = oCounts;
 
 	useMemo(() => {
-		setCount({ ...indCounts, oCounts });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		indCounts = oCounts;
+		//alert(JSON.stringify(indCounts));
 		if (product?._id !== null && product?._id !== undefined) {
-			setCount({ ...indCounts, [product._id]: 1 });
+			indCounts[product._id] = 1;
 		}
-		Object.entries(selected).forEach(([, value]: [string, TIngradient]) => {
-			const id = value._id;
-			const col = indCounts[id] + 1;
-			console.log(`entries ${id}: ${col}`);
-			setCount({ ...indCounts, [id]: col });
+		Object.entries(selected).forEach(([, item]: [string, TIngradient]) => {
+			indCounts[`${item._id}`] = indCounts[`${item._id}`] + 1;
 		});
-	}, [product, selected]);
+	}, [product, selected, oCounts]);
 
 	const categories = [
 		{
