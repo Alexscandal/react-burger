@@ -84,6 +84,7 @@ export const socketMiddleware = <R, S>(
 						// 	dispatch(disconnect());
 						// 	return;
 						// }
+						//console.info('parsedData', parsedData);
 
 						dispatch(onMessage(parsedData));
 					} catch (error) {

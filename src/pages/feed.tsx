@@ -3,14 +3,12 @@ import styles from '@pages/feed.module.css';
 import { OrderBrief } from '@components/order-details/order-brief.tsx';
 import { connect, disconnect } from '@/services/live-orders-all/actions';
 import { useDispatch, useSelector } from '@/services/store';
-import { getStatus, getTable } from '@/services/live-orders-all/slice';
+import { getOrders } from '@/services/live-orders-all/slice';
 import { useEffect } from 'react';
 
 export function FeedPage() {
-	const table = useSelector(getTable);
-	const status = useSelector(getStatus);
-	console.info(status);
-	console.info('table', table);
+	const orders = useSelector(getOrders);
+	console.info('orders', orders);
 	const dispatch = useDispatch();
 	const wsConnect = () =>
 		dispatch(connect('wss://norma.nomoreparties.space/orders/all'));

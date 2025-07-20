@@ -2,16 +2,13 @@ import {
 	LiveOrders,
 	LiveOrdersActionType,
 	LiveOrdersActions,
-	Insert as LiveTableInsertAction,
-	Delete as LiveTableDeleteAction,
-	Update as LiveTableUpdateAction,
-	Move as LiveTableMoveAction,
+	Insert,
+	Delete,
+	Update,
+	Move,
 } from '@utils/live-orders.ts';
 
-const insertData = (
-	table: LiveOrders,
-	action: LiveTableInsertAction
-): LiveOrders => {
+const insertData = (table: LiveOrders, action: Insert): LiveOrders => {
 	return [
 		...table.slice(0, action.data.pos),
 		...action.data.rows,
@@ -19,40 +16,31 @@ const insertData = (
 	];
 };
 
-const deleteData = (
-	table: LiveOrders,
-	action: LiveTableDeleteAction
-): LiveOrders => {
+const deleteData = (table: LiveOrders, action: Delete): LiveOrders => {
 	return table.filter(({ id }) => !action.data.includes(id));
 };
 
-const updateData = (
-	table: LiveOrders,
-	action: LiveTableUpdateAction
-): LiveOrders => {
-	return table.map((row) => {
+const updateData = (items: LiveOrders, action: Update): LiveOrders => {
+	return items.map((item) => {
 		const index = action.data.findIndex(
-			(updatedRow) => updatedRow.id === row.id
+			(updatedItem) => updatedItem.id === item.id
 		);
 		if (index !== -1) {
 			return action.data[index];
 		}
-		return row;
+		return item;
 	});
 };
 
-const moveData = (
-	prevTable: LiveOrders,
-	action: LiveTableMoveAction
-): LiveOrders => {
-	const table = [...prevTable];
+const moveData = (prevTable: LiveOrders, action: Move): LiveOrders => {
+	const items = [...prevTable];
 	action.data.forEach((move) => {
-		table.splice(move.to, 0, table.splice(move.from, 1)[0]);
+		items.splice(move.to, 0, items.splice(move.from, 1)[0]);
 	});
-	return table;
+	return items;
 };
 
-export const liveTableUpdate = (
+export const liveOrdersUpdate = (
 	prevTable: LiveOrders,
 	actions: LiveOrdersActions
 ): LiveOrders => {
@@ -78,4 +66,5 @@ export const liveTableUpdate = (
 	});
 
 	return table;
+	// return actions; real data
 };

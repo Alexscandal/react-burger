@@ -2,17 +2,14 @@ import {
 	/*combineSlices,*/ configureStore,
 	ThunkDispatch,
 } from '@reduxjs/toolkit';
-import { liveTableSlice } from '@/services/live-orders-all/slice';
+import { liveOrdersSlice } from '@/services/live-orders-all/slice';
 import { socketMiddleware } from '@/services/middleware/socket-middleware.ts';
 import {
 	connect,
 	disconnect,
 	LiveOrdersActionTypes,
-	onClose,
-	onConnecting,
 	onError,
 	onMessage,
-	onOpen,
 } from '@/services/live-orders-all/actions.ts';
 import {
 	useSelector as selectorHook,
@@ -25,9 +22,9 @@ import { ingredientReducer } from '@/services/reducers/ingredient.ts';
 import { constructorReducer } from '@/services/reducers/ingredients-constructor.ts';
 import { orderReducer } from '@/services/reducers/order.ts';
 
-//const rootReducer = combineSlices(liveTableSlice);
+//const rootReducer = combineSlices(liveOrdersSlice);
 const rootReducer = combineReducers({
-	[liveTableSlice.reducerPath]: liveTableSlice.reducer,
+	[liveOrdersSlice.reducerPath]: liveOrdersSlice.reducer,
 	auth: authReducer,
 	cart: constructorReducer,
 	ingredient: ingredientReducer,
@@ -35,12 +32,9 @@ const rootReducer = combineReducers({
 	order: orderReducer,
 });
 
-const liveTableMiddleware = socketMiddleware({
+const liveMiddleware = socketMiddleware({
 	connect: connect,
 	disconnect,
-	onConnecting,
-	onOpen,
-	onClose,
 	onError,
 	onMessage,
 });
@@ -48,7 +42,7 @@ const liveTableMiddleware = socketMiddleware({
 export const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(liveTableMiddleware),
+		getDefaultMiddleware().concat(liveMiddleware),
 });
 export type RootState = ReturnType<typeof rootReducer>;
 

@@ -1,22 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { LiveOrders, WebsocketStatus } from '@utils/live-orders.ts';
+import { LiveOrders } from '@utils/live-orders.ts';
 import { onError, onMessage } from './actions';
-import { liveTableUpdate } from './live-table-update';
+import { liveOrdersUpdate } from './live-orders-update.ts';
 
-export type LiveTableStore = {
-	status: WebsocketStatus;
-	table: LiveOrders;
+export type LiveOrdersStore = {
+	orders: LiveOrders;
 	error: string | null;
 };
 
-const initialState: LiveTableStore = {
-	status: WebsocketStatus.OFFLINE,
-	table: [],
+const initialState: LiveOrdersStore = {
+	orders: [],
 	error: null,
 };
 
-export const liveTableSlice = createSlice({
-	name: 'liveTable',
+export const liveOrdersSlice = createSlice({
+	name: 'liveOrders',
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
@@ -25,15 +23,14 @@ export const liveTableSlice = createSlice({
 				state.error = action.payload;
 			})
 			.addCase(onMessage, (state, action) => {
-				console.info('actions', action);
-				state.table = liveTableUpdate(state.table, action.payload);
+				console.info('state', state);
+				state.orders = liveOrdersUpdate(state.orders, action.payload);
 			});
 	},
 	selectors: {
-		getTable: (state: LiveTableStore) => state.table,
-		getStatus: (state: LiveTableStore) => state.status,
-		getError: (state: LiveTableStore) => state.error,
+		getOrders: (state: LiveOrdersStore) => state.orders,
+		getError: (state: LiveOrdersStore) => state.error,
 	},
 });
 
-export const { getTable, getStatus, getError } = liveTableSlice.selectors;
+export const { getOrders, getError } = liveOrdersSlice.selectors;

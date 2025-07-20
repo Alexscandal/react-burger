@@ -6,9 +6,6 @@ export const connect = createAction<string, 'liveOrders/connect'>(
 );
 export const disconnect = createAction('liveOrders/disconnect');
 
-export const onConnecting = createAction('liveOrders/onConnecting');
-export const onOpen = createAction('liveOrders/onOpen');
-export const onClose = createAction('liveOrders/onClose');
 export const onError = createAction<string, 'liveOrders/onError'>(
 	'liveOrders/onError'
 );
@@ -20,8 +17,5 @@ export const onMessage = createAction<
 export type LiveOrdersActionTypes =
 	| ReturnType<typeof connect>
 	| ReturnType<typeof disconnect>
-	| ReturnType<typeof onConnecting>
-	| ReturnType<typeof onOpen>
-	| ReturnType<typeof onClose>
 	| ReturnType<typeof onError>
 	| ReturnType<typeof onMessage>;

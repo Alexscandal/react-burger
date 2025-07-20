@@ -25,15 +25,12 @@ export const BurgerIngredients = () => {
 
 	const oCounts: null | TCounts = {};
 	ingredients.forEach(function (item) {
-		//console.info(`id ${item._id}`);
 		oCounts[`${item._id}`] = 0;
 	});
 	let indCounts = oCounts;
 
 	useMemo(() => {
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		indCounts = oCounts;
-		//alert(JSON.stringify(indCounts));
 		if (product?._id !== null && product?._id !== undefined) {
 			indCounts[product._id] = 1;
 		}
