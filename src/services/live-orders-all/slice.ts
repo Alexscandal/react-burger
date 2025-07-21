@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LiveOrders } from '@utils/live-orders.ts';
 import { onError, onMessage } from './actions';
-import { liveOrdersUpdate } from './live-orders-update.ts';
 
 export type LiveOrdersStore = {
 	orders: LiveOrders;
@@ -20,11 +19,11 @@ export const liveOrdersSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(onError, (state, action) => {
+				console.info('action', action);
 				state.error = action.payload;
 			})
 			.addCase(onMessage, (state, action) => {
-				console.info('state', state);
-				state.orders = liveOrdersUpdate(state.orders, action.payload);
+				state.orders = action.payload;
 			});
 	},
 	selectors: {

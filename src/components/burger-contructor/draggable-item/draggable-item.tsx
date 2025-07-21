@@ -21,8 +21,6 @@ export const DraggableItem = ({
 	moveListItem,
 }: TDraggableItem) => {
 	const { ingredients } = useSelector((store) => ({
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
 		ingredients: store.cart.items,
 	}));
 
@@ -39,10 +37,10 @@ export const DraggableItem = ({
 	const [, dropRef] = useDrop({
 		accept: ['sauce', 'main'],
 		hover: (
-			item: { item: number; index: number },
+			item: { item: TIngradient; index: number },
 			monitor: DropTargetMonitor<{ item: number; index: number }>
 		) => {
-			const dragIndex = ingredients.findIndex((i: number) => i === item.item);
+			const dragIndex = ingredients.findIndex((i) => i === item.item);
 			const hoverIndex = index;
 			const hoverBoundingRect = ref.current?.getBoundingClientRect();
 			const hoverMiddleY = hoverBoundingRect

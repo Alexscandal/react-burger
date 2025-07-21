@@ -5,6 +5,7 @@ import { connect, disconnect } from '@/services/live-orders-all/actions';
 import { useDispatch, useSelector } from '@/services/store';
 import { getOrders } from '@/services/live-orders-all/slice';
 import { useEffect } from 'react';
+import { Order } from '@utils/live-orders.ts';
 
 export function FeedPage() {
 	const orders = useSelector(getOrders);
@@ -20,6 +21,9 @@ export function FeedPage() {
 		};
 	});
 
+	const items: Order[] =
+		orders.orders != undefined && orders.orders.length ? orders.orders : [];
+
 	return (
 		<main className={`${styles.main} pt-5 pb-5`}>
 			<h1>Лента заказов</h1>
@@ -27,12 +31,12 @@ export function FeedPage() {
 				className={`${appStyles.d_flex} ${appStyles.justify_content_between}`}>
 				<div>
 					<ul className={`${appStyles.scroll} ${appStyles.feed}`}>
-						<li className='mb-6'>
-							<OrderBrief />
-						</li>
-						<li className='mb-6'>
-							<OrderBrief />
-						</li>
+						{items.map((order: Order) => (
+							<li className='mb-6' key={order.number}>
+								<OrderBrief item={order} />
+							</li>
+						))}
+						;
 					</ul>
 				</div>
 				<div>
