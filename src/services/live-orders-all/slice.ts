@@ -8,7 +8,12 @@ export type LiveOrdersStore = {
 };
 
 const initialState: LiveOrdersStore = {
-	orders: [],
+	orders: {
+		success: false,
+		orders: [],
+		total: 0,
+		totalToday: 0,
+	},
 	error: null,
 };
 
@@ -19,7 +24,6 @@ export const liveOrdersSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(onError, (state, action) => {
-				console.info('action', action);
 				state.error = action.payload;
 			})
 			.addCase(onMessage, (state, action) => {

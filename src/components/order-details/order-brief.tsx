@@ -23,13 +23,26 @@ export const OrderBrief = ({ item }: OrderBriefProps) => {
 		selected = products.filter((product) =>
 			item.ingredients.includes(product._id)
 		);
-		console.info('selected', products);
+		//console.info('selected', products);
 		selected = selected.reverse();
 		selected.forEach(function (item) {
 			cost += item.price;
 		});
 		count_products = selected.length;
+		//console.info('count_products', count_products > 6);
 	}
+	const className =
+		item.status === 'done'
+			? appStyles.color_success
+			: item.status === 'pending'
+				? appStyles.color_danger
+				: '';
+	const status =
+		item.status === 'done'
+			? 'Готов'
+			: item.status === 'created'
+				? 'Готовится'
+				: 'Отменен';
 
 	return (
 		<Link
@@ -44,16 +57,19 @@ export const OrderBrief = ({ item }: OrderBriefProps) => {
 				</div>
 			</div>
 			<p className='text text_type_main-medium mb-2'>{item.name}</p>
-			<p className='mb-6'>{item.status}</p>
+			<p className={`${className} mb-6`}>{status}</p>
 			<div
 				className={`${appStyles.d_flex} ${appStyles.justify_content_between}`}>
 				<div className={`${appStyles.d_flex} ${appStyles.block_images} ml-4`}>
 					{/* обратный порядок */}
-					{selected.map((product: TIngradient) => (
+					{selected.slice(0, 6).map((product: TIngradient, index) => (
 						<div>
 							<img src={product.image_mobile} height='64' alt='' />
-							{count_products > 0} &&
-							<div className={appStyles.positionAbsolute}>+3</div>
+							{count_products > 6 && index === 0 && (
+								<div className={appStyles.positionAbsolute}>
+									+{count_products - 6}
+								</div>
+							)}
 						</div>
 					))}
 				</div>

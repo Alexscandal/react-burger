@@ -1,5 +1,3 @@
-import { TIngradient } from '@utils/types.ts';
-
 export interface Order {
 	_id: string;
 	name: string;
@@ -7,11 +5,16 @@ export interface Order {
 	number: number;
 	createdAt: string;
 	updatedAt: string;
-	ingredients: TIngradient[];
+	ingredients: string[];
 	id: number;
 }
 
-export type LiveOrders = Array<Order>;
+export type LiveOrders = {
+	success: boolean;
+	orders: Order[];
+	total: number;
+	totalToday: number;
+};
 
 export enum LiveOrdersActionType {
 	DATA = 'data',

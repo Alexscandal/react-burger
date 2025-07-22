@@ -9,7 +9,7 @@ import { Order } from '@utils/live-orders.ts';
 
 export function FeedPage() {
 	const orders = useSelector(getOrders);
-	console.info('orders', orders);
+	//console.info('orders', orders);
 	const dispatch = useDispatch();
 	const wsConnect = () =>
 		dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
@@ -23,6 +23,8 @@ export function FeedPage() {
 
 	const items: Order[] =
 		orders.orders != undefined && orders.orders.length ? orders.orders : [];
+	const done = items.filter((item) => item.status === 'done').slice(0, 10);
+	const created = items.filter((item) => item.status === 'created').slice(0, 5);
 
 	return (
 		<main className={`${styles.main} pt-5 pb-5`}>
@@ -36,7 +38,6 @@ export function FeedPage() {
 								<OrderBrief item={order} />
 							</li>
 						))}
-						;
 					</ul>
 				</div>
 				<div>
@@ -44,30 +45,42 @@ export function FeedPage() {
 						<div>
 							<p className='text text_type_main-medium mb-6'>Готовы:</p>
 							<div className='text text_type_digits-default'>
-								<div className={`${appStyles.color_success} mb-2`}>034533</div>
-								<div className={`${appStyles.color_success} mb-2`}>034533</div>
-								<div className={`${appStyles.color_success} mb-2`}>034533</div>
-								<div className={`${appStyles.color_success} mb-2`}>034533</div>
-								<div className={`${appStyles.color_success} mb-2`}>034533</div>
+								{done.slice(0, 5).map((order: Order) => (
+									<div className={`${appStyles.color_success} mb-2`}>
+										{order.number}
+									</div>
+								))}
+							</div>
+						</div>
+						<div>
+							<p className='text text_type_main-medium mb-6'>&nbsp;</p>
+							<div className='text text_type_digits-default'>
+								{done.slice(5, 10).map((order: Order) => (
+									<div className={`${appStyles.color_success} mb-2`}>
+										{order.number}
+									</div>
+								))}
 							</div>
 						</div>
 						<div>
 							<p className='text text_type_main-medium mb-6'>В работе:</p>
 							<div className='text text_type_digits-default'>
-								<div className='mb-2'>034533</div>
-								<div className='mb-2'>034533</div>
-								<div className='mb-2'>034533</div>
+								{created.slice(5, 10).map((order: Order) => (
+									<div className='mb-2'>{order.number}</div>
+								))}
 							</div>
 						</div>
 					</div>
 					<div className='text text_type_main-medium'>
 						Выполнено за все время:
 					</div>
-					<div className='text text_type_digits-large mb-15'>28 752</div>
+					<div className='text text_type_digits-large mb-15'>
+						{orders.total}
+					</div>
 					<div className='text text_type_main-medium'>
 						Выполнено за сегодня:
 					</div>
-					<div className='text text_type_digits-large'>138</div>
+					<div className='text text_type_digits-large'>{orders.totalToday}</div>
 				</div>
 			</div>
 		</main>

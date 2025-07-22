@@ -9,6 +9,10 @@ body {
 	color: var(--colors-interface-success);
 }
 
+.color_danger {
+	color: var(--colors-interface-error);
+}
+
 .positionAbsolute {
 	position: absolute;
 }
