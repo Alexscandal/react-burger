@@ -24,12 +24,12 @@ import { orderReducer } from '@/services/reducers/order.ts';
 
 //const rootReducer = combineSlices(liveOrdersSlice);
 const rootReducer = combineReducers({
-	[liveOrdersSlice.reducerPath]: liveOrdersSlice.reducer,
 	auth: authReducer,
 	cart: constructorReducer,
 	ingredient: ingredientReducer,
 	ingredients: ingredientsReducer,
 	order: orderReducer,
+	[liveOrdersSlice.reducerPath]: liveOrdersSlice.reducer,
 });
 
 const liveMiddleware = socketMiddleware({

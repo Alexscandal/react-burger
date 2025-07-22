@@ -122,7 +122,6 @@ export const BurgerConstructor = () => {
 	});
 
 	function removeIngredient(id: string, index: number) {
-		//dispatch(reduceCount(id));
 		dispatch(removeItem(id, index));
 		dispatch(updateCost());
 	}
