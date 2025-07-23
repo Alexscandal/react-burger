@@ -7,7 +7,7 @@ export const OrderDetails = () => {
 		orderNum: store.order.orderNum,
 	}));
 
-	if (orderNum > 0) {
+	if (orderNum !== null && orderNum > 0) {
 		return (
 			<div className={styles.order}>
 				<div className='text text_type_digits-large'>{orderNum}</div>

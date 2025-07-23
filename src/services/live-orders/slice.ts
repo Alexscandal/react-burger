@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { LiveOrders } from '@utils/live-orders.ts';
 import { onError, onMessage } from './actions';
 
-export type LiveOrdersAllStore = {
-	orders_all: LiveOrders;
+export type LiveOrdersStore = {
+	orders: LiveOrders;
 	error: string | null;
 };
 
-const initialState: LiveOrdersAllStore = {
-	orders_all: {
+const initialState: LiveOrdersStore = {
+	orders: {
 		success: false,
 		orders: [],
 		total: 0,
@@ -17,8 +17,8 @@ const initialState: LiveOrdersAllStore = {
 	error: null,
 };
 
-export const liveOrdersAllSlice = createSlice({
-	name: 'liveOrdersAll',
+export const liveOrdersSlice = createSlice({
+	name: 'liveOrders',
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
@@ -27,13 +27,13 @@ export const liveOrdersAllSlice = createSlice({
 				state.error = action.payload;
 			})
 			.addCase(onMessage, (state, action) => {
-				state.orders_all = action.payload;
+				state.orders = action.payload;
 			});
 	},
 	selectors: {
-		getOrdersAll: (state: LiveOrdersAllStore) => state.orders_all,
-		getError: (state: LiveOrdersAllStore) => state.error,
+		getOrders: (state: LiveOrdersStore) => state.orders,
+		getError: (state: LiveOrdersStore) => state.error,
 	},
 });
 
-export const { getOrdersAll, getError } = liveOrdersAllSlice.selectors;
+export const { getOrders, getError } = liveOrdersSlice.selectors;

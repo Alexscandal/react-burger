@@ -11,7 +11,7 @@ type OrderBriefProps = {
 	item: Order;
 };
 
-export const OrderBrief = ({ item }: OrderBriefProps) => {
+export const OrderBrief1 = ({ item }: OrderBriefProps) => {
 	const location = useLocation();
 	const { products } = useSelector((store) => ({
 		products: store.ingredients.items,
@@ -29,9 +29,22 @@ export const OrderBrief = ({ item }: OrderBriefProps) => {
 		});
 		count_products = selected.length;
 	}
+	const className =
+		item.status === 'done'
+			? appStyles.color_success
+			: item.status === 'pending'
+				? appStyles.color_danger
+				: '';
+	const status =
+		item.status === 'done'
+			? 'Готов'
+			: item.status === 'created'
+				? 'Готовится'
+				: 'Отменен';
+
 	return (
 		<Link
-			to={`/feed/${item.number}`}
+			to={`/profile/orders/${item.number}`}
 			state={{ background: location }}
 			className='p-6'>
 			<div
@@ -42,6 +55,7 @@ export const OrderBrief = ({ item }: OrderBriefProps) => {
 				</div>
 			</div>
 			<p className='text text_type_main-medium mb-2'>{item.name}</p>
+			<p className={`${className} mb-6`}>{status}</p>
 			<div
 				className={`${appStyles.d_flex} ${appStyles.justify_content_between}`}>
 				<div className={`${appStyles.d_flex} ${appStyles.block_images} ml-4`}>

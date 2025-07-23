@@ -160,3 +160,9 @@ export type TOrder = {
 	};
 	success: boolean;
 };
+
+export type TSelected = {
+	id: string;
+	count: number;
+	product: TIngradient | undefined;
+};

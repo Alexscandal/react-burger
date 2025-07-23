@@ -1,4 +1,5 @@
 import { TIngradient, TRequestOptions, TExtUser } from '@utils/types.ts';
+import { LiveOrders } from '@utils/live-orders.ts';
 const API_URL = 'https://norma.nomoreparties.space/api/';
 export const ORDERS_URL = 'wss://norma.nomoreparties.space/orders';
 
@@ -22,6 +23,16 @@ export const getIngredients = (): Promise<TIngradient[]> => {
 		.then(checkResponse<TData>)
 		.then((data) => {
 			if (data?.success) return data.data;
+			return Promise.reject(data);
+		})
+		.catch((err: Error) => Promise.reject(err));
+};
+
+export const getOrder = (number: number) => {
+	return fetch(API_URL + 'orders/' + number)
+		.then(checkResponse<LiveOrders>)
+		.then((data) => {
+			if (data?.success) return data.orders;
 			return Promise.reject(data);
 		})
 		.catch((err: Error) => Promise.reject(err));

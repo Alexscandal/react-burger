@@ -1,9 +1,74 @@
 import appStyles from '@components/app/app.module.css';
 import styles from './order-details.module.css';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	CurrencyIcon,
+	FormattedDate,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from '@/services/store.ts';
+import { getOrdersAll } from '@/services/live-orders-all/slice.ts';
+import { Order as OrderType } from '@utils/live-orders.ts';
+import { TSelected } from '@utils/types.ts';
+import { getOrder } from '@utils/api.ts';
 
 export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
+	const orders = useSelector(getOrdersAll);
+	const { products } = useSelector((store) => ({
+		products: store.ingredients.items,
+	}));
+	const items: OrderType[] =
+		orders.orders != undefined && orders.orders.length ? orders.orders : [];
+	let foundOrder: OrderType | undefined = undefined;
+	let cost = 0;
+	const aSelected: TSelected[] = [];
+	const { number } = useParams();
+	let className = '',
+		status = '';
+	if (items.length > 0) {
+		foundOrder = items.find((item) => item.number === Number(number));
+	}
+	if (foundOrder === undefined) {
+		getOrder(Number(number))
+			.then((data) => {
+				if (data.length > 0) {
+					foundOrder = data[0];
+				}
+			})
+			.catch(() => {});
+	}
+
+	if (foundOrder !== undefined) {
+		className =
+			foundOrder.status === 'done'
+				? appStyles.color_success
+				: foundOrder.status === 'pending'
+					? appStyles.color_danger
+					: '';
+		status =
+			foundOrder.status === 'done'
+				? 'Готов'
+				: foundOrder.status === 'created'
+					? 'Готовится'
+					: 'Отменен';
+		if (foundOrder.ingredients.length > 0) {
+			foundOrder?.ingredients.map((id) => {
+				const product = products.find((item) => item._id == id);
+				if (aSelected.find((item) => item.id == id) === undefined) {
+					aSelected.push({
+						id: id,
+						count: 1,
+						product: product,
+					});
+				} else {
+					const index = aSelected.findIndex((item) => item.id == id);
+					aSelected[index].count++;
+				}
+				cost += product !== undefined ? product.price : 0;
+			});
+		}
+	}
+
 	return (
 		<div className={styles.order_content}>
 			<p
@@ -12,57 +77,41 @@ export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 						? `${appStyles.text_center} text text_type_digits-default mt-5 mb-10`
 						: 'text text_type_digits-default mb-10'
 				}>
-				#034533
+				#{foundOrder?.number}
 			</p>
-			<p className='text text_type_main-medium mb-3'>
-				Black Hole Singularity острый бургер
-			</p>
-			<div className={`${appStyles.color_success} mb-15`}>Выполнен</div>
+			<p className='text text_type_main-medium mb-3'>{foundOrder?.name}</p>
+			<div className={`${className} mb-15`}>{status}</div>
 			<p className='text text_type_main-medium mb-6'>Состав:</p>
 			<div className={appStyles.scroll}>
-				<div className={`${appStyles.d_flex} mb-6`}>
-					<div className={`${appStyles.image} mr-4`}>
-						<img
-							src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-							height='64'
-							alt=''
-						/>
+				{aSelected.map((item: TSelected) => (
+					<div className={`${appStyles.d_flex} mb-6`}>
+						<div className={`${appStyles.image} mr-4`}>
+							<img src={item.product?.image_mobile} height='64' alt='' />
+						</div>
+						<div
+							className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center} ${appStyles.flex_grow}`}>
+							{item.product?.name}
+						</div>
+						<div
+							className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center}`}>
+							<span className='mr-2'>
+								{item.count} x {item.product?.price}
+							</span>
+							<CurrencyIcon type='primary' />
+						</div>
 					</div>
-					<div
-						className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center} ${appStyles.flex_grow}`}>
-						Флюоресцентная булка R2-D3
-					</div>
-					<div
-						className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center}`}>
-						<span className='mr-2'>2 x 20</span>
-						<CurrencyIcon type='primary' />
-					</div>
-				</div>
-				<div className={`${appStyles.d_flex} mb-6`}>
-					<div className={`${appStyles.image} mr-4`}>
-						<img
-							src='https://code.s3.yandex.net/react/code/meat-04-mobile.png'
-							height='64'
-							alt=''
-						/>
-					</div>
-					<div
-						className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center} ${appStyles.flex_grow}`}>
-						Флюоресцентная булка R2-D3
-					</div>
-					<div
-						className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center}`}>
-						<span className='mr-2'>2 x 20</span>
-						<CurrencyIcon type='primary' />
-					</div>
-				</div>
+				))}
 			</div>
 			<div
 				className={`${appStyles.d_flex} ${appStyles.justify_content_between} mt-4`}>
-				<div className={appStyles.time}>Вчера, 13:50</div>
+				<div className={appStyles.time}>
+					{foundOrder && (
+						<FormattedDate date={new Date(foundOrder?.createdAt)} />
+					)}
+				</div>
 				<div
 					className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center}`}>
-					<span className='text text_type_digits-default mr-2'>510</span>
+					<span className='text text_type_digits-default mr-2'>{cost}</span>
 					<CurrencyIcon type='primary' />
 				</div>
 			</div>

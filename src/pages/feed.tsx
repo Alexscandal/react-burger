@@ -3,16 +3,16 @@ import styles from '@pages/feed.module.css';
 import { OrderBrief } from '@components/order-details/order-brief.tsx';
 import { connect, disconnect } from '@/services/live-orders-all/actions';
 import { useDispatch, useSelector } from '@/services/store';
-import { getOrders } from '@/services/live-orders-all/slice';
+import { getOrdersAll } from '@/services/live-orders-all/slice';
 import { useEffect } from 'react';
 import { Order } from '@utils/live-orders.ts';
+import { ORDERS_URL } from '@utils/api.ts';
 
 export function FeedPage() {
-	const orders = useSelector(getOrders);
+	const orders = useSelector(getOrdersAll);
 	//console.info('orders', orders);
 	const dispatch = useDispatch();
-	const wsConnect = () =>
-		dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
+	const wsConnect = () => dispatch(connect(ORDERS_URL + '/all'));
 	const wsDisconnect = () => dispatch(disconnect());
 	useEffect(() => {
 		dispatch(wsConnect);

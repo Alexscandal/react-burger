@@ -72,7 +72,7 @@ export const BurgerConstructor = () => {
 			navigate('/login');
 		}
 		if (product !== null) {
-			const sel = [...selected, product];
+			const sel = [...selected, product, product];
 			const ids = sel.map((item: TIngradient | undefined) => item?._id);
 			dispatch(orderCheckout(ids));
 			setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });

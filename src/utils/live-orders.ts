@@ -2,7 +2,7 @@ export interface Order {
 	_id: string;
 	name: string;
 	status: string;
-	number: number;
+	number: number | string | undefined;
 	createdAt: string;
 	updatedAt: string;
 	ingredients: string[];
@@ -11,6 +11,7 @@ export interface Order {
 
 export type LiveOrders = {
 	success: boolean;
+	message?: string;
 	orders: Order[];
 	total: number;
 	totalToday: number;

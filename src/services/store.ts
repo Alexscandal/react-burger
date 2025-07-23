@@ -2,7 +2,8 @@ import {
 	/*combineSlices,*/ configureStore,
 	ThunkDispatch,
 } from '@reduxjs/toolkit';
-import { liveOrdersSlice } from '@/services/live-orders-all/slice';
+import { liveOrdersAllSlice } from '@/services/live-orders-all/slice';
+import { liveOrdersSlice } from '@/services/live-orders/slice';
 import { socketMiddleware } from '@/services/middleware/socket-middleware.ts';
 import {
 	connect,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
 	ingredient: ingredientReducer,
 	ingredients: ingredientsReducer,
 	order: orderReducer,
+	[liveOrdersAllSlice.reducerPath]: liveOrdersAllSlice.reducer,
 	[liveOrdersSlice.reducerPath]: liveOrdersSlice.reducer,
 });
 
