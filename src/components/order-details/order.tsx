@@ -6,13 +6,15 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from '@/services/store.ts';
+import { /*useDispatch,*/ useSelector } from '@/services/store.ts';
 import { getOrdersAll } from '@/services/live-orders-all/slice.ts';
 import { Order as OrderType } from '@utils/live-orders.ts';
 import { TSelected } from '@utils/types.ts';
+//import { orderSlice } from '@services/order/slice.ts';
 import { getOrder } from '@utils/api.ts';
 
 export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
+	//const dispatch = useDispatch();
 	const orders = useSelector(getOrdersAll);
 	const { products } = useSelector((store) => ({
 		products: store.ingredients.items,
@@ -29,6 +31,9 @@ export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 		foundOrder = items.find((item) => item.number === Number(number));
 	}
 	if (foundOrder === undefined) {
+		/*
+		dispatch(orderSlice.getOrder(number));
+		*/
 		getOrder(Number(number))
 			.then((data) => {
 				if (data.length > 0) {
