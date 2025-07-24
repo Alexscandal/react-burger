@@ -23,3 +23,5 @@ export const orderSlice = createSlice({
 		*/
 	},
 });
+
+export const { getOrder } = orderSlice.actions;
