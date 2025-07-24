@@ -34,7 +34,7 @@ export function FeedPage() {
 				<div>
 					<ul className={`${appStyles.scroll} ${appStyles.feed}`}>
 						{items.map((order: Order) => (
-							<li className='mb-6' key={order.number}>
+							<li className='mb-6' key={order.number + '_' + Date.now()}>
 								<OrderBrief item={order} />
 							</li>
 						))}

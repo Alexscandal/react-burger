@@ -1,5 +1,9 @@
 import { nanoid } from '@reduxjs/toolkit';
-import { TIngradient } from '@utils/types.ts';
+import {
+	TAddProductAction,
+	TIngradient,
+	TUpdatePriceAction,
+} from '@utils/types.ts';
 
 export const ADD_ITEM = 'ADD_ITEM',
 	REMOVE_ITEM = 'REMOVE_ITEM',
@@ -10,11 +14,7 @@ export const ADD_ITEM = 'ADD_ITEM',
 export const addItem = (
 	id: string,
 	product: TIngradient
-): {
-	type: string;
-	product: TIngradient;
-	id: string;
-} => ({
+): TAddProductAction => ({
 	type: ADD_ITEM,
 	product: { ...product, uid: nanoid() },
 	id: id,
@@ -33,9 +33,7 @@ export const updateCost = (): { type: string } => ({
 	type: UPDATE_COST,
 });
 
-export const updateItemPrice = (
-	price: number
-): { type: string; product_price: number } => ({
+export const updateItemPrice = (price: number): TUpdatePriceAction => ({
 	type: UPDATE_ITEM_PRICE,
 	product_price: price,
 });

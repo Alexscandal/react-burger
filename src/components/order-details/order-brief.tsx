@@ -47,7 +47,7 @@ export const OrderBrief = ({ item }: OrderBriefProps) => {
 				<div className={`${appStyles.d_flex} ${appStyles.block_images} ml-4`}>
 					{/* обратный порядок */}
 					{selected.slice(0, 6).map((product: TIngradient, index) => (
-						<div>
+						<div key={product._id + '_' + item.number + Math.random()}>
 							<img src={product.image_mobile} height='64' alt='' />
 							{count_products > 6 && index === 0 && (
 								<div className={appStyles.positionAbsolute}>

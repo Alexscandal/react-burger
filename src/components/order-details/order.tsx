@@ -67,56 +67,58 @@ export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 				cost += product !== undefined ? product.price : 0;
 			});
 		}
-	}
 
-	return (
-		<div className={styles.order_content}>
-			<p
-				className={
-					modal
-						? `${appStyles.text_center} text text_type_digits-default mt-5 mb-10`
-						: 'text text_type_digits-default mb-10'
-				}>
-				#{foundOrder?.number}
-			</p>
-			<p className='text text_type_main-medium mb-3'>{foundOrder?.name}</p>
-			<div className={`${className} mb-15`}>{status}</div>
-			<p className='text text_type_main-medium mb-6'>Состав:</p>
-			<div className={appStyles.scroll}>
-				{aSelected.map((item: TSelected) => (
-					<div className={`${appStyles.d_flex} mb-6`}>
-						<div className={`${appStyles.image} mr-4`}>
-							<img src={item.product?.image_mobile} height='64' alt='' />
-						</div>
+		return (
+			<div className={styles.order_content}>
+				<p
+					className={
+						modal
+							? `${appStyles.text_center} text text_type_digits-default mt-5 mb-10`
+							: 'text text_type_digits-default mb-10'
+					}>
+					#{foundOrder?.number}
+				</p>
+				<p className='text text_type_main-medium mb-3'>{foundOrder?.name}</p>
+				<div className={`${className} mb-15`}>{status}</div>
+				<p className='text text_type_main-medium mb-6'>Состав:</p>
+				<div className={appStyles.scroll}>
+					{aSelected.map((item: TSelected) => (
 						<div
-							className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center} ${appStyles.flex_grow}`}>
-							{item.product?.name}
+							className={`${appStyles.d_flex} mb-6`}
+							key={item.product?._id + '_' + foundOrder?.number}>
+							<div className={`${appStyles.image} mr-4`}>
+								<img src={item.product?.image_mobile} height='64' alt='' />
+							</div>
+							<div
+								className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center} ${appStyles.flex_grow}`}>
+								{item.product?.name}
+							</div>
+							<div
+								className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center}`}>
+								<span className='mr-2'>
+									{item.count} x {item.product?.price}
+								</span>
+								<CurrencyIcon type='primary' />
+							</div>
 						</div>
-						<div
-							className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center}`}>
-							<span className='mr-2'>
-								{item.count} x {item.product?.price}
-							</span>
-							<CurrencyIcon type='primary' />
-						</div>
-					</div>
-				))}
-			</div>
-			<div
-				className={`${appStyles.d_flex} ${appStyles.justify_content_between} mt-4`}>
-				<div className={appStyles.time}>
-					{foundOrder && (
-						<FormattedDate date={new Date(foundOrder?.createdAt)} />
-					)}
+					))}
 				</div>
 				<div
-					className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center}`}>
-					<span className='text text_type_digits-default mr-2'>{cost}</span>
-					<CurrencyIcon type='primary' />
+					className={`${appStyles.d_flex} ${appStyles.justify_content_between} mt-4`}>
+					<div className={appStyles.time}>
+						{foundOrder && (
+							<FormattedDate date={new Date(foundOrder?.createdAt)} />
+						)}
+					</div>
+					<div
+						className={`${appStyles.d_flex} ${appStyles.justify_content_between} ${appStyles.align_items_center}`}>
+						<span className='text text_type_digits-default mr-2'>{cost}</span>
+						<CurrencyIcon type='primary' />
+					</div>
 				</div>
 			</div>
-		</div>
-	);
+		);
+	}
 
 	return (
 		<div className={`${styles.order} ${styles.loaderContent}`}>

@@ -166,3 +166,17 @@ export type TSelected = {
 	count: number;
 	product: TIngradient | undefined;
 };
+
+export type TSetProductAction = {
+	type: string;
+	id: string;
+	items: TIngradient[];
+};
+
+export type TUpdatePriceAction = { type: string; product_price: number };
+
+export type TAddProductAction = {
+	type: string;
+	product: TIngradient;
+	id: string;
+};

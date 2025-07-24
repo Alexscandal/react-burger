@@ -22,8 +22,12 @@ import { ingredientsReducer } from '@/services/reducers/ingredients.ts';
 import { ingredientReducer } from '@/services/reducers/ingredient.ts';
 import { constructorReducer } from '@/services/reducers/ingredients-constructor.ts';
 import { orderReducer } from '@/services/reducers/order.ts';
+import {
+	TAddProductAction,
+	TSetProductAction,
+	TUpdatePriceAction,
+} from '@utils/types.ts';
 
-//const rootReducer = combineSlices(liveOrdersSlice);
 const rootReducer = combineReducers({
 	auth: authReducer,
 	cart: constructorReducer,
@@ -51,7 +55,11 @@ export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = ThunkDispatch<
 	RootState,
 	unknown,
-	LiveOrdersActionTypes
+	| LiveOrdersActionTypes
+	| TSetProductAction
+	| TUpdatePriceAction
+	| TAddProductAction
+	| { type: string }
 >;
 
 //export type AppDispatch = typeof store.dispatch;

@@ -18,6 +18,7 @@ import { IngredientsDetails } from '@pages/ingredients-details.tsx';
 import { OrdersPage } from '@pages/orders.tsx';
 import { FeedPage } from '@pages/feed.tsx';
 import { OrderPage } from '@pages/order.tsx';
+import { loadData } from '@/services/actions/ingredients.ts';
 
 export const App = () => {
 	const location = useLocation();
@@ -29,6 +30,7 @@ export const App = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(getUser());
+		dispatch(loadData());
 	}, [dispatch]);
 
 	return (

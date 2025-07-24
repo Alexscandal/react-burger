@@ -1,24 +1,16 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from '@/services/store';
+import { useSelector } from '@/services/store';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import appStyles from '@components/app/app.module.css';
 import styles from '@pages/home.module.css';
-import { loadData } from '@/services/actions/ingredients.ts';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.tsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.tsx';
 export const HomePage = () => {
-	const dispatch = useDispatch();
-
 	const { hasError, isLoading } = useSelector((store) => ({
 		ingredients: store.ingredients.items,
 		hasError: store.ingredients.hasError,
 		isLoading: store.ingredients.isLoading,
 	}));
-
-	useEffect(() => {
-		dispatch(loadData());
-	}, [dispatch]);
 
 	return (
 		<>

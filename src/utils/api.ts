@@ -28,8 +28,8 @@ export const getIngredients = (): Promise<TIngradient[]> => {
 		.catch((err: Error) => Promise.reject(err));
 };
 
-export const getOrder = (number: number) => {
-	return fetch(API_URL + 'orders/' + number)
+export const getOrder = async (number: number) => {
+	return await fetch(API_URL + 'orders/' + number)
 		.then(checkResponse<LiveOrders>)
 		.then((data) => {
 			if (data?.success) return data.orders;
