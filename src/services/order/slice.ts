@@ -18,7 +18,7 @@ export const orderSlice = createSlice({
 	reducers: {
 		/*
 		getOrder: (state, action) => {
-			//state.order.push(action.payload.cartItem);
+			//state.ingredients = action.payload.ingredients;
 		},
 		*/
 	},
