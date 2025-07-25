@@ -13,6 +13,7 @@ import {
 	onError,
 	onMessage,
 } from '@/services/live-orders-all/actions.ts';
+import { OrderActionTypes } from '@/services/order/actions.ts';
 import {
 	useSelector as selectorHook,
 	useDispatch as dispatchHook,
@@ -61,6 +62,7 @@ export type AppDispatch = ThunkDispatch<
 	| TSetProductAction
 	| TUpdatePriceAction
 	| TAddProductAction
+	| OrderActionTypes
 	| { type: string }
 >;
 

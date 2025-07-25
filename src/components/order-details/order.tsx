@@ -6,22 +6,33 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { /*useDispatch,*/ useSelector } from '@/services/store.ts';
+import { useDispatch, useSelector } from '@/services/store.ts';
 import { getOrdersAll } from '@/services/live-orders-all/slice.ts';
 import { Order as OrderType } from '@utils/live-orders.ts';
 import { TSelected } from '@utils/types.ts';
-//import { orderSlice } from '@services/order/slice.ts';
 import { getOrder } from '@utils/api.ts';
+import { storeOrder } from '@/services/order/actions.ts';
+import { orderFromStore, TOrderStore } from '@/services/order/slice.ts';
 
 export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
-	//const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const orders = useSelector(getOrdersAll);
+	const order: TOrderStore = useSelector(orderFromStore);
 	const { products } = useSelector((store) => ({
 		products: store.ingredients.items,
 	}));
 	const items: OrderType[] =
 		orders.orders != undefined && orders.orders.length ? orders.orders : [];
-	let foundOrder: OrderType | undefined = undefined;
+	let foundOrder: OrderType | undefined = {
+		_id: '',
+		name: '',
+		status: '',
+		number: 0,
+		createdAt: '',
+		updatedAt: '',
+		ingredients: [],
+		id: 0,
+	};
 	let cost = 0;
 	const aSelected: TSelected[] = [];
 	const { number } = useParams();
@@ -29,20 +40,23 @@ export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 		status = '';
 	if (items.length > 0) {
 		foundOrder = items.find((item) => item.number === Number(number));
+		dispatch(storeOrder(foundOrder!));
 	}
-	if (foundOrder === undefined) {
-		/*
-		dispatch(orderSlice.getOrder(number));
-		*/
+	if (order.order.number === 0 && !modal) {
 		getOrder(Number(number))
 			.then((data) => {
 				if (data.length > 0) {
 					foundOrder = data[0];
+					dispatch(storeOrder(foundOrder));
 				}
 			})
 			.catch(() => {});
 	}
+	if (order.order.number != undefined && order.order.number != 0) {
+		foundOrder = order.order;
+	}
 
+	//console.info('order', order.order);
 	if (foundOrder !== undefined) {
 		className =
 			foundOrder.status === 'done'
@@ -81,7 +95,7 @@ export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 							? `${appStyles.text_center} text text_type_digits-default mt-5 mb-10`
 							: 'text text_type_digits-default mb-10'
 					}>
-					#{foundOrder?.number}
+					#{foundOrder.number}
 				</p>
 				<p className='text text_type_main-medium mb-3'>{foundOrder?.name}</p>
 				<div className={`${className} mb-15`}>{status}</div>
@@ -127,6 +141,7 @@ export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 
 	return (
 		<div className={`${styles.order} ${styles.loaderContent}`}>
+			<p>order number: {order.order.number}</p>
 			<span className={styles.loader}></span>
 		</div>
 	);
