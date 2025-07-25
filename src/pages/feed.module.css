@@ -1,0 +1,24 @@
+ul,
+li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.main {
+	width: 1240px;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.cols > div {
+	flex-basis: calc(50% - 18px);
+}
+
+.main > div > div {
+	flex-basis: calc(50% - 30px);
+}
+
+.main a {
+	color: var(--text-primary-color);
+}

@@ -7,13 +7,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAuth } from '@/services/auth.tsx';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@/services/store.ts';
 
 export function LoginPage() {
 	const [form, setValue] = useState({ email: '', password: '' });
 	const { user } = useSelector((store) => ({
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
 		user: store.auth.user,
 	}));
 	const auth = useAuth();

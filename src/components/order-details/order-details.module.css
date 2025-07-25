@@ -5,6 +5,15 @@
 	text-align: center;
 }
 
+.order_content {
+	max-width: 640px;
+	margin: auto;
+}
+
+.product {
+	align-items: center;
+}
+
 h3 {
 	margin-bottom: 0;
 	font-weight: 700;

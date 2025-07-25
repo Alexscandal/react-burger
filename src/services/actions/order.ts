@@ -1,25 +1,29 @@
 import { initialRequest } from '@utils/api.ts';
+import { AppDispatch, TExtUser } from '@utils/types.ts';
 
 export const ORDER_CHECKOUT_REQUEST = 'ORDER_CHECKOUT_REQUEST';
 export const ORDER_CHECKOUT_SUCCESS = 'ORDER_CHECKOUT_SUCCESS';
 export const ORDER_CHECKOUT_FAILED = 'ORDER_CHECKOUT_FAILED';
 
-export function orderCheckout(ids) {
+export function orderCheckout(ids: (string | undefined)[]) {
 	if (ids.length === 0) {
-		return false;
+		return () => void (async (): Promise<void> => {});
 	}
-	return function (dispatch) {
+	return function (dispatch: AppDispatch) {
 		dispatch({
 			type: ORDER_CHECKOUT_REQUEST,
 		});
 		const options = {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.authToken,
+			},
 			body: JSON.stringify({
 				ingredients: ids,
 			}),
 		};
-		initialRequest(options, 'orders').then((res) => {
+		initialRequest(options, 'orders').then((res: TExtUser) => {
 			if (res && res.success) {
 				dispatch({
 					type: ORDER_CHECKOUT_SUCCESS,

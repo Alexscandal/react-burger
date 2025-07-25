@@ -1,10 +1,8 @@
 import { useContext, createContext } from 'react';
 import { initialRequest } from '@utils/api.ts';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '@/services/store.ts';
 import { TRequestOptions, TExtUser, TUser } from '@utils/types.ts';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { setUser, unsetUser } from '@/services/actions/auth.js';
+import { setUser, unsetUser } from '@/services/actions/auth.ts';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext<ReturnType<typeof useProvideAuth>>(

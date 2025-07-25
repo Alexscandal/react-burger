@@ -14,8 +14,8 @@ export const ProfileMenu = () => {
 	);
 
 	return (
-		<nav className='mr-15'>
-			<ul className='mb-20'>
+		<nav>
+			<ul className='mb-20 text text_type_main-medium'>
 				<li>
 					<NavLink
 						to='/profile'
@@ -41,7 +41,6 @@ export const ProfileMenu = () => {
 					</Link>
 				</li>
 			</ul>
-			<p>В этом разделе вы можете изменить свои персональные данные</p>
 		</nav>
 	);
 };
