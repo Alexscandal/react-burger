@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import appStyles from '@components/app/app.module.css';
 import styles from '@components/burger-ingredients/burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngradientBrief } from '@components/burger-ingredients/ingredient-brief/ingredient-brief.tsx';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@/services/store.ts';
 import { TIngradient } from '@utils/types.ts';
-
-type TIngradientData = {
-	ingredients: TIngradient[];
-};
 
 export const BurgerIngredients = () => {
 	const [state, setState] = useState({
@@ -17,11 +13,31 @@ export const BurgerIngredients = () => {
 		activeTab: 'bun',
 	});
 
-	const { ingredients }: TIngradientData = useSelector((store) => ({
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
+	const { ingredients, product, selected } = useSelector((store) => ({
 		ingredients: store.ingredients.items,
+		product: store.ingredient.product,
+		selected: store.cart.items,
 	}));
+
+	type TCounts = {
+		[key: string]: number;
+	};
+
+	const oCounts: null | TCounts = {};
+	ingredients.forEach(function (item) {
+		oCounts[`${item._id}`] = 0;
+	});
+	let indCounts = oCounts;
+
+	useMemo(() => {
+		indCounts = oCounts;
+		if (product?._id !== null && product?._id !== undefined) {
+			indCounts[product._id] = 1;
+		}
+		Object.entries(selected).forEach(([, item]: [string, TIngradient]) => {
+			indCounts[`${item._id}`] = indCounts[`${item._id}`] + 1;
+		});
+	}, [product, selected, oCounts]);
 
 	const categories = [
 		{
@@ -90,7 +106,7 @@ export const BurgerIngredients = () => {
 									<li
 										key={item._id}
 										className={`${appStyles.positionRelative} pl-2 pr-2 mt-4 mb-4`}>
-										<IngradientBrief item={item} />
+										<IngradientBrief item={item} counts={indCounts} />
 									</li>
 								))}
 						</ul>

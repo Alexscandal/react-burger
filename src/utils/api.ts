@@ -1,5 +1,7 @@
 import { TIngradient, TRequestOptions, TExtUser } from '@utils/types.ts';
+import { LiveOrders } from '@utils/live-orders.ts';
 const API_URL = 'https://norma.nomoreparties.space/api/';
+export const ORDERS_URL = 'wss://norma.nomoreparties.space/orders';
 
 const checkResponse = <T>(res: Response): Promise<T> => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -21,6 +23,16 @@ export const getIngredients = (): Promise<TIngradient[]> => {
 		.then(checkResponse<TData>)
 		.then((data) => {
 			if (data?.success) return data.data;
+			return Promise.reject(data);
+		})
+		.catch((err: Error) => Promise.reject(err));
+};
+
+export const getOrder = (number: number) => {
+	return fetch(API_URL + 'orders/' + number)
+		.then(checkResponse<LiveOrders>)
+		.then((data) => {
+			if (data?.success) return data.orders;
 			return Promise.reject(data);
 		})
 		.catch((err: Error) => Promise.reject(err));
@@ -56,7 +68,7 @@ export const initialRequest = (
 	target: string
 ): Promise<TExtUser> => {
 	return fetchWithRefresh(API_URL + target, requestOptions)
-		.then((data) => {
+		.then((data: TExtUser | void) => {
 			if (data?.success) return data;
 			return Promise.reject(data);
 		})
@@ -69,7 +81,6 @@ export const fetchWithRefresh = async (
 ): Promise<TExtUser | void> => {
 	try {
 		const res = await fetch(url, options);
-		console.info('fetchWithRefresh', res);
 		return await checkResponse<TExtUser>(res);
 	} catch (err) {
 		if (err instanceof Error) {

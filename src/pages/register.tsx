@@ -8,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAuth } from '@/services/auth.tsx';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@/services/store.ts';
 
 export function RegisterPage() {
 	const [form, setValue] = useState({ name: '', email: '', password: '' });

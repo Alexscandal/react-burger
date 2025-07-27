@@ -39,7 +39,15 @@ a:hover {
 	list-style: none;
 }
 
+.content_left {
+	max-width: 320px;
+}
+
 .content_right {
 	display: flex;
 	justify-content: flex-end;
+}
+
+.left_side {
+	padding-top: 74px;
 }

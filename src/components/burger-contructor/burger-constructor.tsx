@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from '@/services/store.ts';
 import { useDrop } from 'react-dnd';
 import styles from '@components/burger-contructor/burger-constructor.module.css';
 import appStyles from '@components/app/app.module.css';
@@ -11,50 +11,27 @@ import {
 import { Modal } from '@components/modal/modal/modal.tsx';
 import { OrderDetails } from '@components/order-details/order-details.tsx';
 import { DraggableItem } from '@components/burger-contructor/draggable-item/draggable-item.tsx';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { reduceCount, updateCount } from '@/services/actions/ingredients.js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { setProduct } from '@/services/actions/ingredient.js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
+import { setProduct } from '@/services/actions/ingredient.ts';
 import {
 	addItem,
 	removeItem,
 	updateCost,
 	updateItemPrice,
 	swapIndex,
-} from '@/services/actions/ingredients-constructor.js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { orderCheckout } from '@/services/actions/order.js';
+} from '@/services/actions/ingredients-constructor.ts';
+import { orderCheckout } from '@/services/actions/order.ts';
 import { useNavigate } from 'react-router-dom';
 import { TIngradient } from '@utils/types.ts';
 
 export const BurgerConstructor = () => {
 	const { ingredients, product, products, cost, selected, orderNum, user } =
 		useSelector((store) => ({
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			ingredients: store.cart.items,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			selected: store.cart.items,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			cost: store.cart.cost,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			product: store.ingredient.product,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			products: store.ingredients.items,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			orderNum: store.order.orderNum,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-expect-error
 			user: store.auth.user,
 		}));
 
@@ -95,22 +72,22 @@ export const BurgerConstructor = () => {
 			navigate('/login');
 		}
 		if (product !== null) {
-			const sel = selected.concat([product]);
-			dispatch(orderCheckout(sel.map((item: { _id: never }) => item._id)));
+			const sel = [...selected, product, product];
+			const ids = sel.map((item: TIngradient | undefined) => item?._id);
+			dispatch(orderCheckout(ids));
 			setState({ ...state, modalOpened: true, modalContent: <OrderDetails /> });
 		}
 		e.preventDefault();
 	};
 
 	const onDropHandler = (itemId: TItem): void => {
-		dispatch(updateCount(itemId.id));
 		const found = products.find((item: TIngradient) => item._id === itemId.id);
 		if (found !== undefined && found.type === 'bun') {
 			dispatch(setProduct(itemId.id, products));
 			// set product price;
 			dispatch(updateItemPrice(found.price));
 		} else {
-			dispatch(addItem(itemId.id, found));
+			dispatch(addItem(itemId.id, found!));
 		}
 		dispatch(updateCost());
 	};
@@ -145,16 +122,14 @@ export const BurgerConstructor = () => {
 	});
 
 	function removeIngredient(id: string, index: number) {
-		dispatch(reduceCount(id));
 		dispatch(removeItem(id, index));
 		dispatch(updateCost());
 	}
 
 	const moveListItem = useCallback(
-		(dragIndex: string | number, hoverIndex: string | number) => {
+		(dragIndex: number, hoverIndex: number) => {
 			const dragItem = ingredients[dragIndex];
 			const hoverItem = ingredients[hoverIndex];
-			// Swap places of dragItem and hoverItem in the pets array
 			if (hoverItem !== undefined && dragItem !== undefined) {
 				dispatch(swapIndex(dragIndex, hoverIndex, hoverItem, dragItem));
 			}
@@ -171,7 +146,7 @@ export const BurgerConstructor = () => {
 						<div>Перетащите сюда булку</div>
 					</div>
 				)}
-				{product !== null && (
+				{product !== null && product !== undefined && (
 					<ConstructorElement
 						type='top'
 						isLocked={true}
@@ -210,7 +185,7 @@ export const BurgerConstructor = () => {
 						<div>Перетащите сюда булку</div>
 					</div>
 				)}
-				{product !== null && (
+				{product !== null && product !== undefined && (
 					<ConstructorElement
 						type='bottom'
 						isLocked={true}
