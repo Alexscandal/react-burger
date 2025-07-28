@@ -2,7 +2,7 @@
 import { SET_USER, UNSET_USER } from '@/services/actions/auth.ts';
 import { TUser } from '@utils/types.ts';
 
-const authInitialState = {
+export const authInitialState = {
 	user: {
 		name: null,
 		email: null,
