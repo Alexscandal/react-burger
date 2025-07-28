@@ -3,8 +3,8 @@ import {
 	ADD_ITEM,
 	REMOVE_ITEM,
 	UPDATE_COST,
-	// UPDATE_ITEM_PRICE,
-	// SWAP_INDEX,
+	UPDATE_ITEM_PRICE,
+	SWAP_INDEX,
 } from '@/services/actions/ingredients-constructor.ts';
 import {
 	constructorInitialState,
@@ -68,7 +68,7 @@ describe('check ingredients constructor', () => {
 		const startState = {
 			items: ingredients.slice(0, 3).push(ingredients[0]),
 			product_price: 1255,
-			cost: 2615,
+			cost: 1255,
 		};
 		expect(
 			constructorReducer(startState, {
@@ -76,10 +76,12 @@ describe('check ingredients constructor', () => {
 			})
 		).toEqual({
 			...constructorInitialState,
-			cost: 2615,
+			cost: 1255,
+			items: 4,
+			product_price: 1255,
 		});
 	});
-	/*
+
 	it('should update bun cost', () => {
 		expect(
 			constructorReducer(undefined, {
@@ -88,15 +90,15 @@ describe('check ingredients constructor', () => {
 			})
 		).toEqual({
 			...constructorInitialState,
+			cost: 0,
+			items: [],
 			product_price: product.price * 2,
 		});
 	});
 
 	it('should swap ingredients', () => {
 		const startState = {
-			items: ingredients.slice(0, 3).push(ingredients[0]),
-			product_price: 1255,
-			cost: 2615,
+			items: ingredients,
 		};
 		const items = startState.items;
 		[items[1], items[2]] = [items[2], items[1]];
@@ -105,13 +107,12 @@ describe('check ingredients constructor', () => {
 				type: SWAP_INDEX,
 				dragIndex: 0,
 				hoverIndex: 0,
-				hoverItem: ingredients[2],
-				dragItem: ingredients[2],
+				hoverItem: ingredients[1],
+				dragItem: ingredients[1],
 			})
 		).toEqual({
 			...constructorInitialState,
 			items: items,
 		});
 	});
-	*/
 });

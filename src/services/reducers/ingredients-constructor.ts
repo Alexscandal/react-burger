@@ -44,9 +44,11 @@ export const constructorReducer = (
 		case UPDATE_COST:
 			// eslint-disable-next-line no-case-declarations
 			let cost: number = 0;
-			state.items.map((item: TIngradient) => {
-				cost += item.price;
-			});
+			if (state.items instanceof Array) {
+				state.items.map((item: TIngradient) => {
+					cost += item.price;
+				});
+			}
 			cost += state.product_price;
 			return {
 				...state,
