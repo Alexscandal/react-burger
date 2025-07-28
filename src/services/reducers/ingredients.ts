@@ -17,7 +17,7 @@ export const ingredientsReducer = (
 			return {
 				...state,
 				items: action.items,
-				isLoading: !(action.items.length > 0),
+				isLoading: !(action.items != undefined && action.items.length > 0),
 			};
 		case FAILED_LOADING:
 			return {
