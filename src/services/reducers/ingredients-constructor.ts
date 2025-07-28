@@ -42,7 +42,6 @@ export const constructorReducer = (
 				),
 			};
 		case UPDATE_COST:
-			/* update cost */
 			// eslint-disable-next-line no-case-declarations
 			let cost: number = 0;
 			state.items.map((item: TIngradient) => {

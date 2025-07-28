@@ -131,6 +131,7 @@ export const BurgerConstructor = () => {
 			const dragItem = ingredients[dragIndex];
 			const hoverItem = ingredients[hoverIndex];
 			if (hoverItem !== undefined && dragItem !== undefined) {
+				console.info('drag', dragIndex, hoverIndex, hoverItem, dragItem);
 				dispatch(swapIndex(dragIndex, hoverIndex, hoverItem, dragItem));
 			}
 		},
