@@ -47,6 +47,7 @@ export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 			.then((data) => {
 				if (data.length > 0) {
 					foundOrder = data[0];
+					console.info('foundOrder', foundOrder);
 					dispatch(storeOrder(foundOrder));
 				}
 			})
@@ -56,7 +57,6 @@ export const Order = ({ modal }: { modal: boolean }): React.JSX.Element => {
 		foundOrder = order.order;
 	}
 
-	//console.info('order', order.order);
 	if (foundOrder !== undefined) {
 		className =
 			foundOrder.status === 'done'
