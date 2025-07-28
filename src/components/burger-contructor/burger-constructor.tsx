@@ -83,7 +83,7 @@ export const BurgerConstructor = () => {
 	const onDropHandler = (itemId: TItem): void => {
 		const found = products.find((item: TIngradient) => item._id === itemId.id);
 		if (found !== undefined && found.type === 'bun') {
-			dispatch(setProduct(itemId.id, products));
+			dispatch(setProduct(found));
 			// set product price;
 			dispatch(updateItemPrice(found.price));
 		} else {
