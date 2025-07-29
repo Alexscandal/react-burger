@@ -26,10 +26,7 @@ export function ForgotPasswordPage() {
 			if (form.email === '') {
 				return false;
 			}
-			auth
-				.signIn(form, 'password-reset')
-				.then(() => {})
-				.catch(() => () => {});
+			auth.signIn(form, 'password-reset');
 			navigate('/reset-password', { state: { from: location } });
 		},
 		[auth, form]

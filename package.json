@@ -3,6 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
+	"homepage": "https://Alexscandal.github.io/react-burger",
 	"scripts": {
 		"prepare": "husky",
 		"dev": "vite",
@@ -17,7 +18,9 @@
 		"cypress:open": "cypress open",
 		"cypress": "cypress run",
 		"test": "vitest",
-		"test:ui": "vitest --ui"
+		"test:ui": "vitest --ui",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build"
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.25.4",
@@ -64,6 +67,7 @@
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.4.5",
 		"fetch-mock": "^12.5.3",
+		"gh-pages": "^6.3.0",
 		"husky": "^9.1.7",
 		"jest": "^30.0.5",
 		"jsdom": "^26.0.0",

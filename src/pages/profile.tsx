@@ -13,8 +13,6 @@ import { TUser } from '@utils/types.ts';
 
 export function ProfilePage() {
 	const { user } = useSelector((store) => ({
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
 		user: store.auth.user,
 	}));
 
@@ -39,11 +37,11 @@ export function ProfilePage() {
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
 			const data: TUser = {
-				name: form.name,
-				email: form.email,
+				name: form.name ?? '',
+				email: form.email ?? '',
 			};
 			if (form.password !== '') {
-				data.password = form.password;
+				data.password = form.password ?? undefined;
 			}
 			auth.saveUser(data, 'auth/user').catch(() => () => {});
 		},

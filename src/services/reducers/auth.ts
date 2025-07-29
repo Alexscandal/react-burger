@@ -6,6 +6,7 @@ export const authInitialState = {
 	user: {
 		name: null,
 		email: null,
+		password: null,
 	},
 };
 
@@ -26,6 +27,7 @@ export const authReducer = (
 				user: {
 					name: null,
 					email: null,
+					password: null,
 				},
 			};
 		}
