@@ -32,7 +32,9 @@ export const Modal = ({ content, header, onClose, isOpen }: TModal) => {
 					<a href='#' onClick={onClose} data-testid='close-modal'>
 						<CloseIcon type='primary' className={styles.close} />
 					</a>
-					<div className={styles.modal_header}>{header}</div>
+					<div className={styles.modal_header} data-testid='modal-header'>
+						{header}
+					</div>
 					<div>{content}</div>
 				</div>
 			</div>
