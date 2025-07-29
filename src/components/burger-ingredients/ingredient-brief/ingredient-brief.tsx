@@ -34,7 +34,7 @@ export const IngradientBrief = ({ item, counts }: TIngradientData) => {
 	});
 
 	return (
-		<div style={{ opacity }} ref={ref}>
+		<div style={{ opacity }} ref={ref} data-testid={item._id}>
 			{count > 0 && <Counter count={count} size='default' extraClass='m-1' />}
 			<Link to={`/ingredients/${item._id}`} state={{ background: location }}>
 				<img src={item.image} alt={item.name} />

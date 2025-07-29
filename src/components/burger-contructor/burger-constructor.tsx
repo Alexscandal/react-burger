@@ -139,7 +139,7 @@ export const BurgerConstructor = () => {
 	);
 
 	return (
-		<section className={styles.burger_constructor}>
+		<section className={styles.burger_constructor} data-testid='contructor'>
 			<div className='pl-8' ref={dropTopTarget}>
 				{product === null && (
 					<div

@@ -95,7 +95,10 @@ export const BurgerIngredients = () => {
 					))}
 				</ul>
 			</nav>
-			<div className={appStyles.scroll} onScroll={onScroll}>
+			<div
+				className={appStyles.scroll}
+				onScroll={onScroll}
+				data-testid='ingredients'>
 				{categories.map((category) => (
 					<div key={category.type} id={category.type}>
 						<h2>{category.name}</h2>
