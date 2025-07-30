@@ -14,6 +14,7 @@ describe('check auth reducer', () => {
 				user: {
 					email: 'alexscandal@gmail.com',
 					name: 'Name',
+					password: null,
 				},
 			})
 		).toEqual({
@@ -21,6 +22,7 @@ describe('check auth reducer', () => {
 			user: {
 				email: 'alexscandal@gmail.com',
 				name: 'Name',
+				password: null,
 			},
 		});
 	});
@@ -35,6 +37,7 @@ describe('check auth reducer', () => {
 			user: {
 				email: null,
 				name: null,
+				password: null,
 			},
 		});
 	});
