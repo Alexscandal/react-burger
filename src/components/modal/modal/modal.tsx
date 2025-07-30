@@ -25,14 +25,16 @@ export const Modal = ({ content, header, onClose, isOpen }: TModal) => {
 
 	return createPortal(
 		isOpen && (
-			<div className={styles.modal_container}>
+			<div className={styles.modal_container} data-testid='modal'>
 				<Overlay onClick={onClose} />
 				<div className={styles.modal}>
 					{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-					<a href='#' onClick={onClose}>
+					<a href='#' onClick={onClose} data-testid='close-modal'>
 						<CloseIcon type='primary' className={styles.close} />
 					</a>
-					<div className={styles.modal_header}>{header}</div>
+					<div className={styles.modal_header} data-testid='modal-header'>
+						{header}
+					</div>
 					<div>{content}</div>
 				</div>
 			</div>

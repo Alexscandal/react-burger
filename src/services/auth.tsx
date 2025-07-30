@@ -26,8 +26,6 @@ export function useProvideAuth() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	//const headers: object = { 'Content-Type': 'application/json' };
-
 	const saveUser = async (form: TUser, target: string) => {
 		const options: TRequestOptions = {
 			method: 'PATCH',
@@ -38,7 +36,6 @@ export function useProvideAuth() {
 			body: JSON.stringify(form),
 		};
 		initialRequest(options, target).then((res: TExtUser) => {
-			console.info('saveUser', res);
 			if (res.user) {
 				dispatch(setUser(res.user));
 				setUser({ ...res.user, id: res.user._id });

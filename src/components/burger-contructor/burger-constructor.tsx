@@ -83,7 +83,7 @@ export const BurgerConstructor = () => {
 	const onDropHandler = (itemId: TItem): void => {
 		const found = products.find((item: TIngradient) => item._id === itemId.id);
 		if (found !== undefined && found.type === 'bun') {
-			dispatch(setProduct(itemId.id, products));
+			dispatch(setProduct(found));
 			// set product price;
 			dispatch(updateItemPrice(found.price));
 		} else {
@@ -131,6 +131,7 @@ export const BurgerConstructor = () => {
 			const dragItem = ingredients[dragIndex];
 			const hoverItem = ingredients[hoverIndex];
 			if (hoverItem !== undefined && dragItem !== undefined) {
+				console.info('drag', dragIndex, hoverIndex, hoverItem, dragItem);
 				dispatch(swapIndex(dragIndex, hoverIndex, hoverItem, dragItem));
 			}
 		},
@@ -138,7 +139,7 @@ export const BurgerConstructor = () => {
 	);
 
 	return (
-		<section className={styles.burger_constructor}>
+		<section className={styles.burger_constructor} data-testid='contructor'>
 			<div className='pl-8' ref={dropTopTarget}>
 				{product === null && (
 					<div

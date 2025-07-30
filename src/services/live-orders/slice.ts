@@ -7,7 +7,7 @@ export type LiveOrdersStore = {
 	error: string | null;
 };
 
-const initialState: LiveOrdersStore = {
+export const initialState: LiveOrdersStore = {
 	orders: {
 		success: false,
 		orders: [],

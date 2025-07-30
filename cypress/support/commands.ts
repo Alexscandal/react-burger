@@ -35,3 +35,13 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('prepare', () => {
+	cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', {
+		fixture: 'ingredients',
+	});
+	cy.intercept('GET', 'https://norma.nomoreparties.space/api/auth/user', {
+		fixture: 'user',
+	});
+	cy.visit('/');
+});

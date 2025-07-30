@@ -1,12 +1,10 @@
-import { TIngradient, TSetProductAction } from '@utils/types.ts';
+import { TIngradient } from '@utils/types.ts';
 
 export const SET_PRODUCT = 'SET_PRODUCT';
 
 export const setProduct = (
-	id: string,
-	items: TIngradient[]
-): TSetProductAction => ({
+	item: TIngradient
+): { type: string; item: TIngradient } => ({
 	type: SET_PRODUCT,
-	id: id,
-	items: items,
+	item: item,
 });

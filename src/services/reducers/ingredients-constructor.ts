@@ -42,12 +42,13 @@ export const constructorReducer = (
 				),
 			};
 		case UPDATE_COST:
-			/* update cost */
 			// eslint-disable-next-line no-case-declarations
 			let cost: number = 0;
-			state.items.map((item: TIngradient) => {
-				cost += item.price;
-			});
+			if (state.items instanceof Array) {
+				state.items.map((item: TIngradient) => {
+					cost += item.price;
+				});
+			}
 			cost += state.product_price;
 			return {
 				...state,
@@ -59,13 +60,6 @@ export const constructorReducer = (
 				product_price: action.product_price * 2,
 			};
 		case SWAP_INDEX:
-			/* swap ingredients on drag */
-			// eslint-disable-next-line no-case-declarations
-			/*
-			const updated: TIngradient[] = state.items;
-			updated[action.dragIndex] = action.hoverItem;
-			updated[action.hoverIndex] = action.dragItem;
-			*/
 			// eslint-disable-next-line no-case-declarations
 			const updated: TIngradient[] = [...state.items];
 			// eslint-disable-next-line no-case-declarations

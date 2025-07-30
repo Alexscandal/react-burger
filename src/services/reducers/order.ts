@@ -11,7 +11,10 @@ const orderInitialState = {
 };
 export const orderReducer = (
 	state = orderInitialState,
-	action: { type: string; orderNum: number }
+	action: {
+		orderNum: null;
+		type: string;
+	}
 ) => {
 	switch (action.type) {
 		case ORDER_CHECKOUT_REQUEST: {

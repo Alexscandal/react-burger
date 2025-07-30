@@ -18,19 +18,14 @@ export function RegisterPage() {
 	const auth = useAuth();
 	const navigate = useNavigate();
 
-	const onChange = (e) => {
+	const onChange = (e: { target: { name: string; value: string } }) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
 
 	const register = useCallback(
 		(e: { preventDefault: () => void }) => {
 			e.preventDefault();
-			auth
-				.signIn(form, 'auth/register')
-				.then(() => {})
-				.catch((err: Error) => () => {
-					alert(err.message);
-				});
+			auth.signIn(form, 'auth/register');
 		},
 		[auth, form]
 	);
