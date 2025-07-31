@@ -3,7 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"homepage": "https://Alexscandal.github.io/react-burger",
+	"homepage": "https://Alexscandal.github.io",
 	"scripts": {
 		"prepare": "husky",
 		"dev": "vite",
