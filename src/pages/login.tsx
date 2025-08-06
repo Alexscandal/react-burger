@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from '@pages/form.module.css';
 import {
 	Button,
@@ -31,6 +31,10 @@ export function LoginPage() {
 	if (localStorage.authToken !== undefined && user.name !== null) {
 		navigate('/', { replace: true });
 	}
+	useEffect(() => {
+		document.title = 'Логин';
+	});
+
 	return (
 		<main className={`${styles.main} pl-5 pr-5`}>
 			<div>

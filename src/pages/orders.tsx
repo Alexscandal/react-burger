@@ -16,6 +16,7 @@ export function OrdersPage() {
 		dispatch(connect(ORDERS_URL + '?token=' + (localStorage.authToken ?? '')));
 	const wsDisconnect = () => dispatch(disconnect());
 	useEffect(() => {
+		document.title = 'История заказов';
 		dispatch(wsConnect);
 		return () => {
 			wsDisconnect();

@@ -5,12 +5,16 @@ import appStyles from '@components/app/app.module.css';
 import styles from '@pages/home.module.css';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.tsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.tsx';
+import { useEffect } from 'react';
 export const HomePage = () => {
 	const { hasError, isLoading } = useSelector((store) => ({
 		ingredients: store.ingredients.items,
 		hasError: store.ingredients.hasError,
 		isLoading: store.ingredients.isLoading,
 	}));
+	useEffect(() => {
+		document.title = 'Конструктор';
+	});
 
 	return (
 		<>

@@ -15,6 +15,7 @@ export function FeedPage() {
 	const wsConnect = () => dispatch(connect(ORDERS_URL + '/all'));
 	const wsDisconnect = () => dispatch(disconnect());
 	useEffect(() => {
+		document.title = 'Лента заказов';
 		dispatch(wsConnect);
 		return () => {
 			wsDisconnect();

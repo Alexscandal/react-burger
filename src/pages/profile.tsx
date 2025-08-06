@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from '@pages/profile.module.css';
 import {
 	Button,
@@ -15,6 +15,10 @@ export function ProfilePage() {
 	const { user } = useSelector((store) => ({
 		user: store.auth.user,
 	}));
+
+	useEffect(() => {
+		document.title = 'Профиль';
+	});
 
 	const [form, setValue] = useState({
 		name: user.name,

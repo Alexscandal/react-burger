@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from '@pages/form.module.css';
 import {
 	Button,
@@ -21,6 +21,10 @@ export function RegisterPage() {
 	const onChange = (e: { target: { name: string; value: string } }) => {
 		setValue({ ...form, [e.target.name]: e.target.value });
 	};
+
+	useEffect(() => {
+		document.title = 'Регистрация';
+	});
 
 	const register = useCallback(
 		(e: { preventDefault: () => void }) => {
